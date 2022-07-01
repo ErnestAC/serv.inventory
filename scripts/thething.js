@@ -1,0 +1,465 @@
+// 2022 ernestac
+// a simple gallery page built based on the contents of a given passed json string using vanilla js
+
+//import swal from "sweetalert2";
+
+// global variables and constants    --------------------------------------
+// create my array with all my images which is a global constant
+// array of images pulled from a JSON input.
+
+// ---------- START OF JSON CONSTANT DATA 
+aImages=[{"fqdn":"msx4182lv.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":10,"storage_used":4.4,"associated_seals":"9958, 25151","version":"5.0.0.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"msx4183lv.virtcomp.net","location":"DC2","engine_type":"target","storage":10,"storage_used":2.5,"associated_seals":"23589,11893, 12584","version":"5.0.0.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"ata2727av.virtcomp.net","location":"SKN","engine_type":"virtualserver","storage":30,"storage_used":25,"associated_seals":"47223, 22546, 11455","version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"ata2728av.virtcomp.net","location":"SKN","engine_type":"target","storage":30,"storage_used":20,"associated_seals":"55213, 55874","version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1144sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11023,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1145sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":114500,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud1.virtualcomp.net","location":"AWS","engine_type":"virtualserver","storage":30,"storage_used":15,"associated_seals":107615,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud2.virtualcomp.net","location":"AWS","engine_type":"target","storage":10,"storage_used":7.3,"associated_seals":"115142, 25998","version":"5.0.1.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"azr.cloud1.virtualcomp.net","location":"AZR","engine_type":"target","storage":20,"storage_used":16.1,"associated_seals":"11545, 55869","version":"5.1.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud2.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud1.virtualcom.net","location":"GCS","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.0.2","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud2.virtualcom.net","location":"GCS","engine_type":"virtualserver","storage":200,"storage_used":112.3,"associated_seals":150042,"version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1111sv.virtcomp.net","location":"AM1","engine_type":"virtualserver","storage":200,"storage_used":145.6,"associated_seals":150042,"version":"5.1.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1110sv.virtcomp.net","location":"AM2","engine_type":"target","storage":50,"storage_used":23.9,"associated_seals":"12546, 89661","version":"5.0.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3544sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"115142, 99584","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3545sv.virtcomp.net","location":"AM2","engine_type":"virtualserver","storage":50,"storage_used":12.8,"associated_seals":14145,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1201sv.virtcomp.net","location":"AM1","engine_type":"target","storage":50,"storage_used":12.3,"associated_seals":114589,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1202sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud3.virtualcomp.net","location":"AZR","engine_type":"target","storage":200,"storage_used":127,"associated_seals":11242,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud4.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11542,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2421lv.virtcomp.net","location":"DC2","engine_type":"virtualserver","storage":50,"storage_used":12.3,"associated_seals":11542,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2420lv.virtcomp.net","location":"DC1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11242,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"}]
+// ---------- END OF JSON CONSTANT DATA 
+
+// selection color constant
+const vSelColor="rgba(0,255,255,0.3)";
+const vUnSelColor="rgba(219, 231, 236, 0.0)"
+const vCartItemColor="rgba(219, 231, 236, 0.5)"
+
+// random selector color indicator constant
+const vRndColor = "Orange";
+// keymonitoring
+let vIsCtrlDn=false;
+// page display controllers
+let page = 1;
+const vItemsPerPage = 12; 
+let vCSSClass = "";
+let aSelectedTemp = localStorage.getItem("localSavedItems");
+let lFirstTime = "";
+let aSelected = [];
+
+// functions    ----------------------------------------------------------
+
+function doPrevious(){
+    doClosePopUp();
+    if (((page*vItemsPerPage) > 1 || page > 1)){
+        page--;
+    } else {
+        // control pages by comapring the trunc and round results
+        page = Math.trunc(aImages.length/vItemsPerPage);
+    }
+    document.getElementById("page-number").innerHTML=`page: ${page+1}`;
+    displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
+    randomArrayAccess();
+    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding ctrl+click selects multiple items.";
+}
+
+function doAllItems() {
+    displayInThumbs();
+    page=-1 // reset page number to restart the gallery at page 1
+    document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
+    document.getElementById("activityShow").innerHTML="Displaying the full list. Use Ctrl+click to select multiple items or next/prev to go back to the pages view."
+    doPopUp('All items are being displayed in this page now.',true,1200)
+}
+
+function addItem(i) {
+    let vFoundFlag =  false;
+    let ix = 0;
+    // read through the selection array and compare the ID, if they match raise a popup and deny the add
+    try {
+        while (ix != aSelected.lenght) {
+            if (aSelected[ix].fqdn === aImages[i].fqdn){
+                vFoundFlag = true;
+                break;
+            }
+            ix++;
+        }
+    }
+    catch {
+        console.log(`${ix} is not a valid index for the selection. Skipping.`)
+    }
+    finally{
+        if (vFoundFlag == true) {
+            doPopUp("Engine not added <br><br> This Engine is already present in your cart.", false, 1500)
+        } else {
+            aSelected.push(aImages[i]);
+            document.getElementById(`thumb${i}`).backgroundColor=vSelColor;
+            localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+            doUpdateCart();
+            doPopUp(`Engine ${aImages[i].fqdn} added <br><br> Item added to cart.`, true);    
+        }
+    }
+}
+
+function doUpdateCart() {
+    document.getElementById('button-cart').innerHTML=`cart (${aSelected.length})`;
+}
+
+function doNext(){
+    // close potentially open pop-up events
+    doClosePopUp();
+    // if we still have pages, we add one, otherwise we reset
+    if ((page*vItemsPerPage)+vItemsPerPage < aImages.length){
+        page++;
+    } else {
+        page=0;
+    }
+    //update the page display box
+    document.getElementById("page-number").innerHTML=`page: ${page+1}`;
+    // generate the gallery thumbs based on the calculations for page number
+    displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
+    //write the bottom signature of the page
+    randomArrayAccess();
+    // print the special message to guide the user
+    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding Ctrl+click selects multiple items."
+}
+
+function doRecoverPage(){
+    doClosePopUp();
+    if (page < 0 ) { // reset the page number to 1 when coming back from the all view
+        page = 1;
+    }
+    document.getElementById("page-number").innerHTML=`page: ${page+1}`;
+    displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
+    randomArrayAccess();
+    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding Ctrl+click selects multiple items.";
+}
+
+function addStr(str, index, stringToAdd){
+    // injects a string by starting index
+    return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+}
+
+function doRecoverSavedItems(){
+    // try to load the locally stored values from what has been read
+    try{
+        aSelected = JSON.parse(aSelectedTemp);
+        doUpdateCart();
+    }
+    catch{
+        lFirstTime="yes";
+        console.log("Nothing found in local storage or an error occurred. Data is ignored.");
+        aSelected=[];
+    }
+}
+
+function WhatTimeIsIt(){
+    //parse the time returned from the object date and turn it into human readable, returns as string
+    let today = new Date();
+    let yyyy = today.getFullYear();
+    //tell mm & dd to have the date's month value and day value respectively
+    let mm = today.getMonth() + 1; // In JS months start at 0!
+    let dd = today.getDate();
+
+    let hh = today.getHours();
+    let hm = today.getMinutes();
+    let hs = today.getSeconds();
+
+    //if month or day or hour or minute are 1 digit long, add a leading 0
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+    if (hh < 10) hh = '0' + hh;
+    if (hm < 10) hm = '0' + hm;
+    if (hs < 10) hs = '0' + hs;
+    
+    // load the hour of the part into vTime
+    let vTime = `${hh}:${hm}:${hs}`;
+    let vDate = `${mm}/${dd}/${yyyy}`;
+    //load everyting into the string pattern expected and return it
+    vResult = `${vDate} ${vTime}`;
+    return vResult;
+}
+
+function randomArrayAccess(){
+    //pick a random index using the array's count of items as the ceiling
+    let vSelection = Math.floor(Math.random() * aImages.length);
+    let vRandomIndex = vSelection;
+    let vWTII = WhatTimeIsIt();
+    displayInLowerBox(`Page rendered on ${vWTII}, client local time.<br>Your randomly assigned index number is ${vSelection} which corresponds to a ${aImages[vSelection].engine_type}, with EngineID ${aImages[vSelection].fqdn}. The reference engine has this additional information: ${aImages[vSelection].Info} <br> The total amount of items in the image array is ${aImages.length}. `);
+    return vRandomIndex;
+}
+
+function displayInLowerBox(vTextToPrint){
+    //pushes HTML code into the designated box in the index file
+    const vBottomText = document.getElementById('bottom-box');
+    vBottomText.innerHTML=`${vTextToPrint}`;
+}
+
+function doRandomItem() {
+    doClosePopUp();
+    vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
+    document.getElementById("page-number").innerHTML=`item: ${vRandomValueID}`;
+    displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
+    //modifyElement(`myitem${vRandomValueID}`,vRndColor); // uses the value to highlight the random item
+    document.getElementById("activityShow").innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
+}
+
+function doPopUp(vMsg,vAuto=false,vDelay=950) {
+    document.getElementById("msgboxPopup").style.visibility="visible";
+    document.getElementById("backLockPlus").style.visibility="visible";
+    if (vAuto == true){
+        buttonInjector = "";
+        setTimeout(doClosePopUp, vDelay);
+    }else{
+        buttonInjector = `<div id="closeButton" class="flex-button"> Close </div>`;
+    }
+    document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
+    if (vAuto == false){
+        document.getElementById("closeButton").addEventListener("click", function(){
+            document.getElementById("msgboxPopup").style.visibility="hidden";
+            document.getElementById("backLockPlus").style.visibility="hidden";
+        });
+    }
+}
+
+function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
+    document.getElementById("msgboxSplash").style.visibility="visible";
+    document.getElementById("backLockPlus").style.visibility="visible";
+    if (vAuto == true){
+        buttonInjector = "";
+        setTimeout(doClosePopUp, vDelay);
+    }else{
+        buttonInjector = `<div id="closeButton" class="flex-button"> Close </div>`;
+    }
+    document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="special-text">${vMsg}</p></div></div><br><br>${buttonInjector}`;
+    if (vAuto == false){
+        document.getElementById("closeButton").addEventListener("click", function(){
+            document.getElementById("msgboxSplash").style.visibility="hidden";
+            document.getElementById("backLockPlus").style.visibility="hidden";
+        });
+    }
+}
+
+
+function doCartBox() {
+    let i = 0; //start the cart index in the first item of the array
+    let itemInjection = ""; // empty local HTML builder
+    let lvCSSClass = "flex-item-cartbox-inner";
+    if (aSelected.length != 0) {
+        while (i != aSelected.lenght) {
+            try{
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'./assets/images/engine_gen.png'><p class="reg-text" style="width: 95%;">${aSelected[i].fqdn}<br>type: ${aSelected[i].engine_type}<br>location: ${aSelected[i].location}<br></p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
+                } // build the HTML string
+            catch{
+                console.log("Maximum selection item array reached.");
+                if(i >= aSelected.length){
+                    break;
+                }
+            }
+            finally{
+                i++; // increment for next idx
+            }
+        }
+    } else {
+        itemInjection = `<div class="reg-text">Your cart is empty! <br> Add some items by clicking the 'add' buttons in the gallery view.</div>`;
+    }
+    document.getElementById("cartboxPopup").style.visibility="visible";
+    document.getElementById("cartboxPopup").style.visibility="visible";
+    document.getElementById("backLock").style.visibility="visible";
+    document.getElementById("cartboxPopup").innerHTML=`<h2>download.cart</h4><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> Check-out </div> <div class="flex-button" onclick="doEmptyCart()">Empty</div> <div id="closeButtonCart" class="flex-button">Hide</div>`;
+    document.getElementById("closeButtonCart").addEventListener("click", function(){
+        document.getElementById("cartboxPopup").style.visibility="hidden";
+        document.getElementById("backLock").style.visibility="hidden";
+    });
+    document.getElementById("msgOfTheCartBox1").innerHTML=`You have ${aSelected.length} item(s) in the cart.`;
+}
+
+
+function doRemoveFromCart(indexToRemove){
+    // removes an item from the selection array based on the index passed
+    try {
+        aSelected.splice(indexToRemove,1);      // ix position then length
+    } catch {
+        console.log("Well, the index you passed me does not correspond to an item in my list.");
+    }
+    finally{
+        doClosePopUp();
+        doUpdateCart();
+        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+        doCartBox();
+    }
+}
+
+function doEmptyCart(){
+    doClosePopUp();
+    if (aSelected.length == 0){ // ask if the cart is empty
+        doPopUp("Your cart is already empty.", true, 1500);    
+    }else{ // if the cart is not empty, empty it
+        aSelected=[]; // empty the array
+        doUpdateCart(); // recalculate the contents of the cart
+        doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
+        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));             // save the value of the array to lStorage to make it session persistent
+    }
+    doCartBox(); // call the cartbox population function
+}
+
+function doClosePopUp(){
+    // general reusable function
+    // clear the screen from any open popups, used in transitions between screens and boxes
+    document.getElementById("msgboxSplash").style.visibility="hidden";
+    document.getElementById("msgboxPopup").style.visibility="hidden";
+    document.getElementById("cartboxPopup").style.visibility="hidden";
+    document.getElementById("backLock").style.visibility="hidden";
+    document.getElementById("backLockPlus").style.visibility="hidden";
+}
+
+function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
+    // main gallery rendering funciton, reads all items from a specified index and displays them. 
+    // vStartIdx is where to start reading the array, vEndIdx is where to stop reading and special controls if the item needs a big box around or it is a thumb.
+    try{
+        /* What 
+        Generates the list of images and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
+        */
+        if (vEndIdx == 0){ // if no end is given the funtion defaults to the length of the array
+            vEndIdx=aImages.length;
+        }else if (vEndIdx > aImages.length || vEndIdx < 0){ //showing use of else if, it could have been a plain else
+            vEndIdx=aImages.length;
+        }
+        const vThumbBox = document.getElementById('thumb-box'); // tell vThumbBox that is a page element
+        let returnString = ""; // empty the html building string
+        if (vEndIdx == 0 ){
+            returnString = document.getElementById('thumb-box').innerHTML; // get the current contents of the div to add stuff to
+        } else {
+            returnString = ""; // empty the return string if the end index is not 0 to clear the gallery page
+        }
+        if (special == false ){ // ask if it is a special box and set the class to the appropriate value
+            vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html
+            vButtonInject=''; // no button gets injected here.
+        } else {
+            vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
+            vButtonInject='<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>'; // return to gallery button is added with this statement.
+        }
+        
+        let i=vStartIdx; // initialize my counter's local index in 0
+        // now sweep my array accessing it by index
+        while (i < vEndIdx) {
+            // accumulate the generated html in the variable
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'./assets/images/engine_gen.png\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>version: ${aImages[i].version}</h4><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            /*            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${aImages[i].vPath}\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>Description: ${aImages[i].Info}</h4><br><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string */
+
+            i++; // increment for next idx
+        }
+        // dump the variable contents as the HTML face of the vThumbBox element.
+        vThumbBox.innerHTML=returnString;
+    }
+    catch{ // if there is an error just say it in console and carry on
+        //write to console error received
+        console.log(`Something broke when trying to build the thumbnail view. Will try to continue.`)
+        console.log(`Page var: ${page}`)
+        console.log(`Execute previous page to reset page var to an acceptable value.`)
+    }
+}
+
+function clickStuff(vItemIndex){
+    if (vIsCtrlDn == false) {
+        clearStuff();
+    }
+    if (document.getElementById(`thumb${vItemIndex}`).style.backgroundColor == vSelColor){
+        document.getElementById(`thumb${vItemIndex}`).style.backgroundColor = vUnSelColor; // uses the of unselcolor to remove highlight        
+    } else {
+        document.getElementById(`thumb${vItemIndex}`).style.backgroundColor=vSelColor; // uses the value to highlight the clicked item        
+    }
+}
+
+function dblClickStuff(vItemIndex){
+    if (vIsCtrlDn == true) {
+        doPopUp(`This is element number ${vItemIndex} of the gallery.<br>The object's description is '${aImages[vItemIndex].engine_type}'. <br>'${aImages[vItemIndex].vPath}' is the path for the image. <br> Additional: ${aImages[vItemIndex].Info}`);
+    }else{
+        doClosePopUp();
+        document.getElementById("page-number").innerHTML=`page: ${vItemIndex}`;
+        displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
+    }
+
+}
+
+function clearStuff(){
+    // clear all selections from the page
+    let i=0; // start an empty counter
+    while (i < aImages.length) {
+        try {
+            document.getElementById(`thumb${i}`).style.backgroundColor=vUnSelColor;
+        }
+        catch {
+            vDumpVar="";        
+        }
+        i++; // increment for next idx
+    }
+}
+
+
+// main code ----------------------------------------------------------
+// here goes the code for calling the rendering functions
+//KEY LISTENERS
+
+document.addEventListener('keydown', (event) => {
+// should use switch case instead of a large list of if
+    let name = event.key;
+
+    if (name == "A" || name == "a"){
+        doAllItems();
+    }
+    if (name == "R" || name == "r"){
+        doRandomItem();
+    }
+    if (name == "ArrowRight"){
+        doNext();
+    }
+    if (name == "ArrowLeft"){
+        doPrevious();
+    }
+    if (name == "Control"){
+        vIsCtrlDn=true;
+    }
+    if (name == "Escape"){
+        doClosePopUp();
+    }
+}, false);
+
+document.addEventListener('keyup', (event) => {
+    let name = event.key;
+    if (name == "Control"){
+        vIsCtrlDn=false;
+    }
+}, false);
+
+
+//TOP BUTTON LISTENERS
+document.getElementById("button-add-selection").addEventListener("click", function(){
+    doPrevious();
+});
+document.getElementById("button-by-page").addEventListener("click", function(){
+    doNext();
+});
+document.getElementById("button-random").addEventListener("click", function(){
+    doRandomItem();
+});
+document.getElementById("button-all").addEventListener("click", function(){
+    doAllItems();
+});
+document.getElementById("page-number").addEventListener("click", function(){
+    doPopUp("Page number or item number are displayed here.");
+});
+
+//BOTTOM BUTTON LISTENERS
+document.getElementById("button-cart").addEventListener("click", function(){
+    doCartBox();
+});
+document.getElementById("button-help").addEventListener("click", function(){
+    doSplashScreen("serv.inventory help","Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
+});
+
+//PAGE RENDERING SECTION
+/*READ ME -----------------------------------------------
+The fuctions below control the start of page behavior.
+
+Valid options:
+    doRandomItem(); >> run RandomItem to render a random item from the gallery
+    doNext(); >> run doNext to render the 1st page of the gallery
+
+Default behavior is set to start in the 1st page of the gallery.
+*/
+
+page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
+doRecoverSavedItems(); // read localStorage saved data
+doNext(); // run doNext to render the 1st page of the gallery
+
+// POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
+// this needs to happen after the page is rendered
+if (lFirstTime == "yes"){
+    doSplashScreen(`Hi there! Welcome to serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+
+    //doPopUp(`Hi there!<br><br>Welcome to serv.inventory. );
+    localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+}else{
+    doSplashScreen("welcome back to serv.inventory","This is our serv.inventory offial gallery of engines avaialble for download from us. All engines are for free, although contributions are always welcome! -Hit Esc to dismiss",true,2000)
+}
