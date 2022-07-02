@@ -480,4 +480,5 @@ if (lFirstTime == "yes"){
     localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
 }else{
     console.log('Welcome back.')
+    doSplashScreen("serv.inventory, loading...","",true,750)
 }

@@ -629,7 +629,7 @@ a​:hover {
 
 .flex-button {
   display: inline-block;
-  height: 0.8rem;
+  height: 0.9rem;
   width:fit-content;
   align-self: flex-end;
   align-content: center;
