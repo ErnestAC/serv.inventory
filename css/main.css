@@ -444,7 +444,7 @@ a​:hover {
   position: fixed;
   left: 0%;
   top: 3.5rem;
-  background-color: rgba(192, 192, 192, 0.999);
+  background-color: rgba(192, 192, 192, 1);
   border: none;
   overflow-wrap: break-word;
 }
@@ -465,7 +465,7 @@ a​:hover {
   position: fixed;
   left: 0rem;
   bottom: 0rem;
-  background-color:  rgba(192, 192, 192, 0.75);
+  background-color:  rgba(192, 192, 192, 1);
   border: none;
   overflow-wrap: break-word;
 }
