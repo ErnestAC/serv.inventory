@@ -8,7 +8,7 @@
 // array of images pulled from a JSON input.
 
 // ---------- START OF JSON CONSTANT DATA 
-aImages=[{"fqdn":"msx4182lv.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":10,"storage_used":4.4,"associated_seals":"9958, 25151","version":"5.0.0.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"msx4183lv.virtcomp.net","location":"DC2","engine_type":"target","storage":10,"storage_used":2.5,"associated_seals":"23589,11893, 12584","version":"5.0.0.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"ata2727av.virtcomp.net","location":"SKN","engine_type":"virtualserver","storage":30,"storage_used":25,"associated_seals":"47223, 22546, 11455","version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"ata2728av.virtcomp.net","location":"SKN","engine_type":"target","storage":30,"storage_used":20,"associated_seals":"55213, 55874","version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1144sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11023,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1145sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":114500,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud1.virtualcomp.net","location":"AWS","engine_type":"virtualserver","storage":30,"storage_used":15,"associated_seals":107615,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud2.virtualcomp.net","location":"AWS","engine_type":"target","storage":10,"storage_used":7.3,"associated_seals":"115142, 25998","version":"5.0.1.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"azr.cloud1.virtualcomp.net","location":"AZR","engine_type":"target","storage":20,"storage_used":16.1,"associated_seals":"11545, 55869","version":"5.1.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud2.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud1.virtualcom.net","location":"GCS","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.0.2","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud2.virtualcom.net","location":"GCS","engine_type":"virtualserver","storage":200,"storage_used":112.3,"associated_seals":150042,"version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1111sv.virtcomp.net","location":"AM1","engine_type":"virtualserver","storage":200,"storage_used":145.6,"associated_seals":150042,"version":"5.1.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1110sv.virtcomp.net","location":"AM2","engine_type":"target","storage":50,"storage_used":23.9,"associated_seals":"12546, 89661","version":"5.0.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3544sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"115142, 99584","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3545sv.virtcomp.net","location":"AM2","engine_type":"virtualserver","storage":50,"storage_used":12.8,"associated_seals":14145,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1201sv.virtcomp.net","location":"AM1","engine_type":"target","storage":50,"storage_used":12.3,"associated_seals":114589,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1202sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud3.virtualcomp.net","location":"AZR","engine_type":"target","storage":200,"storage_used":127,"associated_seals":11242,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud4.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11542,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2421lv.virtcomp.net","location":"DC2","engine_type":"virtualserver","storage":50,"storage_used":12.3,"associated_seals":11542,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2420lv.virtcomp.net","location":"DC1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11242,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"}]
+const aImages=[{"fqdn":"msx4182lv.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":10,"storage_used":4.4,"associated_seals":"9958, 25151","version":"5.0.0.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"msx4183lv.virtcomp.net","location":"DC2","engine_type":"target","storage":10,"storage_used":2.5,"associated_seals":"23589,11893, 12584","version":"5.0.0.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"ata2727av.virtcomp.net","location":"SKN","engine_type":"virtualserver","storage":30,"storage_used":25,"associated_seals":"47223, 22546, 11455","version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"ata2728av.virtcomp.net","location":"SKN","engine_type":"target","storage":30,"storage_used":20,"associated_seals":"55213, 55874","version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1144sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11023,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1145sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":114500,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud1.virtualcomp.net","location":"AWS","engine_type":"virtualserver","storage":30,"storage_used":15,"associated_seals":107615,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud2.virtualcomp.net","location":"AWS","engine_type":"target","storage":10,"storage_used":7.3,"associated_seals":"115142, 25998","version":"5.0.1.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"azr.cloud1.virtualcomp.net","location":"AZR","engine_type":"target","storage":20,"storage_used":16.1,"associated_seals":"11545, 55869","version":"5.1.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud2.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud1.virtualcom.net","location":"GCS","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.0.2","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud2.virtualcom.net","location":"GCS","engine_type":"virtualserver","storage":200,"storage_used":112.3,"associated_seals":150042,"version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1111sv.virtcomp.net","location":"AM1","engine_type":"virtualserver","storage":200,"storage_used":145.6,"associated_seals":150042,"version":"5.1.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1110sv.virtcomp.net","location":"AM2","engine_type":"target","storage":50,"storage_used":23.9,"associated_seals":"12546, 89661","version":"5.0.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3544sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"115142, 99584","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3545sv.virtcomp.net","location":"AM2","engine_type":"virtualserver","storage":50,"storage_used":12.8,"associated_seals":14145,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1201sv.virtcomp.net","location":"AM1","engine_type":"target","storage":50,"storage_used":12.3,"associated_seals":114589,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1202sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud3.virtualcomp.net","location":"AZR","engine_type":"target","storage":200,"storage_used":127,"associated_seals":11242,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud4.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"11542, 11125","version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2421lv.virtcomp.net","location":"DC2","engine_type":"virtualserver","storage":50,"storage_used":12.3,"associated_seals":11542,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2420lv.virtcomp.net","location":"DC1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":30125,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"nin2324ln.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":175,"storage_used":94.3,"associated_seals":"99254, 23655","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2323ln.virtcomp.net","location":"DC2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"","uuid":"","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2326ln.virtcomp.net","location":"SKN","engine_type":"masking","storage":1,"storage_used":"","associated_seals":23211,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2325ln.virtcomp.net","location":"AU1","engine_type":"virtualserver","storage":300,"storage_used":251.5,"associated_seals":889624,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""}]
 // ---------- END OF JSON CONSTANT DATA 
 
 // selection color constant
@@ -27,16 +27,23 @@ let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
+let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
+let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
 
 // functions    ----------------------------------------------------------
 
 function getIcon(vEngineType="generic"){
     let vResponse = "";
-    if(vEngineType == "masking"){
+    if (vEngineType == "masking") {
         vResponse="./assets/images/engine_mas.png"
-    }else{
+    } else if (vEngineType == "virtualserver") {
+        vResponse="./assets/images/engine_vir.png"
+    } else if (vEngineType == "target") {
+        vResponse="./assets/images/engine_tgt.png"
+    } else {
         vResponse="./assets/images/engine_gen.png"
     }
+
     return vResponse
 }
 
@@ -46,12 +53,12 @@ function doPrevious(){
         page--;
     } else {
         // control pages by comapring the trunc and round results
-        page = Math.trunc(aImages.length/vItemsPerPage);
+        page = vTotalPages-1;
     }
-    document.getElementById("page-number").innerHTML=`page: ${page+1}`;
+    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
-    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding ctrl+click selects multiple items.";
+    document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
 }
 
 function doAllItems() {
@@ -105,13 +112,13 @@ function doNext(){
         page=0;
     }
     //update the page display box
-    document.getElementById("page-number").innerHTML=`page: ${page+1}`;
+    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
     // generate the gallery thumbs based on the calculations for page number
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     //write the bottom signature of the page
     randomArrayAccess();
     // print the special message to guide the user
-    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding Ctrl+click selects multiple items."
+    document.getElementById("activityShow").innerHTML=`${vNavMessage}`
 }
 
 function doRecoverPage(){
@@ -238,7 +245,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 95%;">${aSelected[i].fqdn}<br>type: ${aSelected[i].engine_type}<br>location: ${aSelected[i].location}<br></p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br>type: ${aSelected[i].engine_type}<br>location: ${aSelected[i].location}<br></p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -256,7 +263,7 @@ function doCartBox() {
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h4special><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> Export data </div> <div class="flex-button" onclick="doEmptyCart()">Empty</div> <div id="closeButtonCart" class="flex-button">Hide</div>`;
+    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> Export data </div> <div class="flex-button" onclick="doEmptyCart()">Empty</div> <div id="closeButtonCart" class="flex-button">Hide</div>`;
     document.getElementById("closeButtonCart").addEventListener("click", function(){
         document.getElementById("cartboxPopup").style.visibility="hidden";
         document.getElementById("backLock").style.visibility="hidden";
@@ -324,7 +331,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         }
         if (special == false ){ // ask if it is a special box and set the class to the appropriate value
             vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html
-            vButtonInject=`<div class="flex-button" id="button-return" onclick="dblClickStuff(${vStartIdx})">detail</div>`; // no button gets injected here.
+            vButtonInject=""; // no button gets injected here.
         } else {
             vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
             vButtonInject='<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>'; // return to gallery button is added with this statement.
@@ -333,8 +340,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         let i=vStartIdx; // initialize my counter's local index in 0
         // now sweep my array accessing it by index
         while (i < vEndIdx) {
+            if (special == false ) {
+                vButtonInject=`<div class="flex-button" id="button-return" onclick="dblClickStuff(${i})">detail</div>`
+            }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>version: ${aImages[i].version}</h4special><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><h4special> <b>${aImages[i].fqdn}</b><br>type: ${aImages[i].engine_type}<br>version: ${aImages[i].version}</h4special><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             /*            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${aImages[i].vPath}\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>Description: ${aImages[i].Info}</h4special><br><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string */
 
             i++; // increment for next idx
@@ -362,11 +372,12 @@ function clickStuff(vItemIndex){
 }
 
 function dblClickStuff(vItemIndex){
-    if (vIsCtrlDn == true) {
-        doPopUp(`This is element number ${vItemIndex} of the gallery.<br>The object's description is '${aImages[vItemIndex].engine_type}'. <br>'${aImages[vItemIndex].vPath}' is the path for the image. <br> Additional: ${aImages[vItemIndex].Info}`);
+    if (vIsCtrlDn == false) {
+        doSplashScreen(aImages[vItemIndex].fqdn,`asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>user seals: ${aImages[vItemIndex].associated_seals}`,false,0)
+        /*doPopUp(`This is element number ${vItemIndex} of the gallery.<br>The object's description is '${aImages[vItemIndex].engine_type}'. <br>'${aImages[vItemIndex].vPath}' is the path for the image. <br> Additional: ${aImages[vItemIndex].Info}`);*/
     }else{
         doClosePopUp();
-        document.getElementById("page-number").innerHTML=`page: ${vItemIndex}`;
+        document.getElementById("page-number").innerHTML=`item: ${vItemIndex}`;
         displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
     }
 
@@ -434,7 +445,7 @@ document.getElementById("button-all").addEventListener("click", function(){
     doAllItems();
 });
 document.getElementById("page-number").addEventListener("click", function(){
-    doPopUp("Page number or item number are displayed here.");
+    console.log("Don't just click stuff.")
 });
 
 //BOTTOM BUTTON LISTENERS
