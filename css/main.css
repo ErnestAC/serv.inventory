@@ -18,7 +18,7 @@
 
 
 .menubuttonback, .menubuttonback2 {
-  background-image: url(../assets/images/bg_main.png);
+  
   background-size: contain;
   background-color: rgba(192, 192, 192, 0.8);
   color: black;
@@ -31,7 +31,7 @@
   width: 5.2rem;
 }
 .menubuttonback2 :hover {
-  background-image: url(../assets/images/bg_main.png);
+  
   background-size: contain;
   background-color: rgba(204, 204, 204, 0.7);
   color: black;
@@ -88,7 +88,7 @@
 
 /* footer */
 .flex-container-footer {
-  background-image: url(../assets/images/bg_main.png);
+  
   background-size: contain;
   display: flex;
   align-items: flex-end;
@@ -165,10 +165,28 @@ h4 {
   word-break: break-all;
   margin: 0rem;
   color: black;
-  
-  width: 90%;
   justify-self: center !important;
 }
+
+h4special {
+  font-family: "OpenSans";
+  padding: 0.2rem;
+  font-size: 0.657rem;
+  line-height: 0.657rem;;
+  font-weight: 100;
+  padding-bottom: 0.35rem;
+  border-radius: 15px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  width: 100%;
+  /*background-image: linear-gradient(rgba(255, 255, 255,0.35), rgba(255, 255, 255, 0.00));*/
+  word-break:normal;
+  margin: 0rem;
+  color: black;
+  justify-self: center !important;
+  display: inline;
+}
+
 
 h5 {
   font-family: "Roboto";
@@ -202,7 +220,7 @@ body {
   
   font-family: OpenSans;
   overflow-x: hidden;
-  background-image: url(../assets/images/bg_main.png);
+  
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100%;
@@ -277,30 +295,28 @@ a​:hover {
   border-radius: 15px;
   word-wrap: normal;
   padding: 0.3rem;
-  flex-direction: column;
+  flex-direction: row;
   border: none;
-  justify-items: center;
-  justify-content: center;
+  justify-items: flex-start;
+  justify-content: flex-start;
   min-height: auto;
 
-  background-image: url(../assets/images/bg_main.png);
+  
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100%;
 }
-.flex-item-articles img, .flex-item-articles-half-width img {
+.flex-item-articles img {
   height: auto;
-  width: 20%;
+  width: 15%;
   border-radius: 5px;
-  /* transition-delay: all 2s; */
   transition: all 0.5s;
-  align-self: center;
   justify-self: flex-end;
+  display: inline;
 }
 .flex-item-articles img:hover, .flex-item-articles-half-width img:hover {
-  /*transform: scale(200%);*/
   transition-delay: 1s;
-  transform: scale(150%);
+  transform: scale(105%);
   left: 0vw;
   top: 10vh;
 }
@@ -309,7 +325,8 @@ a​:hover {
   width: 60% !important;
 }
 .flex-item-articles-half-width img {
-  width: 95%;
+  width: 10%;
+  display: block;
 }
 
 /* gallery image size, determines the number of columns in wide mode */
@@ -391,7 +408,7 @@ a​:hover {
   border-radius: 0px;
   flex-direction:row-reverse;
   overflow-wrap: normal;
-  justify-content:center !important;
+  justify-content:flex-end !important;
   padding: 0.1rem;
   position: fixed;
   left: 0vw;
@@ -402,7 +419,7 @@ a​:hover {
 
 .flex-item-floater-ttf-logo {
   display: block;
-  font-family: "VAGRounded";
+  font-family: "Roboto";
   font-size: 2rem;
   color: white;
   margin:0rem;
@@ -417,17 +434,17 @@ a​:hover {
   height: max-content;
   width: 100%;
   align-self: center;
-  align-content: center;
+  
   margin: 0px;
   border-radius: 0px;
   flex-direction: row;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   padding: 0.20rem;
   padding-right: 2rem;
   position: fixed;
   left: 0%;
   top: 3.5rem;
-  background-color: rgba(0, 22, 22, 0.75);
+  background-color: rgba(128, 128, 128, 0.75);
   border: none;
   overflow-wrap: break-word;
 }
@@ -442,13 +459,13 @@ a​:hover {
   margin: 0px;
   border-radius: 0px;
   flex-direction: row;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   padding: 0.20rem;
   padding-right: 2rem;
   position: fixed;
   left: 0rem;
   bottom: 0rem;
-  background-color: rgba(0, 22, 22, 0.75);
+  background-color: rgba(255, 255, 255, 0.75);
   border: none;
   overflow-wrap: break-word;
 }
@@ -627,16 +644,16 @@ a​:hover {
   padding-left: .70rem;
   padding-right: .70rem;
   position:relative;
-  background-color: rgba(0, 160, 160, 0.95);
+  background-color: rgba(0, 88, 88, 0.999);
   border: none;
-  background-image: url(../assets/images/bg_main.png);
+  
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
 }
 
 .flex-button:hover {
-  background-color: rgba(0, 128, 128, 0.80);
+  background-color: rgba(0, 56, 56, 0.80);
   color:white;
 }
 
@@ -665,7 +682,7 @@ a​:hover {
 .flex-item-articles-specials {
   display: flex;
   background-color: rgb(187, 226, 226);
-  background-image: url(../assets/images/bg_main.png);
+  
   background-size:contain;
   background-repeat: no-repeat;
   padding: 1.5rem;
@@ -741,7 +758,90 @@ a​:hover {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 451px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    background-color: rgba(219, 231, 236, 0.5);
+    width: 35vw;
+    border-radius: 15px;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: column;
+    border: none;
+    justify-items: center;
+    justify-content: center;
+    min-height: auto;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    background-color: rgba(219, 231, 236, 0.5);
+    width: 48vw;
+    border-radius: 15px;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: column;
+    border: none;
+    justify-items: center;
+    justify-content: center;
+    min-height: auto;
+  }
+}
+
+
+
+@media screen and (min-width: 700px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    background-color: rgba(219, 231, 236, 0.5);
+    width: 43vw;
+    border-radius: 15px;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: column;
+    border: none;
+    justify-items: center;
+    justify-content: center;
+    min-height: auto;
+  }
+}
+
+
+@media screen and (min-width: 801px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    background-color: rgba(219, 231, 236, 0.5);
+    width: 38vw;
+    border-radius: 15px;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+    border: none;
+    justify-items: flex-start;
+    justify-content: flex-start;
+    min-height: auto;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    background-color: rgba(219, 231, 236, 0.5);
+    width: 25vw;
+    border-radius: 15px;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+    border: none;
+    justify-items: flex-start;
+    justify-content: flex-start;
+    min-height: auto;
+  }
+}
+
+@media screen and (min-width: 1001px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
     background-color: rgba(219, 231, 236, 0.5);
@@ -749,43 +849,10 @@ a​:hover {
     border-radius: 15px;
     word-wrap: normal;
     padding: 0.3rem;
-    flex-direction: column;
+    flex-direction: row;
     border: none;
-    justify-items: center;
-    justify-content: center;
-    min-height: auto;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .flex-item-articles, .flex-item-articles-half-width {
-    display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
-    width: 20vw;
-    border-radius: 15px;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: column;
-    border: none;
-    justify-items: center;
-    justify-content: center;
-    min-height: auto;
-  }
-}
-
-
-@media screen and (min-width: 1001px) {
-  .flex-item-articles, .flex-item-articles-half-width {
-    display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
-    width: 14vw;
-    border-radius: 15px;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: column;
-    border: none;
-    justify-items: center;
-    justify-content: center;
+    justify-items: flex-start;
+    justify-content: flex-start;
     min-height: auto;
   }
 }
