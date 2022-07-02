@@ -3,6 +3,7 @@
 .reg-text {
   color: black;
   padding: 1rem !important;
+  align-self: center;
 }
 
 .special-text {
@@ -11,7 +12,7 @@
 }
 
 .special-text-bar {
-  color: white;
+  color: black;
   padding: 0rem !important;
   font-size: 0.6rem;
 }
@@ -312,13 +313,11 @@ a​:hover {
   border-radius: 5px;
   transition: all 0.5s;
   justify-self: flex-end;
-  display: inline;
+  display:flow-root;
 }
 .flex-item-articles img:hover, .flex-item-articles-half-width img:hover {
   transition-delay: 1s;
-  transform: scale(105%);
-  left: 0vw;
-  top: 10vh;
+  transform: scale(115%);
 }
 
 .flex-item-articles-half-width {
@@ -646,15 +645,18 @@ a​:hover {
   position:relative;
   background-color: rgba(0, 88, 88, 0.999);
   border: none;
-  
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
 }
 
 .flex-button:hover {
-  background-color: rgba(0, 56, 56, 0.80);
+  background-color: rgba(0, 56, 56, 0.95);
   color:white;
+  transition:all;
+  transition-delay: 0.0s;
+  transition-duration: 200ms;
+  transform: scale(107%);
 }
 
 .flex-not-button {
@@ -758,41 +760,25 @@ a​:hover {
   }
 }
 
-@media screen and (min-width: 451px) {
+@media screen and (min-width: 452px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
     background-color: rgba(219, 231, 236, 0.5);
-    width: 35vw;
+    width: 85vw;
     border-radius: 15px;
     word-wrap: normal;
     padding: 0.3rem;
-    flex-direction: column;
+    flex-direction: row;
     border: none;
-    justify-items: center;
-    justify-content: center;
-    min-height: auto;
-  }
-}
-
-@media screen and (min-width: 700px) {
-  .flex-item-articles, .flex-item-articles-half-width {
-    display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
-    width: 48vw;
-    border-radius: 15px;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: column;
-    border: none;
-    justify-items: center;
-    justify-content: center;
+    justify-items: flex-start;
+    justify-content: flex-start;
     min-height: auto;
   }
 }
 
 
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 600px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
     background-color: rgba(219, 231, 236, 0.5);
@@ -800,10 +786,10 @@ a​:hover {
     border-radius: 15px;
     word-wrap: normal;
     padding: 0.3rem;
-    flex-direction: column;
+    flex-direction: row;
     border: none;
-    justify-items: center;
-    justify-content: center;
+    justify-items: flex-start;
+    justify-content: flex-start;
     min-height: auto;
   }
 }
@@ -845,7 +831,7 @@ a​:hover {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
     background-color: rgba(219, 231, 236, 0.5);
-    width: 30vw;
+    width: 27vw;
     border-radius: 15px;
     word-wrap: normal;
     padding: 0.3rem;

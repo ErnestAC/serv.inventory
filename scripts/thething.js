@@ -30,6 +30,16 @@ let aSelected = [];
 
 // functions    ----------------------------------------------------------
 
+function getIcon(vEngineType="generic"){
+    let vResponse = "";
+    if(vEngineType == "masking"){
+        vResponse="./assets/images/engine_mas.png"
+    }else{
+        vResponse="./assets/images/engine_gen.png"
+    }
+    return vResponse
+}
+
 function doPrevious(){
     doClosePopUp();
     if (((page*vItemsPerPage) > 1 || page > 1)){
@@ -165,7 +175,7 @@ function randomArrayAccess(){
     let vSelection = Math.floor(Math.random() * aImages.length);
     let vRandomIndex = vSelection;
     let vWTII = WhatTimeIsIt();
-    displayInLowerBox(`Page rendered on ${vWTII}, client local time.<br>Your randomly assigned index number is ${vSelection} which corresponds to a ${aImages[vSelection].engine_type}, with EngineID ${aImages[vSelection].fqdn}. The reference engine has this additional information: ${aImages[vSelection].Info} <br> The total amount of items in the image array is ${aImages.length}. `);
+    displayInLowerBox(`Page rendered on ${vWTII}, client local time. Engine count: ${aImages.length}.`);
     return vRandomIndex;
 }
 
@@ -228,7 +238,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'./assets/images/engine_gen.png'><p class="reg-text" style="width: 95%;">${aSelected[i].fqdn}<br>type: ${aSelected[i].engine_type}<br>location: ${aSelected[i].location}<br></p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 95%;">${aSelected[i].fqdn}<br>type: ${aSelected[i].engine_type}<br>location: ${aSelected[i].location}<br></p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -314,7 +324,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         }
         if (special == false ){ // ask if it is a special box and set the class to the appropriate value
             vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html
-            vButtonInject=''; // no button gets injected here.
+            vButtonInject=`<div class="flex-button" id="button-return" onclick="dblClickStuff(${vStartIdx})">detail</div>`; // no button gets injected here.
         } else {
             vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
             vButtonInject='<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>'; // return to gallery button is added with this statement.
@@ -324,7 +334,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // now sweep my array accessing it by index
         while (i < vEndIdx) {
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'./assets/images/engine_gen.png\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>version: ${aImages[i].version}</h4special><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>version: ${aImages[i].version}</h4special><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             /*            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${aImages[i].vPath}\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>Description: ${aImages[i].Info}</h4special><br><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string */
 
             i++; // increment for next idx
