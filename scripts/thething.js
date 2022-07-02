@@ -11,7 +11,7 @@
 // removed! see the fetch call below!
 // ---------- END OF JSON CONSTANT DATA 
 
-const url = "../assets/json/servers.json";
+const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 
 // selection color constant
 const vSelColor="rgba(0,255,255,0.3)";
@@ -476,7 +476,13 @@ let aImages = [];
     .then(json => {
         aImages = [...json];
         vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
-        doSplashScreen("serv.inventory, loading...","",true,15000)
+        if (lFirstTime == "yes"){
+            doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+            localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+        }else{
+            console.log('Welcome back.');
+            doSplashScreen("serv.inventory, loading...","",true,15000);
+        }  
     })
 })();
 
@@ -489,11 +495,5 @@ setTimeout(() => {
     doNext(); // run doNext to render the 1st page of the gallery
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
-    if (lFirstTime == "yes"){
-        doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
-        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-    }else{
-        console.log('Welcome back.');
-        doClosePopUp;
-    }  
+    doClosePopUp();
 }, 3000)
