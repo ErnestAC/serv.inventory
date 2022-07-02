@@ -11,17 +11,7 @@
 // removed! see the fetch call below!
 // ---------- END OF JSON CONSTANT DATA 
 
-const url = "../assets/json/files.json";
-
-/*const fetchJson = async () => {
-    try {
-        const data = await fetch(url);
-        const response = await data.json();  
-    } catch (error) {
-        console.log(error);
-    }
-};*/
-
+const url = "../assets/json/servers.json";
 
 // selection color constant
 const vSelColor="rgba(0,255,255,0.3)";
@@ -505,12 +495,9 @@ setTimeout(() => {
     // this needs to happen after the page is rendered
     if (lFirstTime == "yes"){
         doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
-        //doPopUp(`Hi there!<br><br>Welcome to serv.inventory. );
         localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
     }else{
         console.log('Welcome back.')
         doSplashScreen("serv.inventory, loading...","",true,750)
     }  
-}, 2000)
-
-
+}, 1000)
