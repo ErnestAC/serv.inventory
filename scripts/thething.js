@@ -128,10 +128,10 @@ function doRecoverPage(){
     if (page < 0 ) { // reset the page number to 1 when coming back from the all view
         page = 1;
     }
-    document.getElementById("page-number").innerHTML=`page: ${page+1}`;
+    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
-    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding Ctrl+click selects multiple items.";
+    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding Ctrl+click selects multiple items";
 }
 
 function addStr(str, index, stringToAdd){
