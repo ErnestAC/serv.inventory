@@ -8,15 +8,20 @@
 // array of images pulled from a JSON input.
 
 // ---------- START OF JSON CONSTANT DATA 
-const aImages=[{"fqdn":"msx4182lv.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":10,"storage_used":4.4,"associated_seals":"9958, 25151","version":"5.0.0.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"msx4183lv.virtcomp.net","location":"DC2","engine_type":"target","storage":10,"storage_used":2.5,"associated_seals":"23589,11893, 12584","version":"5.0.0.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"ata2727av.virtcomp.net","location":"SKN","engine_type":"virtualserver","storage":30,"storage_used":25,"associated_seals":"47223, 22546, 11455","version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"ata2728av.virtcomp.net","location":"SKN","engine_type":"target","storage":30,"storage_used":20,"associated_seals":"55213, 55874","version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1144sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11023,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1145sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":114500,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud1.virtualcomp.net","location":"AWS","engine_type":"virtualserver","storage":30,"storage_used":15,"associated_seals":107615,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud2.virtualcomp.net","location":"AWS","engine_type":"target","storage":10,"storage_used":7.3,"associated_seals":"115142, 25998","version":"5.0.1.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"azr.cloud1.virtualcomp.net","location":"AZR","engine_type":"target","storage":20,"storage_used":16.1,"associated_seals":"11545, 55869","version":"5.1.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud2.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud1.virtualcom.net","location":"GCS","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.0.2","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud2.virtualcom.net","location":"GCS","engine_type":"virtualserver","storage":200,"storage_used":112.3,"associated_seals":150042,"version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1111sv.virtcomp.net","location":"AM1","engine_type":"virtualserver","storage":200,"storage_used":145.6,"associated_seals":150042,"version":"5.1.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1110sv.virtcomp.net","location":"AM2","engine_type":"target","storage":50,"storage_used":23.9,"associated_seals":"12546, 89661","version":"5.0.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3544sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"115142, 99584","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3545sv.virtcomp.net","location":"AM2","engine_type":"virtualserver","storage":50,"storage_used":12.8,"associated_seals":14145,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1201sv.virtcomp.net","location":"AM1","engine_type":"target","storage":50,"storage_used":12.3,"associated_seals":114589,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1202sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud3.virtualcomp.net","location":"AZR","engine_type":"target","storage":200,"storage_used":127,"associated_seals":11242,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud4.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"11542, 11125","version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2421lv.virtcomp.net","location":"DC2","engine_type":"virtualserver","storage":50,"storage_used":12.3,"associated_seals":11542,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2420lv.virtcomp.net","location":"DC1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":30125,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"nin2324ln.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":175,"storage_used":94.3,"associated_seals":"99254, 23655","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2323ln.virtcomp.net","location":"DC2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"","uuid":"","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2326ln.virtcomp.net","location":"SKN","engine_type":"masking","storage":1,"storage_used":"","associated_seals":23211,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2325ln.virtcomp.net","location":"AU1","engine_type":"virtualserver","storage":300,"storage_used":251.5,"associated_seals":889624,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""}]
+const aBImages=[{"fqdn":"msx4182lv.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":10,"storage_used":4.4,"associated_seals":"9958, 25151","version":"5.0.0.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"msx4183lv.virtcomp.net","location":"DC2","engine_type":"target","storage":10,"storage_used":2.5,"associated_seals":"23589,11893, 12584","version":"5.0.0.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"ata2727av.virtcomp.net","location":"SKN","engine_type":"virtualserver","storage":30,"storage_used":25,"associated_seals":"47223, 22546, 11455","version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"ata2728av.virtcomp.net","location":"SKN","engine_type":"target","storage":30,"storage_used":20,"associated_seals":"55213, 55874","version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1144sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":11023,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1145sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":114500,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud1.virtualcomp.net","location":"AWS","engine_type":"virtualserver","storage":30,"storage_used":15,"associated_seals":107615,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"aws.cloud2.virtualcomp.net","location":"AWS","engine_type":"target","storage":10,"storage_used":7.3,"associated_seals":"115142, 25998","version":"5.0.1.0.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"azr.cloud1.virtualcomp.net","location":"AZR","engine_type":"target","storage":20,"storage_used":16.1,"associated_seals":"11545, 55869","version":"5.1.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud2.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud1.virtualcom.net","location":"GCS","engine_type":"masking","storage":1,"storage_used":"","associated_seals":33200,"version":"5.0.0.0.2","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"gcs.cloud2.virtualcom.net","location":"GCS","engine_type":"virtualserver","storage":200,"storage_used":112.3,"associated_seals":150042,"version":"5.0.1.0.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1111sv.virtcomp.net","location":"AM1","engine_type":"virtualserver","storage":200,"storage_used":145.6,"associated_seals":150042,"version":"5.1.0.1.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1110sv.virtcomp.net","location":"AM2","engine_type":"target","storage":50,"storage_used":23.9,"associated_seals":"12546, 89661","version":"5.0.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3544sv.virtcomp.net","location":"AM1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"115142, 99584","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg3545sv.virtcomp.net","location":"AM2","engine_type":"virtualserver","storage":50,"storage_used":12.8,"associated_seals":14145,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"TRUE"},{"fqdn":"seg1201sv.virtcomp.net","location":"AM1","engine_type":"target","storage":50,"storage_used":12.3,"associated_seals":114589,"version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"seg1202sv.virtcomp.net","location":"AM2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud3.virtualcomp.net","location":"AZR","engine_type":"target","storage":200,"storage_used":127,"associated_seals":11242,"version":"5.0.0.0.2","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"azr.cloud4.virtualcomp.net","location":"AZR","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"11542, 11125","version":"5.1.0.1.0","uuid":"jksxx-9992-qqpza-lm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2421lv.virtcomp.net","location":"DC2","engine_type":"virtualserver","storage":50,"storage_used":12.3,"associated_seals":11542,"version":"5.0.0.1.0","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"msx2420lv.virtcomp.net","location":"DC1","engine_type":"masking","storage":1,"storage_used":"","associated_seals":30125,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":"FALSE"},{"fqdn":"nin2324ln.virtcomp.net","location":"DC1","engine_type":"virtualserver","storage":175,"storage_used":94.3,"associated_seals":"99254, 23655","version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2323ln.virtcomp.net","location":"DC2","engine_type":"masking","storage":1,"storage_used":"","associated_seals":"","version":"","uuid":"","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2326ln.virtcomp.net","location":"SKN","engine_type":"masking","storage":1,"storage_used":"","associated_seals":23211,"version":"5.0.0.0.2","uuid":"mxskx-1961-ppalv-lb","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""},{"fqdn":"nin2325ln.virtcomp.net","location":"AU1","engine_type":"virtualserver","storage":300,"storage_used":251.5,"associated_seals":889624,"version":"5.0.1.0.0","uuid":"agbcs-4256-qskal-mm","placeholder1":"","placeholder2":"","placeholder3":"","rsa_enabled":""}]
 // ---------- END OF JSON CONSTANT DATA 
 
-async function getText(file) {
-    let x = await fetch(file);
-    let y = await x.text();
-    document.getElementById("bottom-box").innerHTML = y;    
-    return y;
-}
+const url = "../assets/json/files.json";
+
+/*const fetchJson = async () => {
+    try {
+        const data = await fetch(url);
+        const response = await data.json();  
+    } catch (error) {
+        console.log(error);
+    }
+};*/
+
 
 // selection color constant
 const vSelColor="rgba(0,255,255,0.3)";
@@ -35,7 +40,6 @@ let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
 let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
-let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
 
 // functions    ----------------------------------------------------------
 
@@ -476,18 +480,39 @@ Valid options:
 Default behavior is set to start in the 1st page of the gallery.
 */
 
-page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
-doRecoverSavedItems(); // read localStorage saved data
-doNext(); // run doNext to render the 1st page of the gallery
+// let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
+let vTotalPages = 1;
 
-// POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
-// this needs to happen after the page is rendered
-if (lFirstTime == "yes"){
-    doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+// async loading of the main json file
+let aImages = [];
+(function() {
+    fetch(url)
+    .then(response => response.json())
+    .then(json => {
+        aImages = [...json];
+        vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
+    })
+})();
 
-    //doPopUp(`Hi there!<br><br>Welcome to serv.inventory. );
-    localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-}else{
-    console.log('Welcome back.')
-    doSplashScreen("serv.inventory, loading...","",true,750)
-}
+// this is outside - might be empty, if the response does
+// not arrive under 2 seconds
+setTimeout(() => {
+  console.log("data in setTimeout", aImages)
+  page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
+  doRecoverSavedItems(); // read localStorage saved data
+  doNext(); // run doNext to render the 1st page of the gallery
+  
+  // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
+  // this needs to happen after the page is rendered
+  if (lFirstTime == "yes"){
+      doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+  
+      //doPopUp(`Hi there!<br><br>Welcome to serv.inventory. );
+      localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+  }else{
+      console.log('Welcome back.')
+      doSplashScreen("serv.inventory, loading...","",true,750)
+  }  
+}, 1000)
+
+
