@@ -481,6 +481,7 @@ let aImages = [];
     .then(json => {
         aImages = [...json];
         vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
+        doSplashScreen("serv.inventory, loading...","",true,15000)
     })
 })();
 
@@ -497,7 +498,7 @@ setTimeout(() => {
         doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
         localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
     }else{
-        console.log('Welcome back.')
-        doSplashScreen("serv.inventory, loading...","",true,750)
+        console.log('Welcome back.');
+        doClosePopUp;
     }  
-}, 1000)
+}, 3000)
