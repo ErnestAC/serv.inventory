@@ -778,7 +778,7 @@ a​:hover {
 
 
 
-@media screen and (min-width: 600px) {
+/*@media screen and (min-width: 600px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
     background-color: rgba(219, 231, 236, 0.5);
@@ -791,7 +791,7 @@ a​:hover {
     justify-content: flex-start;
     min-height: auto;
   }
-}
+}*/
 
 
 @media screen and (min-width: 801px) {
