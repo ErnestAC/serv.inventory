@@ -99,7 +99,7 @@ function addItem(i) {
 }
 
 function doUpdateCart() {
-    document.getElementById('button-cart').innerHTML=`cart (${aSelected.length})`;
+    document.getElementById('button-cart').innerHTML=`to export (${aSelected.length})`;
 }
 
 function doNext(){
@@ -474,7 +474,7 @@ doNext(); // run doNext to render the 1st page of the gallery
 // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
 // this needs to happen after the page is rendered
 if (lFirstTime == "yes"){
-    doSplashScreen(`Hi there! Welcome to serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+    doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
 
     //doPopUp(`Hi there!<br><br>Welcome to serv.inventory. );
     localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
