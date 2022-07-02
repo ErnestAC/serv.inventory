@@ -463,15 +463,10 @@ document.getElementById("button-help").addEventListener("click", function(){
 /*READ ME -----------------------------------------------
 The fuctions below control the start of page behavior.
 
-Valid options:
-    doRandomItem(); >> run RandomItem to render a random item from the gallery
-    doNext(); >> run doNext to render the 1st page of the gallery
-
-Default behavior is set to start in the 1st page of the gallery.
 */
 
 // let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
-let vTotalPages = 1;
+let vTotalPages = 0;
 
 // async loading of the main json file
 let aImages = [];
