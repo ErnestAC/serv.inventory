@@ -33,6 +33,8 @@ let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
 // functions    ----------------------------------------------------------
 
 function getIcon(vEngineType="generic"){
+    // read local aImageRes array
+    const aIconArray = [{"type":"masking","resource.image":"./assets/images/engine_mas.png"},{"type":"target","resource.image":"./assets/images/engine_tgt.png"},{"type":"target","additional":"taget server picture"}];
     let vResponse = "";
     if (vEngineType == "masking") {
         vResponse="./assets/images/engine_mas.png"
