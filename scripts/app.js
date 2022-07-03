@@ -23,7 +23,7 @@ const vRndColor = "Orange";
 let vIsCtrlDn=false;
 // page display controllers
 let page = 1;
-const vItemsPerPage = 15; 
+const vItemsPerPage = 12; 
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
