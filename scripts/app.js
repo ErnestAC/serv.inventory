@@ -50,7 +50,7 @@ function doPopulateButtons(){
     document.getElementById("button-cart").innerHTML=`to export (0)`;
     document.getElementById("button-help").innerHTML=`?`;
     document.getElementById("page-number").innerHTML=`wait...`;
-    document.getElementById("title-app-name").innerHTML=`server inventory`;
+    document.getElementById("title-app-name").innerHTML=`serv.inventory`;
 }
 
 function getIcon(vEngineType="generic"){
