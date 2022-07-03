@@ -11,6 +11,7 @@
 // removed! see the fetch call below!
 // ---------- END OF JSON CONSTANT DATA 
 
+// for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 // local testing usage only!
 // const url = "../assets/json/servers.json"
@@ -26,7 +27,7 @@ const vRndColor = "Orange";
 let vIsCtrlDn=false;
 // page display controllers
 let page = 1;
-const vItemsPerPage = 12; 
+const vItemsPerPage = 15; 
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
@@ -34,6 +35,16 @@ let aSelected = [];
 let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
 
 // functions    ----------------------------------------------------------
+
+function doPopulateButtons(){
+    // button writing routine
+    document.getElementById("button-prev").innerHTML=`prev`;
+    document.getElementById("button-next").innerHTML=`next`;
+    document.getElementById("button-all").innerHTML=`*`;
+    document.getElementById("button-cart").innerHTML=`to export (0)`;
+    document.getElementById("button-help").innerHTML=`?`;
+    document.getElementById("page-number").innerHTML=`wait...`;
+}
 
 function getIcon(vEngineType="generic"){
     // read local aImageRes array
@@ -407,6 +418,8 @@ function clearStuff(){
 // here goes the code for calling the rendering functions
 //KEY LISTENERS
 
+doPopulateButtons();
+
 document.addEventListener('keydown', (event) => {
 // should use switch case instead of a large list of if
     let name = event.key;
@@ -440,10 +453,10 @@ document.addEventListener('keyup', (event) => {
 
 
 //TOP BUTTON LISTENERS
-document.getElementById("button-add-selection").addEventListener("click", function(){
+document.getElementById("button-prev").addEventListener("click", function(){
     doPrevious();
 });
-document.getElementById("button-by-page").addEventListener("click", function(){
+document.getElementById("button-next").addEventListener("click", function(){
     doNext();
 });
 document.getElementById("button-all").addEventListener("click", function(){
@@ -463,8 +476,7 @@ document.getElementById("button-help").addEventListener("click", function(){
 
 //PAGE RENDERING SECTION
 /*READ ME -----------------------------------------------
-The fuctions below control the start of page behavior.
-
+The statements below control the start of page behavior.
 */
 
 // let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
