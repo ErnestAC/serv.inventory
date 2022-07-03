@@ -299,8 +299,8 @@ a​:hover {
   border: solid;
   border-width: 1px;
   border-color: rgba(190, 190, 190, 0.999);
-  justify-items: flex-end;
-  justify-content: space-evenly;
+  justify-items: center;
+  justify-content: stretch !important;
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100%;
@@ -344,7 +344,7 @@ a​:hover {
   transform: scale();
 }
 .flex-item-articles ul, .flex-item-articles-half-width ul {
-  margin: 0.2vw;
+  margin: 0.2rem;
   display: inline;
   font-size: 0.8rem;
   text-align: left;
@@ -625,9 +625,9 @@ a​:hover {
   display: inline-block;
   height: 0.9rem;
   /*width:fit-content, -moz-fit-content;*/
-  align-self: flex-start;
+  /*align-self: flex-start;*/
   align-content: center;
-  margin: .3rem;
+  margin: 0.3rem;
   border-radius: 5px;
   flex-direction: row;
   font-size: 0.7rem;
