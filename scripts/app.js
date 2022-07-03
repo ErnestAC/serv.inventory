@@ -236,7 +236,7 @@ function doPopUp(vMsg,vAuto=false,vDelay=950) {
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> Close </div>`;
+        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
     }
     document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
     if (vAuto == false){
@@ -254,7 +254,7 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> Close </div>`;
+        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
     }
     document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="special-text">${vMsg}</p></div></div><br><br>${buttonInjector}`;
     if (vAuto == false){
@@ -291,12 +291,12 @@ function doCartBox() {
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> Export data </div> <div class="flex-button" onclick="doEmptyCart()">Empty</div> <div id="closeButtonCart" class="flex-button">Hide</div>`;
+    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> export data </div> <div class="flex-button" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" class="flex-button">dismiss</div>`;
     document.getElementById("closeButtonCart").addEventListener("click", function(){
         document.getElementById("cartboxPopup").style.visibility="hidden";
         document.getElementById("backLock").style.visibility="hidden";
     });
-    document.getElementById("msgOfTheCartBox1").innerHTML=`You have ${aSelected.length} item(s) in the cart.`;
+    document.getElementById("msgOfTheCartBox1").innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
 }
 
 
@@ -402,14 +402,12 @@ function clickStuff(vItemIndex){
 
 function dblClickStuff(vItemIndex){
     if (vIsCtrlDn == false) {
-        doSplashScreen(aImages[vItemIndex].fqdn,`asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>user seals: ${aImages[vItemIndex].associated_seals}`,false,0)
-        /*doPopUp(`This is element number ${vItemIndex} of the gallery.<br>The object's description is '${aImages[vItemIndex].engine_type}'. <br>'${aImages[vItemIndex].vPath}' is the path for the image. <br> Additional: ${aImages[vItemIndex].Info}`);*/
+        doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>user seals: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
     }else{
         doClosePopUp();
         document.getElementById("page-number").innerHTML=`item: ${vItemIndex}`;
         displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
     }
-
 }
 
 function clearStuff(){
