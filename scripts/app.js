@@ -30,6 +30,9 @@ let lFirstTime = "";
 let aSelected = [];
 let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
 let vgResponse = false;
+let cAlertValueUpper = 40;
+let cWarnValueUpper = 75;
+
 
 // functions    ----------------------------------------------------------
 
@@ -420,12 +423,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
 
         let i=vStartIdx; // initialize my counter's local index in 0
         // now sweep my array accessing it by index
+        // read warning preset value and alert preset value
         while (i < vEndIdx) {
             let vEvalInjector = "";
-            let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100);
-            if (vPercentFree < 40) {
+            let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
+            if (vPercentFree < cAlertValueUpper) {
                 vEvalInjector = `<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
-            } else if ( vPercentFree < 75) {
+            } else if ( vPercentFree < cWarnValueUpper) {
                 vEvalInjector = `<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
             } else {
                 vEvalInjector = `<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
