@@ -35,19 +35,22 @@ let vgResponse = false;
 
 function doExport(vJSONIn){
     // gets the contents of vArrayIn and creates a JSON file to download
-    try{
-        let vFileNameDownload = `ser.inv_export_${WhatTimeIsIt(true)}.json`;
-        element = document.createElement('a');
-        element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(vJSONIn));
-        element.setAttribute('download', vFileNameDownload);
-        element.click();
-        doPopUp(`download started for ${vFileNameDownload}...`,true,1000);
-        return true;
-    } catch {
-        console.log("Dang, can't download.");
-        return false;
+    if (aSelected.length != 0){
+        try{
+            let vFileNameDownload = `ser.inv_export_${WhatTimeIsIt(true)}.json`;
+            element = document.createElement('a');
+            element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(vJSONIn));
+            element.setAttribute('download', vFileNameDownload);
+            element.click();
+            doPopUp(`download started for ${vFileNameDownload}...`,true,1000);
+            return true;
+        } catch {
+            console.log("Dang, can't download.");
+            return false;
+        }
+    } else {
+        doPopUp("Nothing to export, your cart is empty.");
     }
-    
 }
 
 
