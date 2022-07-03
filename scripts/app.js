@@ -414,15 +414,27 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             vButtonInject='<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>'; // return to gallery button is added with this statement.
         }
         
+
         let i=vStartIdx; // initialize my counter's local index in 0
         // now sweep my array accessing it by index
         while (i < vEndIdx) {
+            let vEvalInjector = "";
+            let vPercentFree = Math.round((aImages[i].storage_used/aImages[i].storage)*100);
+            if (vPercentFree < 30) {
+                vEvalInjector = `<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
+            } else if ( vPercentFree < 50) {
+                vEvalInjector = `<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
+            } else {
+                vEvalInjector = `<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
+            }
+
+
             if (special == false ) {
                 // injecting buttons for thumb view
                 vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">access</div>`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${vPercentFree}%</p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
 
             i++; // increment for next idx
         }
@@ -450,7 +462,7 @@ function clickStuff(vItemIndex){
 
 function dblClickStuff(vItemIndex){
     if (vIsCtrlDn == false) {
-        doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>user seals: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
+        doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>app ids: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
     }else{
         doClosePopUp();
         document.getElementById("page-number").innerHTML=`item: ${vItemIndex}`;
