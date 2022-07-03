@@ -16,6 +16,10 @@ const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json"
 const vSelColor="rgba(0,255,255,0.3)";
 const vUnSelColor="rgba(219, 231, 236, 0.0)";
 const vCartItemColor="rgba(219, 231, 236, 0.5)";
+const vAlertColor="rgba(255, 91, 92, 0.999)";
+const vWarnColor="rgba(195, 172, 0, 0.999)";
+const vOKColor="rgba(0, 160, 80, 0.999)";
+
 const vTimeOut=3000;
 // random selector color indicator constant
 const vRndColor = "Orange";
@@ -35,6 +39,25 @@ let cWarnValueUpper = 75;
 
 
 // functions    ----------------------------------------------------------
+
+function doCallAToast(vText="Empty",vDuration=3000,vGood="linear-gradient(to right, #005454, #003030)") {
+    // alert(vText)
+    Toastify({
+        text: `${vText}`,
+        duration: vDuration,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+            fontfamily: "Roboto",
+            padding: "0.5rem",
+            color: "white",
+            background: vGood,
+        },
+      onClick: function(){} // Callback after click
+    }).showToast();
+}
 
 function doExport(vJSONIn){
     // gets the contents of vArrayIn and creates a JSON file to download
@@ -137,6 +160,8 @@ function doAllItems() {
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
     document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
+    
+    
     doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
@@ -159,13 +184,36 @@ function addItem(i) {
     }
     finally{
         if (vFoundFlag == true) {
-            doPopUp("Engine not added <br> This Engine is already present in your cart.", false, 1500)
+            
+            // using toastify to replace some popups
+            doCallAToast(`Can't add ${aImages[i].fqdn} to export cart.`,1500,vAlertColor)
+            
+            //doPopUp("Engine not added <br> This Engine is already present in your cart.", false, 1500)
         } else {
             aSelected.push(aImages[i]);
             document.getElementById(`thumb${i}`).backgroundColor=vSelColor;
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             doUpdateCart();
-            doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);
+            
+            // using toastify to replace some popups
+            Toastify({
+                text: `Engine ${aImages[i].fqdn} added to export cart.`,
+                duration: 2000,
+                //destination: "https://somepage.com/",
+                //newWindow: true,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    fontfamily: "Roboto",
+                    padding: "0.3rem",
+                    color: "white",
+                    background: "linear-gradient(to right, #005454, #003030)",
+                },
+                onClick: function(){} // Callback after click
+            }).showToast();
+            //doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);
         }
     }
     
@@ -549,6 +597,23 @@ document.getElementById("button-cart").addEventListener("click", function(){
     doCartBox();
 });
 document.getElementById("button-help").addEventListener("click", function(){
+/*    Toastify({
+        text: "Tetsing toastify",
+        duration: 2000,
+        //destination: "https://www.coderhouse.com.co/",
+        //newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+            borderradius: "4px",
+            padding: "0.3rem",
+            color: "white",
+            background: "linear-gradient(to right, #005454, #003030)",
+        },
+        onClick: function(){} // Callback after click
+    }).showToast();*/
     doSplashScreen("serv.inventory help","Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
 });
 
@@ -579,7 +644,7 @@ let aImages = [];
 })();
 
 // this is outside - might be empty, if the response does
-// not arrive under 2 seconds
+// not arrive under the preset time in ms
 setTimeout(() => {
     console.log("data in setTimeout", aImages)
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
