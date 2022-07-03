@@ -420,9 +420,9 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         while (i < vEndIdx) {
             let vEvalInjector = "";
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100);
-            if (vPercentFree > 30) {
+            if (vPercentFree > 50) {
                 vEvalInjector = `<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
-            } else if ( vPercentFree > 50) {
+            } else if ( vPercentFree > 30) {
                 vEvalInjector = `<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
             } else {
                 vEvalInjector = `<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
