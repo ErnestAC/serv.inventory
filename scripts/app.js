@@ -365,7 +365,7 @@ function doRemoveFromCart(indexToRemove){
 function doEmptyCart(){
     doClosePopUp();
     // doConfirm(`Are you sure?`);
-    setTimeout(console.log(`waiting for answer...`,15000));
+    //setTimeout(console.log(`waiting for answer...`,15000));
     if ( vgResponse == true){
         vgResponse = false;
         if (aSelected.length == 0){ // ask if the cart is empty
