@@ -35,19 +35,22 @@ let vgResponse = false;
 
 function doExport(vJSONIn){
     // gets the contents of vArrayIn and creates a JSON file to download
-    try{
-        let vFileNameDownload = `ser.inv_export_${WhatTimeIsIt(true)}.json`;
-        element = document.createElement('a');
-        element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(vJSONIn));
-        element.setAttribute('download', vFileNameDownload);
-        element.click();
-        doPopUp(`download started for ${vFileNameDownload}...`,true,1000);
-        return true;
-    } catch {
-        console.log("Dang, can't download.");
-        return false;
+    if (aSelected.length != 0){
+        try{
+            let vFileNameDownload = `ser.inv_export_${WhatTimeIsIt(true)}.json`;
+            element = document.createElement('a');
+            element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(vJSONIn));
+            element.setAttribute('download', vFileNameDownload);
+            element.click();
+            doPopUp(`download started for ${vFileNameDownload}...`,true,1000);
+            return true;
+        } catch {
+            console.log("Dang, can't download.");
+            return false;
+        }
+    } else {
+        doPopUp("Nothing to export, your cart is empty.");
     }
-    
 }
 
 
@@ -420,9 +423,9 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         while (i < vEndIdx) {
             let vEvalInjector = "";
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100);
-            if (vPercentFree > 50) {
+            if (vPercentFree < 40) {
                 vEvalInjector = `<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
-            } else if ( vPercentFree > 30) {
+            } else if ( vPercentFree < 75) {
                 vEvalInjector = `<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
             } else {
                 vEvalInjector = `<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
