@@ -2,8 +2,9 @@
 
 .reg-text {
   color: black;
-  padding: 1rem !important;
+  padding: 0.5rem !important;
   align-self: center;
+  font-size: 0.7rem !important;
 }
 
 .special-text {
@@ -287,7 +288,7 @@ a​:hover {
 }
 
 .flex-item-articles, .flex-item-articles-half-width {
-  align-items: flex-start;
+  align-items: center;
   display: flexbox;
   background-color: rgba(255, 255, 255, 0.95);
   width: 25vw;
@@ -298,15 +299,15 @@ a​:hover {
   border: solid;
   border-width: 1px;
   border-color: rgba(190, 190, 190, 0.999);
-  justify-items: flex-start;
-  justify-content: flex-start;
+  justify-items: flex-end;
+  justify-content: space-evenly;
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100%;
 }
 .flex-item-articles img {
   height: auto;
-  width: 48px;
+  width: 40px;
   border-radius: 5px;
   transition: all 0.5s;
   justify-self: flex-end;
@@ -624,7 +625,7 @@ a​:hover {
   display: inline-block;
   height: 0.9rem;
   /*width:fit-content, -moz-fit-content;*/
-  align-self: flex-end;
+  align-self: flex-start;
   align-content: center;
   margin: .3rem;
   border-radius: 5px;
@@ -641,6 +642,7 @@ a​:hover {
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
+  min-width: 32px;
 }
 
 .flex-button:hover {
@@ -743,8 +745,6 @@ a​:hover {
     padding: 0.5rem;
     flex-direction: column;
     border: none;
-    justify-items: center;
-    justify-content: center;
   }
 }
 
@@ -755,8 +755,6 @@ a​:hover {
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    justify-items: flex-start;
-    justify-content: flex-start;
   }
 }
 
@@ -782,8 +780,6 @@ a​:hover {
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    justify-items: flex-start;
-    justify-content: flex-start;
   }
 }
 
@@ -793,8 +789,6 @@ a​:hover {
     width: 32vw;
     padding: 0.3rem;
     flex-direction: row;
-    justify-items: flex-start;
-    justify-content: flex-start;
   }
 }
 
@@ -805,7 +799,25 @@ a​:hover {
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    justify-items: flex-start;
-    justify-content: flex-start;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    width: 25vw;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    width: 22vw;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
   }
 }

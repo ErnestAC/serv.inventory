@@ -32,6 +32,16 @@ let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-up
 
 // functions    ----------------------------------------------------------
 
+function doPing(vIdx){
+    // mock function
+    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: white; border-radius: 5px;">OK [MOCK]</p>`,false)
+}
+
+function doAccess(vIdx){
+    // mock function
+    doPopUp(`Access requested to: <p class="reg-text" style="color: rgb(0,64,64); background-color: white; border-radius: 5px;">${aImages[vIdx].fqdn}</p>`,false)
+}
+
 function doPopulateButtons(){
     // button writing routine
     document.getElementById("button-prev").innerHTML=`prev`;
@@ -45,19 +55,24 @@ function doPopulateButtons(){
 
 function getIcon(vEngineType="generic"){
     // read local aImageRes array
-    const aIconArray = [{"type":"masking","resource.image":"./assets/images/engine_mas.png"},{"type":"target","resource.image":"./assets/images/engine_tgt.png"},{"type":"target","additional":"taget server picture"}];
-    let vResponse = "";
-    if (vEngineType == "masking") {
-        vResponse="./assets/images/engine_mas.png"
-    } else if (vEngineType == "virtualserver") {
-        vResponse="./assets/images/engine_vir.png"
-    } else if (vEngineType == "target") {
-        vResponse="./assets/images/engine_tgt.png"
-    } else {
-        vResponse="./assets/images/engine_gen.png"
-    }
+    
+    // START CONSTANT JSON DATA //
+    const aIconArray = [{"type":"masking","resource_image":"./assets/images/engine_mas.png"},{"type":"target","resource_image":"./assets/images/engine_tgt.png"},{"type":"virtualserver","resource_image":"./assets/images/engine_grn.png"},{"type":"director","resource_image":"./assets/images/engine_vir.png"},{"type":"batch","resource_image":"./assets/images/engine_red.png"}];
+    // END CONSTANT JSON DATA //
+    
+    let vResponse = ""; // response is empty
+    let i = 0; // start index in 0
 
-    return vResponse
+    while(i < aIconArray.length){
+        if (vEngineType == aIconArray[i].type){
+            vResponse=aIconArray[i].resource_image; // load the value from the array
+            break; // find and stop!
+        } else {
+            vResponse="./assets/images/engine_gen.png" // dbhost is not in the icon array, so it uses this one tnat is generic
+        }
+        i++;
+    }
+    return vResponse // resturns a string containing the path to the icon image
 }
 
 function doPrevious(){
@@ -100,13 +115,13 @@ function addItem(i) {
     }
     finally{
         if (vFoundFlag == true) {
-            doPopUp("Engine not added <br><br> This Engine is already present in your cart.", false, 1500)
+            doPopUp("Engine not added <br> This Engine is already present in your cart.", false, 1500)
         } else {
             aSelected.push(aImages[i]);
             document.getElementById(`thumb${i}`).backgroundColor=vSelColor;
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             doUpdateCart();
-            doPopUp(`Engine ${aImages[i].fqdn} added <br><br> Item added to cart.`, true);    
+            doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);    
         }
     }
 }
@@ -221,7 +236,7 @@ function doPopUp(vMsg,vAuto=false,vDelay=950) {
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> Close </div>`;
+        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
     }
     document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
     if (vAuto == false){
@@ -239,7 +254,7 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> Close </div>`;
+        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
     }
     document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="special-text">${vMsg}</p></div></div><br><br>${buttonInjector}`;
     if (vAuto == false){
@@ -276,12 +291,12 @@ function doCartBox() {
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> Export data </div> <div class="flex-button" onclick="doEmptyCart()">Empty</div> <div id="closeButtonCart" class="flex-button">Hide</div>`;
+    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> export data </div> <div class="flex-button" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" class="flex-button">dismiss</div>`;
     document.getElementById("closeButtonCart").addEventListener("click", function(){
         document.getElementById("cartboxPopup").style.visibility="hidden";
         document.getElementById("backLock").style.visibility="hidden";
     });
-    document.getElementById("msgOfTheCartBox1").innerHTML=`You have ${aSelected.length} item(s) in the cart.`;
+    document.getElementById("msgOfTheCartBox1").innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
 }
 
 
@@ -354,7 +369,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // now sweep my array accessing it by index
         while (i < vEndIdx) {
             if (special == false ) {
-                vButtonInject=`<div class="flex-button" id="button-return" onclick="dblClickStuff(${i})">detail</div>`
+                // injecting buttons for thumb view
+                vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">access</div>`
             }
             // accumulate the generated html in the variable
             returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><p class="reg-text" style="width: 100%"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>version: </b>${aImages[i].version}<br><b>user seals: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
@@ -386,14 +402,12 @@ function clickStuff(vItemIndex){
 
 function dblClickStuff(vItemIndex){
     if (vIsCtrlDn == false) {
-        doSplashScreen(aImages[vItemIndex].fqdn,`asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>user seals: ${aImages[vItemIndex].associated_seals}`,false,0)
-        /*doPopUp(`This is element number ${vItemIndex} of the gallery.<br>The object's description is '${aImages[vItemIndex].engine_type}'. <br>'${aImages[vItemIndex].vPath}' is the path for the image. <br> Additional: ${aImages[vItemIndex].Info}`);*/
+        doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>user seals: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
     }else{
         doClosePopUp();
         document.getElementById("page-number").innerHTML=`item: ${vItemIndex}`;
         displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
     }
-
 }
 
 function clearStuff(){
