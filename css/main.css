@@ -610,6 +610,101 @@ a​:hover {
   justify-self: center;
 }
 
+.flex-no-button-alert {
+  display: inline-block;
+  height: 0.9rem;
+  /*width:fit-content, -moz-fit-content;*/
+  /*align-self: flex-start;*/
+  align-content: center;
+  margin: 0.3rem;
+  border-radius: 5px;
+  flex-direction: row;
+  font-size: 0.7rem;
+  justify-content: center !important;
+  font-family: "Roboto";
+  padding: .35rem;
+  padding-left: .70rem;
+  padding-right: .70rem;
+  position:relative;
+  background-color: rgba(255, 91, 92, 0.999);
+  border: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  min-width: 32px;
+}
+
+.flex-no-button-alert:hover{
+  color:white;
+  transition:all;
+  transition-delay: 0.0s;
+  transition-duration: 200ms;
+  transform: scale(107%);
+}
+
+.flex-no-button-warning {
+  display: inline-block;
+  height: 0.9rem;
+  /*width:fit-content, -moz-fit-content;*/
+  /*align-self: flex-start;*/
+  align-content: center;
+  margin: 0.3rem;
+  border-radius: 5px;
+  flex-direction: row;
+  font-size: 0.7rem;
+  justify-content: center !important;
+  font-family: "Roboto";
+  padding: .35rem;
+  padding-left: .70rem;
+  padding-right: .70rem;
+  position:relative;
+  background-color: rgba(195, 172, 0, 0.999);
+  border: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  min-width: 32px;
+}
+
+.flex-no-button-warning:hover{
+  color:white;
+  transition:all;
+  transition-delay: 0.0s;
+  transition-duration: 200ms;
+  transform: scale(107%);
+}
+
+.flex-no-button-ok {
+  display: inline-block;
+  height: 0.9rem;
+  /*width:fit-content, -moz-fit-content;*/
+  /*align-self: flex-start;*/
+  align-content: center;
+  margin: 0.3rem;
+  border-radius: 5px;
+  flex-direction: row;
+  font-size: 0.7rem;
+  justify-content: center !important;
+  font-family: "Roboto";
+  padding: .35rem;
+  padding-left: .70rem;
+  padding-right: .70rem;
+  position:relative;
+  background-color: rgba(0, 160, 80, 0.999);
+  border: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  min-width: 32px;
+}
+
+.flex-no-button-ok:hover{
+  color:white;
+  transition:all;
+  transition-delay: 0.0s;
+  transition-duration: 200ms;
+  transform: scale(107%);
+}
 
 .flex-button {
   display: inline-block;
