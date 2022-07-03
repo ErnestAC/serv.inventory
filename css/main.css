@@ -71,7 +71,6 @@
   padding: 0px;
   padding-left: 2vw;
   top: 0px;
-  position: sticky;
   /* effect (when scrolling - and font size is decreased) */
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
   transition-duration: 0.5s;
@@ -219,14 +218,12 @@ h5 {
 body {
   margin-top:5.9rem;
   margin-bottom:2.5rem;
-  
   font-family: OpenSans;
   overflow-x: hidden;
-  
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 1);
 }
 
 /* set general list format */
@@ -290,20 +287,19 @@ a​:hover {
 }
 
 .flex-item-articles, .flex-item-articles-half-width {
-  align-items: baseline;
-  display: flex;
-  background-color: rgba(219, 231, 236, 0.5);
-  width: 17vw;
-  border-radius: 7px;
+  align-items: flex-start;
+  display: flexbox;
+  background-color: rgba(255, 255, 255, 0.95);
+  width: 25vw;
+  border-radius: 4px;
   word-wrap: normal;
   padding: 0.3rem;
   flex-direction: row;
-  border: none;
+  border: solid;
+  border-width: 1px;
+  border-color: rgba(190, 190, 190, 0.999);
   justify-items: flex-start;
   justify-content: flex-start;
-  min-height: auto;
-
-  
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100%;
@@ -314,7 +310,6 @@ a​:hover {
   border-radius: 5px;
   transition: all 0.5s;
   justify-self: flex-end;
-  display:flow-root;
 }
 .flex-item-articles img:hover, .flex-item-articles-half-width img:hover {
   transition-delay: 1s;
@@ -335,7 +330,6 @@ a​:hover {
   background-color: rgba(219, 231, 236, 0.5);
   flex-direction: row;
   height: auto;
-  width: fit-content;
   border-radius: 7px;
   word-wrap: normal;
   align-self: center;
@@ -365,7 +359,6 @@ a​:hover {
   line-height: 1.1rem;
   list-style-type: square;
   width: auto;
-  height: fit-content;
   color: white;
 }
 .flex-item-articles p, .flex-item-articles-half-width p {
@@ -419,7 +412,7 @@ a​:hover {
 
 .flex-item-floater-ttf-logo {
   display: block;
-  font-family: "Roboto";
+  font-family: "VAGRounded";
   font-size: 2rem;
   color: white;
   margin:0rem;
@@ -524,7 +517,6 @@ a​:hover {
   position: fixed;
   margin: 0rem;
   width: 75vw;
-  height: fit-content;
   background-color: rgba(0, 96, 96, 0.90);
   border: none;
   overflow-wrap: break-word;
@@ -631,7 +623,7 @@ a​:hover {
 .flex-button {
   display: inline-block;
   height: 0.9rem;
-  width:fit-content;
+  /*width:fit-content, -moz-fit-content;*/
   align-self: flex-end;
   align-content: center;
   margin: .3rem;
@@ -663,7 +655,7 @@ a​:hover {
 .flex-not-button {
   display: inline-block;
   height: 0.65rem;
-  width:fit-content;
+  /* width:fit-content; */ 
   align-self: flex-start;
   align-content: left;
   margin: .2rem;
@@ -738,45 +730,35 @@ a​:hover {
   border: none;
   justify-items: center;
   justify-content: center;
-  min-height: auto;
   margin: 0rem;
   visibility: hidden;
 
 }
 
-
 @media screen and (max-width: 450px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
-    width: 95vw !important;
-
+    width: 85vw !important;
     word-wrap: normal;
-    padding: 0.3rem;
+    padding: 0.5rem;
     flex-direction: column;
     border: none;
     justify-items: center;
     justify-content: center;
-    min-height: auto;
   }
 }
 
 @media screen and (min-width: 452px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
     width: 85vw;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    border: none;
     justify-items: flex-start;
     justify-content: flex-start;
-    min-height: auto;
   }
 }
-
-
 
 /*@media screen and (min-width: 600px) {
   .flex-item-articles, .flex-item-articles-half-width {
@@ -793,34 +775,37 @@ a​:hover {
   }
 }*/
 
-
 @media screen and (min-width: 801px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
     width: 38vw;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    border: none;
     justify-items: flex-start;
     justify-content: flex-start;
-    min-height: auto;
   }
 }
 
 @media screen and (min-width: 900px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
-    width: 29vw;
+    width: 32vw;
+    padding: 0.3rem;
+    flex-direction: row;
+    justify-items: flex-start;
+    justify-content: flex-start;
+  }
+}
 
+@media screen and (min-width: 1000px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    width: 30vw;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    border: none;
     justify-items: flex-start;
     justify-content: flex-start;
-    min-height: auto;
   }
 }

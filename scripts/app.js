@@ -5,11 +5,7 @@
 
 // global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
-// array of images pulled from a JSON input.
-
-// ---------- START OF JSON CONSTANT DATA 
-// removed! see the fetch call below!
-// ---------- END OF JSON CONSTANT DATA 
+// array of items pulled from a JSON input.
 
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
@@ -44,6 +40,7 @@ function doPopulateButtons(){
     document.getElementById("button-cart").innerHTML=`to export (0)`;
     document.getElementById("button-help").innerHTML=`?`;
     document.getElementById("page-number").innerHTML=`wait...`;
+    document.getElementById("title-app-name").innerHTML=`server inventory`;
 }
 
 function getIcon(vEngineType="generic"){
@@ -261,7 +258,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br>type: ${aSelected[i].engine_type}<br>location: ${aSelected[i].location}<br></p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><b>type: </b>${aSelected[i].engine_type}<br><b>location: </b>${aSelected[i].location}<br><b>version: </b>${aImages[i].version}<br><b>user seals: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -360,7 +357,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
                 vButtonInject=`<div class="flex-button" id="button-return" onclick="dblClickStuff(${i})">detail</div>`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><h4special> <b>${aImages[i].fqdn}</b><br>type: ${aImages[i].engine_type}<br>version: ${aImages[i].version}<br>user seals: ${aImages[i].associated_seals}<br>available: ${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</h4special><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><p class="reg-text" style="width: 100%"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>version: </b>${aImages[i].version}<br><b>user seals: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             /*            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${aImages[i].vPath}\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>Description: ${aImages[i].Info}</h4special><br><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string */
 
             i++; // increment for next idx
