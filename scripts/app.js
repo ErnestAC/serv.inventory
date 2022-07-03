@@ -29,6 +29,7 @@ let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
 let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
+let vgResponse = false;
 
 // functions    ----------------------------------------------------------
 
@@ -94,23 +95,21 @@ function getIcon(vEngineType="generic"){
 }
 
 function doConfirm(vMsg) {
-    let vAuto = false;
+    let vResponse = null;
     document.getElementById("msgboxPopup").style.visibility="visible";
     document.getElementById("backLockPlus").style.visibility="visible";
     buttonInjector = `<div id="button-yes" class="flex-button"> yes </div><div id="button-no" class="flex-button"> no </div>`;
     document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
-    if (vAuto == false){
-        document.getElementById("button-yes").addEventListener("click", function(){
-            document.getElementById("msgboxPopup").style.visibility="hidden";
-            document.getElementById("backLockPlus").style.visibility="hidden";
-            return true;
-        });
-        document.getElementById("button-no").addEventListener("click", function(){
-            document.getElementById("msgboxPopup").style.visibility="hidden";
-            document.getElementById("backLockPlus").style.visibility="hidden";
-            return false;
-        });
-    }
+    document.getElementById("button-yes").addEventListener("click", function(){
+        vgResponse = true;
+        document.getElementById("msgboxPopup").style.visibility="hidden";
+        document.getElementById("backLockPlus").style.visibility="hidden";
+    });
+    document.getElementById("button-no").addEventListener("click", function(){
+        vgResponse = false;
+        document.getElementById("msgboxPopup").style.visibility="hidden";
+        document.getElementById("backLockPlus").style.visibility="hidden";
+    });
 }
 
 function doPrevious(){
@@ -365,7 +364,10 @@ function doRemoveFromCart(indexToRemove){
 
 function doEmptyCart(){
     doClosePopUp();
-    if (doConfirm(`Are you sure?`)){
+    // doConfirm(`Are you sure?`);
+    //setTimeout(console.log(`waiting for answer...`,15000));
+    if ( vgResponse == true){
+        vgResponse = false;
         if (aSelected.length == 0){ // ask if the cart is empty
             doPopUp("Your cart is already empty.", true, 1500);    
         }else{ // if the cart is not empty, empty it
