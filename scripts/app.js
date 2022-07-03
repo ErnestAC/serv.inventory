@@ -14,9 +14,9 @@ const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json"
 
 // selection color constant
 const vSelColor="rgba(0,255,255,0.3)";
-const vUnSelColor="rgba(219, 231, 236, 0.0)"
-const vCartItemColor="rgba(219, 231, 236, 0.5)"
-
+const vUnSelColor="rgba(219, 231, 236, 0.0)";
+const vCartItemColor="rgba(219, 231, 236, 0.5)";
+const vTimeOut=3000;
 // random selector color indicator constant
 const vRndColor = "Orange";
 // keymonitoring
@@ -32,14 +32,32 @@ let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-up
 
 // functions    ----------------------------------------------------------
 
+function doExport(vJSONIn){
+    // gets the contents of vArrayIn and creates a JSON file to download
+    try{
+        let vFileNameDownload = `ser.inv_export_${WhatTimeIsIt(true)}.json`;
+        element = document.createElement('a');
+        element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(vJSONIn));
+        element.setAttribute('download', vFileNameDownload);
+        element.click();
+        doPopUp(`download started for ${vFileNameDownload}...`,true,1000);
+        return true;
+    } catch {
+        console.log("Dang, can't download.");
+        return false;
+    }
+    
+}
+
+
 function doPing(vIdx){
     // mock function
-    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: white; border-radius: 5px;">OK [MOCK]</p>`,false)
+    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: white; border-radius: 5px;">OK [MOCK]</p>`,false);
 }
 
 function doAccess(vIdx){
     // mock function
-    doPopUp(`Access requested to: <p class="reg-text" style="color: rgb(0,64,64); background-color: white; border-radius: 5px;">${aImages[vIdx].fqdn}</p>`,false)
+    doPopUp(`Access requested to: <p class="reg-text" style="color: rgb(0,64,64); background-color: white; border-radius: 5px;">${aImages[vIdx].fqdn}</p>`,false);
 }
 
 function doPopulateButtons(){
@@ -68,11 +86,31 @@ function getIcon(vEngineType="generic"){
             vResponse=aIconArray[i].resource_image; // load the value from the array
             break; // find and stop!
         } else {
-            vResponse="./assets/images/engine_gen.png" // dbhost is not in the icon array, so it uses this one tnat is generic
+            vResponse="./assets/images/engine_gen.png"; // dbhost is not in the icon array, so it uses this one tnat is generic
         }
         i++;
     }
     return vResponse // resturns a string containing the path to the icon image
+}
+
+function doConfirm(vMsg) {
+    let vAuto = false;
+    document.getElementById("msgboxPopup").style.visibility="visible";
+    document.getElementById("backLockPlus").style.visibility="visible";
+    buttonInjector = `<div id="button-yes" class="flex-button"> yes </div><div id="button-no" class="flex-button"> no </div>`;
+    document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
+    if (vAuto == false){
+        document.getElementById("button-yes").addEventListener("click", function(){
+            document.getElementById("msgboxPopup").style.visibility="hidden";
+            document.getElementById("backLockPlus").style.visibility="hidden";
+            return true;
+        });
+        document.getElementById("button-no").addEventListener("click", function(){
+            document.getElementById("msgboxPopup").style.visibility="hidden";
+            document.getElementById("backLockPlus").style.visibility="hidden";
+            return false;
+        });
+    }
 }
 
 function doPrevious(){
@@ -103,15 +141,16 @@ function addItem(i) {
     // read through the selection array and compare the ID, if they match raise a popup and deny the add
     try {
         while (ix != aSelected.lenght) {
-            if (aSelected[ix].fqdn === aImages[i].fqdn){
+            if (aSelected[ix].fqdn == aImages[i].fqdn){
                 vFoundFlag = true;
+                // NO document.getElementById(`button-add-${i}`).style.visibility=hidden;
                 break;
             }
             ix++;
         }
     }
     catch {
-        console.log(`${ix} is not a valid index for the selection. Skipping.`)
+        console.log(`With index ${ix} reached the index of te collection. Nothing to worry.`)
     }
     finally{
         if (vFoundFlag == true) {
@@ -121,9 +160,10 @@ function addItem(i) {
             document.getElementById(`thumb${i}`).backgroundColor=vSelColor;
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             doUpdateCart();
-            doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);    
+            doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);
         }
     }
+    
 }
 
 function doUpdateCart() {
@@ -178,7 +218,7 @@ function doRecoverSavedItems(){
     }
 }
 
-function WhatTimeIsIt(){
+function WhatTimeIsIt(vForFile=false){
     //parse the time returned from the object date and turn it into human readable, returns as string
     let today = new Date();
     let yyyy = today.getFullYear();
@@ -198,10 +238,18 @@ function WhatTimeIsIt(){
     if (hs < 10) hs = '0' + hs;
     
     // load the hour of the part into vTime
-    let vTime = `${hh}:${hm}:${hs}`;
-    let vDate = `${mm}/${dd}/${yyyy}`;
-    //load everyting into the string pattern expected and return it
-    vResult = `${vDate} ${vTime}`;
+    
+    if (vForFile == true) {
+        let vTime = `${hh}${hm}${hs}`;
+        let vDate = `${yyyy}${mm}${dd}`;
+        //load everyting into the string pattern expected and return it
+        vResult = `${vDate}${vTime}`;
+    } else{
+        let vTime = `${hh}:${hm}:${hs}`;
+        let vDate = `${mm}/${dd}/${yyyy}`;
+        //load everyting into the string pattern expected and return it
+        vResult = `${vDate} ${vTime}`;
+    }
     return vResult;
 }
 
@@ -291,7 +339,7 @@ function doCartBox() {
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doPopUp('#$%^@*~! <br> This function is not available yet.')"> export data </div> <div class="flex-button" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" class="flex-button">dismiss</div>`;
+    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" class="flex-button">dismiss</div>`;
     document.getElementById("closeButtonCart").addEventListener("click", function(){
         document.getElementById("cartboxPopup").style.visibility="hidden";
         document.getElementById("backLock").style.visibility="hidden";
@@ -317,14 +365,16 @@ function doRemoveFromCart(indexToRemove){
 
 function doEmptyCart(){
     doClosePopUp();
-    if (aSelected.length == 0){ // ask if the cart is empty
-        doPopUp("Your cart is already empty.", true, 1500);    
-    }else{ // if the cart is not empty, empty it
-        aSelected=[]; // empty the array
-        doUpdateCart(); // recalculate the contents of the cart
-        doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
-        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));             // save the value of the array to lStorage to make it session persistent
-    }
+    if (doConfirm(`Are you sure?`)){
+        if (aSelected.length == 0){ // ask if the cart is empty
+            doPopUp("Your cart is already empty.", true, 1500);    
+        }else{ // if the cart is not empty, empty it
+            aSelected=[]; // empty the array
+            doUpdateCart(); // recalculate the contents of the cart
+            doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
+            localStorage.setItem("localSavedItems", JSON.stringify(aSelected));             // save the value of the array to lStorage to make it session persistent
+        }
+}
     doCartBox(); // call the cartbox population function
 }
 
@@ -373,7 +423,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
                 vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">access</div>`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><p class="reg-text" style="width: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
 
             i++; // increment for next idx
         }
@@ -505,7 +555,7 @@ let aImages = [];
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         }else{
             console.log('Welcome back.');
-            doSplashScreen("serv.inventory, loading...","",true,15000);
+            doSplashScreen("serv.inventory, loading...","",true,vTimeOut+10000);
         }  
     })
 })();
@@ -520,4 +570,4 @@ setTimeout(() => {
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
     doClosePopUp();
-}, 3000)
+}, vTimeOut)

@@ -242,14 +242,14 @@ a:link {
   text-decoration: none;
 }
 
-a​:active, a​:visited {
+/*a​:active, a​:visited {
   color: black;
   text-decoration: none;
 }
 a​:hover {
   color: black;
   text-decoration: underline;
-}
+}*/
 
 .nobackground {
   background-color: rgba(255, 255, 255, 0.4);
@@ -273,7 +273,7 @@ a​:hover {
 .flex-container-articles, .flex-container-articles-half-width {
   display: flex;
   height: auto;
-  width: 100%;
+  /* width: 100%; */
   align-self: flex-start;
   margin: 0px;
   line-height: auto;
@@ -291,7 +291,7 @@ a​:hover {
   align-items: center;
   display: flexbox;
   background-color: rgba(255, 255, 255, 0.95);
-  width: 25vw;
+  /*width: 25vw;*/
   border-radius: 4px;
   word-wrap: normal;
   padding: 0.3rem;
@@ -306,11 +306,11 @@ a​:hover {
   background-size: 100%;
 }
 .flex-item-articles img {
+  display: block;
   height: auto;
   width: 40px;
   border-radius: 5px;
   transition: all 0.5s;
-  justify-self: flex-end;
 }
 .flex-item-articles img:hover, .flex-item-articles-half-width img:hover {
   transition-delay: 1s;
@@ -351,17 +351,7 @@ a​:hover {
   line-height: 16px;
   padding: 16px;
 }
-.flex-item-articles ul li, .flex-item-articles-half-width ul li {
-  display: list-item;
-  padding-left: 0.2rem;
-  margin-left: 0rem;
-  font-size: 0.8rem;
-  text-align: left;
-  line-height: 1.1rem;
-  list-style-type: square;
-  width: auto;
-  color: white;
-}
+
 .flex-item-articles p, .flex-item-articles-half-width p {
   line-height: 1rem;
   margin: 0rem;
@@ -740,9 +730,9 @@ a​:hover {
 @media screen and (max-width: 450px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 85vw !important;
+    width: 95vw !important;
     word-wrap: normal;
-    padding: 0.5rem;
+    padding: 0.3rem;
     flex-direction: column;
   }
 }
@@ -757,20 +747,11 @@ a​:hover {
   }
 }
 
-/*@media screen and (min-width: 600px) {
+@media screen and (min-width: 650px) {
   .flex-item-articles, .flex-item-articles-half-width {
-    display: flex;
-    background-color: rgba(219, 231, 236, 0.5);
     width: 43vw;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
-    border: none;
-    justify-items: flex-start;
-    justify-content: flex-start;
-    min-height: auto;
   }
-}*/
+}
 
 @media screen and (min-width: 801px) {
   .flex-item-articles, .flex-item-articles-half-width {
@@ -794,27 +775,27 @@ a​:hover {
 @media screen and (min-width: 1000px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 30vw;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
+    width: auto;
   }
 }
 
 @media screen and (min-width: 1100px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 25vw;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
+    width: auto;
   }
 }
 
 @media screen and (min-width: 1200px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 22vw;
+    width: 20vw;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
