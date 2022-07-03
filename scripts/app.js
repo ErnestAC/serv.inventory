@@ -93,7 +93,7 @@ function doAllItems() {
     displayInThumbs();
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
-    document.getElementById("activityShow").innerHTML="Displaying the full list. Use Ctrl+click to select multiple items or next/prev to go back to the pages view."
+    document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
     doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
@@ -256,7 +256,7 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
     }else{
         buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
     }
-    document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="special-text">${vMsg}</p></div></div><br><br>${buttonInjector}`;
+    document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="reg-text" style="background-color: white; border-radius: 5px;">${vMsg}</p></div></div><br><br>${buttonInjector}`;
     if (vAuto == false){
         document.getElementById("closeButton").addEventListener("click", function(){
             document.getElementById("msgboxSplash").style.visibility="hidden";
@@ -273,7 +273,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><b>type: </b>${aSelected[i].engine_type}<br><b>location: </b>${aSelected[i].location}<br><b>version: </b>${aImages[i].version}<br><b>user seals: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><b>type: </b>${aSelected[i].engine_type}<br><b>location: </b>${aSelected[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -373,8 +373,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
                 vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">access</div>`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><p class="reg-text" style="width: 100%"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>version: </b>${aImages[i].version}<br><b>user seals: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
-            /*            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${aImages[i].vPath}\' onclick="clickStuff(${i})" ondblclick="dblClickStuff(${i})"><h4special> ${aImages[i].fqdn}<br>type: ${aImages[i].engine_type}<br>Description: ${aImages[i].Info}</h4special><br><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string */
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><p class="reg-text" style="width: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
 
             i++; // increment for next idx
         }
