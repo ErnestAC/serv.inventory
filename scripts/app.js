@@ -41,16 +41,18 @@ let cWarnValueUpper = 75;
 // functions    ----------------------------------------------------------
 
 function doCallAToast(vText="Empty",vDuration=3000,vGood="linear-gradient(to right, #005454, #003030)") {
-    // alert(vText)
+    // run once for top
     Toastify({
         text: `${vText}`,
         duration: vDuration,
         close: true,
         gravity: "top", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
+        position: "center", // `left`, `center` or `right`
         stopOnFocus: true, // Prevents dismissing of toast on hover
+        hideProgressBar: false,
         style: {
-            fontfamily: "Roboto",
+            fontFamily: "Roboto",
+            fontSize: "0.7rem",
             padding: "0.5rem",
             color: "white",
             background: vGood,
@@ -186,7 +188,7 @@ function addItem(i) {
         if (vFoundFlag == true) {
             
             // using toastify to replace some popups
-            doCallAToast(`Can't add ${aImages[i].fqdn} to export cart.`,1500,vAlertColor)
+            doCallAToast(`Can't add ${aImages[i].fqdn} to export cart.`,3500,vAlertColor)
             
             //doPopUp("Engine not added <br> This Engine is already present in your cart.", false, 1500)
         } else {
@@ -196,23 +198,7 @@ function addItem(i) {
             doUpdateCart();
             
             // using toastify to replace some popups
-            Toastify({
-                text: `Engine ${aImages[i].fqdn} added to export cart.`,
-                duration: 2000,
-                //destination: "https://somepage.com/",
-                //newWindow: true,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    fontfamily: "Roboto",
-                    padding: "0.3rem",
-                    color: "white",
-                    background: "linear-gradient(to right, #005454, #003030)",
-                },
-                onClick: function(){} // Callback after click
-            }).showToast();
+            doCallAToast( `Engine ${aImages[i].fqdn} added to export cart.`,3500,vOKColor);
             //doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);
         }
     }
