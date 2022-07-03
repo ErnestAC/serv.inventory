@@ -140,7 +140,7 @@
     "rsa_enabled": "FALSE"
 },
 {
-    "fqdn": "gcs.cloud1.virtualcom.net",
+    "fqdn": "gcs.cloud1.jsadomain.net",
     "location": "GCS",
     "engine_type": "masking",
     "storage": 1,
@@ -154,7 +154,7 @@
     "rsa_enabled": "FALSE"
 },
 {
-    "fqdn": "gcs.cloud2.virtualcom.net",
+    "fqdn": "gcs.cloud2.jsadomain.net",
     "location": "GCS",
     "engine_type": "virtualserver",
     "storage": 200,

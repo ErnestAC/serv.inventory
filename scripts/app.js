@@ -45,19 +45,24 @@ function doPopulateButtons(){
 
 function getIcon(vEngineType="generic"){
     // read local aImageRes array
-    const aIconArray = [{"type":"masking","resource.image":"./assets/images/engine_mas.png"},{"type":"target","resource.image":"./assets/images/engine_tgt.png"},{"type":"target","additional":"taget server picture"}];
-    let vResponse = "";
-    if (vEngineType == "masking") {
-        vResponse="./assets/images/engine_mas.png"
-    } else if (vEngineType == "virtualserver") {
-        vResponse="./assets/images/engine_vir.png"
-    } else if (vEngineType == "target") {
-        vResponse="./assets/images/engine_tgt.png"
-    } else {
-        vResponse="./assets/images/engine_gen.png"
-    }
+    
+    // START CONSTANT JSON DATA //
+    const aIconArray = [{"type":"masking","resource_image":"./assets/images/engine_mas.png"},{"type":"target","resource_image":"./assets/images/engine_tgt.png"},{"type":"virtualserver","resource_image":"./assets/images/engine_grn.png"},{"type":"director","resource_image":"./assets/images/engine_vir.png"},{"type":"batch","resource_image":"./assets/images/engine_red.png"}];
+    // END CONSTANT JSON DATA //
+    
+    let vResponse = ""; // response is empty
+    let i = 0; // start index in 0
 
-    return vResponse
+    while(i < aIconArray.length){
+        if (vEngineType == aIconArray[i].type){
+            vResponse=aIconArray[i].resource_image; // load the value from the array
+            break; // find and stop!
+        } else {
+            vResponse="./assets/images/engine_gen.png" // dbhost is not in the icon array, so it uses this one tnat is generic
+        }
+        i++;
+    }
+    return vResponse // resturns a string containing the path to the icon image
 }
 
 function doPrevious(){
