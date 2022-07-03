@@ -11,9 +11,10 @@
 // removed! see the fetch call below!
 // ---------- END OF JSON CONSTANT DATA 
 
-// const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
+// for deployment only
+const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 // local testing usage only!
-const url = "../assets/json/servers.json"
+// const url = "../assets/json/servers.json"
 
 // selection color constant
 const vSelColor="rgba(0,255,255,0.3)";
