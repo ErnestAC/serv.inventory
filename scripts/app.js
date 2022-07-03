@@ -366,17 +366,14 @@ function doEmptyCart(){
     doClosePopUp();
     // doConfirm(`Are you sure?`);
     //setTimeout(console.log(`waiting for answer...`,15000));
-    if ( vgResponse == true){
-        vgResponse = false;
-        if (aSelected.length == 0){ // ask if the cart is empty
-            doPopUp("Your cart is already empty.", true, 1500);    
-        }else{ // if the cart is not empty, empty it
-            aSelected=[]; // empty the array
-            doUpdateCart(); // recalculate the contents of the cart
-            doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
-            localStorage.setItem("localSavedItems", JSON.stringify(aSelected));             // save the value of the array to lStorage to make it session persistent
-        }
-}
+    if (aSelected.length == 0){ // ask if the cart is empty
+        doPopUp("Your cart is already empty.", true, 1500);    
+    }else{ // if the cart is not empty, empty it
+        aSelected=[]; // empty the array
+        doUpdateCart(); // recalculate the contents of the cart
+        doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
+        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));             // save the value of the array to lStorage to make it session persistent        }
+    }
     doCartBox(); // call the cartbox population function
 }
 
