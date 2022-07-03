@@ -32,6 +32,16 @@ let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-up
 
 // functions    ----------------------------------------------------------
 
+function doPing(vIdx){
+    // mock function
+    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: white; border-radius: 5px;">OK [MOCK]</p>`,false)
+}
+
+function doAccess(vIdx){
+    // mock function
+    doPopUp(`Access requested to: <p class="reg-text" style="color: rgb(0,64,64); background-color: white; border-radius: 5px;">${aImages[vIdx].fqdn}</p>`,false)
+}
+
 function doPopulateButtons(){
     // button writing routine
     document.getElementById("button-prev").innerHTML=`prev`;
@@ -105,13 +115,13 @@ function addItem(i) {
     }
     finally{
         if (vFoundFlag == true) {
-            doPopUp("Engine not added <br><br> This Engine is already present in your cart.", false, 1500)
+            doPopUp("Engine not added <br> This Engine is already present in your cart.", false, 1500)
         } else {
             aSelected.push(aImages[i]);
             document.getElementById(`thumb${i}`).backgroundColor=vSelColor;
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             doUpdateCart();
-            doPopUp(`Engine ${aImages[i].fqdn} added <br><br> Item added to cart.`, true);    
+            doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);    
         }
     }
 }
@@ -359,7 +369,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // now sweep my array accessing it by index
         while (i < vEndIdx) {
             if (special == false ) {
-                vButtonInject=`<div class="flex-button" id="button-return" onclick="dblClickStuff(${i})">detail</div>`
+                // injecting buttons for thumb view
+                vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">access</div>`
             }
             // accumulate the generated html in the variable
             returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"><p class="reg-text" style="width: 100%"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>version: </b>${aImages[i].version}<br><b>user seals: </b>${aImages[i].associated_seals}<br><b>available: </b>${Math.round((aImages[i].storage_used/aImages[i].storage)*100)}%</p><div><div class="flex-button" id="button-return" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
