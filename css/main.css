@@ -744,20 +744,17 @@ a​:hover {
 
 }
 
-
 @media screen and (max-width: 450px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
     background-color: rgba(219, 231, 236, 0.5);
-    width: 95vw !important;
-
+    width: 85vw !important;
     word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: column;
+    padding: 0.5rem;
+    flex-direction: row;
     border: none;
     justify-items: center;
     justify-content: center;
-    min-height: auto;
   }
 }
 
@@ -772,11 +769,8 @@ a​:hover {
     border: none;
     justify-items: flex-start;
     justify-content: flex-start;
-    min-height: auto;
   }
 }
-
-
 
 /*@media screen and (min-width: 600px) {
   .flex-item-articles, .flex-item-articles-half-width {
@@ -793,7 +787,6 @@ a​:hover {
   }
 }*/
 
-
 @media screen and (min-width: 801px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
@@ -805,7 +798,6 @@ a​:hover {
     border: none;
     justify-items: flex-start;
     justify-content: flex-start;
-    min-height: auto;
   }
 }
 
@@ -821,6 +813,5 @@ a​:hover {
     border: none;
     justify-items: flex-start;
     justify-content: flex-start;
-    min-height: auto;
   }
 }
