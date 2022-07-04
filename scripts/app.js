@@ -468,11 +468,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${round(aImages[i].storage_used)}TB out of ${round(aImages[i].storage)}TB installed.')">alert</div>`;
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${round(aImages[i].storage_used)}TB out of ${round(aImages[i].storage)}TB installed.')">warn</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
             } else {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${round(aImages[i].storage_used)}TB out of ${round(aImages[i].storage)}TB installed.')">ok</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
             }
 
 
@@ -497,7 +497,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
 }
 
 function clickStuff(vItemIndex){
-    if (vIsCtrlDn == false) {
+    if (! vIsCtrlDn) {
         clearStuff();
     }
     if (document.getElementById(`thumb${vItemIndex}`).style.backgroundColor == vSelColor){
@@ -508,7 +508,7 @@ function clickStuff(vItemIndex){
 }
 
 function dblClickStuff(vItemIndex){
-    if (vIsCtrlDn == false) {
+    if (vIsCtrlDn) {
         doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>app ids: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
     }else{
         doClosePopUp();
