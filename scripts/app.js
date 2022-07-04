@@ -462,14 +462,17 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
+            if (isNaN(vPercentFree)){
+                vPercentFree="100%"
+            }
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${round(aImages[i].storage_used)}TB out of ${round(aImages[i].storage)}TB installed.')">alert</div>`;
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${round(aImages[i].storage_used)}TB out of ${round(aImages[i].storage)}TB installed.')">warn</div>`
             } else {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${round(aImages[i].storage_used)}TB out of ${round(aImages[i].storage)}TB installed.')">ok</div>`
             }
 
 
