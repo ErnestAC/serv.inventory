@@ -20,7 +20,8 @@ const vAlertColor="rgba(255, 91, 92, 0.999)";
 const vWarnColor="rgba(195, 172, 0, 0.999)";
 const vOKColor="rgba(0, 160, 80, 0.999)";
 
-const vTimeOut=3000;
+// used for timeout when requesting data
+const vTimeOut=2500;
 // random selector color indicator constant
 const vRndColor = "Orange";
 // keymonitoring
@@ -34,9 +35,10 @@ let lFirstTime = "";
 let aSelected = [];
 let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
 let vgResponse = false;
-let cAlertValueUpper = 40;
-let cWarnValueUpper = 75;
 
+// values for free space evaluation
+let cAlertValueUpper = 10; // how much space free is considered alert
+let cWarnValueUpper = 25; // how much space free is considered warn
 
 // functions    ----------------------------------------------------------
 
@@ -297,7 +299,7 @@ function randomArrayAccess(){
     let vSelection = Math.floor(Math.random() * aImages.length);
     let vRandomIndex = vSelection;
     let vWTII = WhatTimeIsIt();
-    displayInLowerBox(`Page rendered on ${vWTII}, client local time. Engine count: ${aImages.length}.`);
+    displayInLowerBox(`<p class="reg-text">Page rendered on ${vWTII}, client local time. Engine count: ${aImages.length}.</p>`);
     return vRandomIndex;
 }
 
@@ -459,23 +461,24 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vEvalInjector = "";
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
+            let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
+            // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
-                vEvalInjector = `<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
             } else {
-                vEvalInjector = `<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
             }
 
 
             if (special == false ) {
                 // injecting buttons for thumb view
-                vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">access</div>`
+                vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">go ></div>`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br><b>available: </b>${vPercentFree}%</p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
 
             i++; // increment for next idx
         }
