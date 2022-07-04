@@ -165,8 +165,8 @@ function doAllItems() {
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
     document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
     
-    
-    doPopUp('All items are being displayed in this page now.',true,1200)
+    doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+    //doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
 function addItem(i) {
