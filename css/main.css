@@ -291,7 +291,7 @@ a​:hover {
   align-items: center;
   display: flexbox;
   background-color: rgba(255, 255, 255, 0.95);
-  /*width: 25vw;*/
+  width: 25vw;
   border-radius: 4px;
   word-wrap: normal;
   padding: 0.3rem;
@@ -740,25 +740,28 @@ a​:hover {
 }
 
 .flex-not-button {
-  display: inline-block;
-  height: 0.65rem;
-  /* width:fit-content; */ 
-  align-self: flex-start;
-  align-content: left;
-  margin: .2rem;
-  border-radius: 5px;
-  flex-direction: row;
-  font-size: .60rem;
-  justify-content: center !important;
-  font-family: "VAGRounded";
-  padding: .35rem;
-  padding-left: .45rem;
-  padding-right: 1.5rem;
-  position:relative;
-  background-color: none;
-  border: none;
-  color: white;
-}
+    display: inline-block;
+    height: 0.9rem;
+    /*width:fit-content, -moz-fit-content;*/
+    /*align-self: flex-start;*/
+    align-content: center;
+    margin: 0.3rem;
+    border-radius: 5px;
+    flex-direction: row;
+    font-size: 0.7rem;
+    justify-content: center !important;
+    font-family: "Roboto";
+    padding: .35rem;
+    padding-left: .70rem;
+    padding-right: .70rem;
+    position:relative;
+    background-color: rgba(88, 88, 88, 0.999);
+    border: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    min-width: 32px;
+  }
 
 /* THE INNER GRID */
 .flex-item-articles-specials {
