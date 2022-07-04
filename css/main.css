@@ -287,7 +287,7 @@ a​:hover {
   padding: 0.1rem;
 }
 
-.flex-item-articles, .flex-item-articles-half-width {
+.flex-item-articles {
   align-items: center;
   display: flexbox;
   background-color: rgba(255, 255, 255, 0.95);
@@ -305,6 +305,29 @@ a​:hover {
   background-position: top;
   background-size: 100%;
 }
+
+
+/*  added for details */
+.flex-item-articles-half-width {
+  align-items: center;
+  display: flexbox;
+  background-color: rgba(255, 255, 255, 0.95);
+  width: 25vw;
+  border-radius: 4px;
+  word-wrap: normal;
+  padding: 0.3rem;
+  flex-direction: row;
+  border: solid;
+  border-width: 1px;
+  border-color: rgba(190, 190, 190, 0.999);
+  justify-items: center;
+  justify-content: stretch !important;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 100%;
+  width: 95vw !important;
+}
+
 .flex-item-articles img {
   display: block;
   height: auto;
@@ -317,9 +340,6 @@ a​:hover {
   transform: scale(115%);
 }
 
-.flex-item-articles-half-width {
-  width: 60% !important;
-}
 .flex-item-articles-half-width img {
   width: 10%;
   display: block;

@@ -462,6 +462,9 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
+            if (isNaN(vPercentFree)){
+                vPercentFree="100%"
+            }
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
@@ -494,7 +497,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
 }
 
 function clickStuff(vItemIndex){
-    if (vIsCtrlDn == false) {
+    if (! vIsCtrlDn) {
         clearStuff();
     }
     if (document.getElementById(`thumb${vItemIndex}`).style.backgroundColor == vSelColor){
@@ -505,7 +508,7 @@ function clickStuff(vItemIndex){
 }
 
 function dblClickStuff(vItemIndex){
-    if (vIsCtrlDn == false) {
+    if (vIsCtrlDn) {
         doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>app ids: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
     }else{
         doClosePopUp();
