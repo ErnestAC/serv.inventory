@@ -5,6 +5,7 @@
   padding: 0.1rem !important;
   align-self: center;
   font-size: 0.7rem !important;
+  width:100%;
 }
 
 .special-text {
@@ -17,7 +18,6 @@
   padding: 0rem !important;
   font-size: 0.6rem;
 }
-
 
 .menubuttonback, .menubuttonback2 {
   

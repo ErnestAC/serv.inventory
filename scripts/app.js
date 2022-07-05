@@ -428,22 +428,22 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         } else {
             returnString = ``; // empty the return string if the end index is not 0 to clear the gallery page
         }
-        if (! special){ // ask if it is a special box and set the class to the appropriate value
-            vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html
-            vButtonInject=``; // no button gets injected here.
-        } else {
-            vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
-            vButtonInject=`<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`; // return to gallery button is added with this statement.
-        }
         
+        let vReturnButton = `<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`;
+
 
         let i=vStartIdx; // initialize my counter's local index in 0
+
+        
+
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
+            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">go ></div>`;
+        
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             if (isNaN(vPercentFree)){
-                vPercentFree="100%"
+                vPercentFree="NA"
             }
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             // decide alert category and accumulate html
@@ -456,10 +456,14 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             }
             if (! special) {
                 // injecting buttons for thumb view
-                vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">go ></div>`
+                vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html    
+                vButtonInject=`${vOTFbuttons}`
+            } else {
+                vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
+                vButtonInject=`${vOTFbuttons}${vReturnButton}`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn.slice(0,15)}...</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
