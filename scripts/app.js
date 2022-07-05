@@ -343,7 +343,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><b>type: </b>${aSelected[i].engine_type}<br><b>location: </b>${aSelected[i].location}</p><div style="display=inline;"><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><div class="flex-button" onclick="doRemoveFromCart(${i})">drop</div><div class="flex-button">check</div></div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
