@@ -624,8 +624,8 @@ a​:hover {
 
 
 .flex-item-cartbox-inner img {
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
   border-radius: 7px;
   justify-self: center;
 }

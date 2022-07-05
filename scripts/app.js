@@ -1,8 +1,6 @@
 // 2022 ernestac
 // a simple gallery page built based on the contents of a given passed json string using vanilla js
 
-//import swal from "sweetalert2";
-
 // global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
 // array of items pulled from a JSON input.
@@ -59,7 +57,7 @@ function doCallAToast(vText="Empty",vDuration=3000,vGood="linear-gradient(to rig
             color: "white",
             background: vGood,
         },
-      onClick: function(){} // Callback after click
+      onClick: function(){console.log("Don't click my toasts!")} // Callback after click
     }).showToast();
 }
 
@@ -127,24 +125,6 @@ function getIcon(vEngineType="generic"){
     return vResponse // resturns a string containing the path to the icon image
 }
 
-function doConfirm(vMsg) {
-    let vResponse = null;
-    document.getElementById("msgboxPopup").style.visibility="visible";
-    document.getElementById("backLockPlus").style.visibility="visible";
-    buttonInjector = `<div id="button-yes" class="flex-button"> yes </div><div id="button-no" class="flex-button"> no </div>`;
-    document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
-    document.getElementById("button-yes").addEventListener("click", function(){
-        vgResponse = true;
-        document.getElementById("msgboxPopup").style.visibility="hidden";
-        document.getElementById("backLockPlus").style.visibility="hidden";
-    });
-    document.getElementById("button-no").addEventListener("click", function(){
-        vgResponse = false;
-        document.getElementById("msgboxPopup").style.visibility="hidden";
-        document.getElementById("backLockPlus").style.visibility="hidden";
-    });
-}
-
 function doPrevious(){
     doClosePopUp();
     if (((page*vItemsPerPage) > 1 || page > 1)){
@@ -187,7 +167,7 @@ function addItem(i) {
         console.log(`With index ${ix} reached the index of te collection. Nothing to worry.`)
     }
     finally{
-        if (vFoundFlag == true) {
+        if (vFoundFlag) {
             
             // using toastify to replace some popups
             doCallAToast(`Can't add ${aImages[i].fqdn} to export cart.`,3500,vAlertColor)
@@ -201,7 +181,6 @@ function addItem(i) {
             
             // using toastify to replace some popups
             doCallAToast( `Engine ${aImages[i].fqdn} added to export cart.`,3500,vOKColor);
-            //doPopUp(`Engine ${aImages[i].fqdn} added to export cart.`, true);
         }
     }
     
@@ -279,8 +258,8 @@ function WhatTimeIsIt(vForFile=false){
     if (hs < 10) hs = '0' + hs;
     
     // load the hour of the part into vTime
-    
-    if (vForFile == true) {
+    let vResult;
+    if (vForFile) {
         let vTime = `${hh}${hm}${hs}`;
         let vDate = `${yyyy}${mm}${dd}`;
         //load everyting into the string pattern expected and return it
@@ -311,7 +290,7 @@ function displayInLowerBox(vTextToPrint){
 
 function doRandomItem() {
     doClosePopUp();
-    vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
+    let vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
     document.getElementById("page-number").innerHTML=`item: ${vRandomValueID}`;
     displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
     //modifyElement(`myitem${vRandomValueID}`,vRndColor); // uses the value to highlight the random item
@@ -321,14 +300,15 @@ function doRandomItem() {
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
     document.getElementById("msgboxPopup").style.visibility="visible";
     document.getElementById("backLockPlus").style.visibility="visible";
-    if (vAuto == true){
+    let buttonInjector;
+    if (vAuto){
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
         buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
     }
     document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
-    if (vAuto == false){
+    if (! vAuto){
         document.getElementById("closeButton").addEventListener("click", function(){
             document.getElementById("msgboxPopup").style.visibility="hidden";
             document.getElementById("backLockPlus").style.visibility="hidden";
@@ -339,15 +319,16 @@ function doPopUp(vMsg,vAuto=false,vDelay=950) {
 function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
     document.getElementById("msgboxSplash").style.visibility="visible";
     document.getElementById("backLockPlus").style.visibility="visible";
-    if (vAuto == true){
+    let buttonInjector;
+    if (vAuto){
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
+        buttonInjector = `<div id="closeButton2" class="flex-button" style="width: 64px;"> close </div>`;
     }
     document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="reg-text" style="background-color: white; border-radius: 5px;">${vMsg}</p></div></div><br><br>${buttonInjector}`;
-    if (vAuto == false){
-        document.getElementById("closeButton").addEventListener("click", function(){
+    if (! vAuto){
+        document.getElementById("closeButton2").addEventListener("click", function(){
             document.getElementById("msgboxSplash").style.visibility="hidden";
             document.getElementById("backLockPlus").style.visibility="hidden";
         });
@@ -406,8 +387,6 @@ function doRemoveFromCart(indexToRemove){
 
 function doEmptyCart(){
     doClosePopUp();
-    // doConfirm(`Are you sure?`);
-    //setTimeout(console.log(`waiting for answer...`,15000));
     if (aSelected.length == 0){ // ask if the cart is empty
         doPopUp("Your cart is already empty.", true, 1500);    
     }else{ // if the cart is not empty, empty it
@@ -436,9 +415,10 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         /* What 
         Generates the list of images and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
         */
+
+        let vButtonInject;
+
         if (vEndIdx == 0){ // if no end is given the funtion defaults to the length of the array
-            vEndIdx=aImages.length;
-        }else if (vEndIdx > aImages.length || vEndIdx < 0){ //showing use of else if, it could have been a plain else
             vEndIdx=aImages.length;
         }
         const vThumbBox = document.getElementById('thumb-box'); // tell vThumbBox that is a page element
@@ -446,14 +426,14 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         if (vEndIdx == 0 ){
             returnString = document.getElementById('thumb-box').innerHTML; // get the current contents of the div to add stuff to
         } else {
-            returnString = ""; // empty the return string if the end index is not 0 to clear the gallery page
+            returnString = ``; // empty the return string if the end index is not 0 to clear the gallery page
         }
-        if (special == false ){ // ask if it is a special box and set the class to the appropriate value
+        if (! special){ // ask if it is a special box and set the class to the appropriate value
             vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html
-            vButtonInject=""; // no button gets injected here.
+            vButtonInject=``; // no button gets injected here.
         } else {
             vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
-            vButtonInject='<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>'; // return to gallery button is added with this statement.
+            vButtonInject=`<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`; // return to gallery button is added with this statement.
         }
         
 
@@ -474,15 +454,12 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             } else {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
             }
-
-
-            if (special == false ) {
+            if (! special) {
                 // injecting buttons for thumb view
                 vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">go ></div>`
             }
             // accumulate the generated html in the variable
             returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
-
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
@@ -525,7 +502,7 @@ function clearStuff(){
             document.getElementById(`thumb${i}`).style.backgroundColor=vUnSelColor;
         }
         catch {
-            vDumpVar="";        
+            console.log('Cleared selection.');        
         }
         i++; // increment for next idx
     }
@@ -589,23 +566,6 @@ document.getElementById("button-cart").addEventListener("click", function(){
     doCartBox();
 });
 document.getElementById("button-help").addEventListener("click", function(){
-/*    Toastify({
-        text: "Tetsing toastify",
-        duration: 2000,
-        //destination: "https://www.coderhouse.com.co/",
-        //newWindow: true,
-        close: true,
-        gravity: "top", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        style: {
-            borderradius: "4px",
-            padding: "0.3rem",
-            color: "white",
-            background: "linear-gradient(to right, #005454, #003030)",
-        },
-        onClick: function(){} // Callback after click
-    }).showToast();*/
     doSplashScreen("serv.inventory help","Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
 });
 
@@ -614,7 +574,6 @@ document.getElementById("button-help").addEventListener("click", function(){
 The statements below control the start of page behavior.
 */
 
-// let vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
 let vTotalPages = 0;
 
 // async loading of the main json file
