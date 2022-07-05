@@ -343,11 +343,11 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
         buttonInjector = "";
         setTimeout(doClosePopUp, vDelay);
     }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
+        buttonInjector = `<div id="closeButton2" class="flex-button" style="width: 64px;"> close </div>`;
     }
     document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="reg-text" style="background-color: white; border-radius: 5px;">${vMsg}</p></div></div><br><br>${buttonInjector}`;
     if (vAuto == false){
-        document.getElementById("closeButton").addEventListener("click", function(){
+        document.getElementById("closeButton2").addEventListener("click", function(){
             document.getElementById("msgboxSplash").style.visibility="hidden";
             document.getElementById("backLockPlus").style.visibility="hidden";
         });
