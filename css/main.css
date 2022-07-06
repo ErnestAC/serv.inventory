@@ -884,3 +884,23 @@ border-color: rgb(64,64,64);
     flex-direction: row;
   }
 }
+
+@media screen and (min-width: 1600px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    width: 18%;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    width: 14%;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+  }
+}
