@@ -906,7 +906,7 @@ border-color: rgb(64,64,64);
 @media screen and (min-width: 1900px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 14%;
+    width: 20%;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
