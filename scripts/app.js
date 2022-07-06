@@ -40,7 +40,21 @@ let cWarnValueUpper = 25; // how much space free is considered warn
 
 // functions    ----------------------------------------------------------
 
-function doCallAToast(vText="Empty",vDuration=3000,vGood="linear-gradient(to right, #005454, #003030)") {
+function doMockPing(){
+    let g = 0;
+    
+    while (g < aImages.length){
+        try {
+            document.getElementById(`button-pingt${g}`).innerHTML=`${doRandomPing()}ms`;
+        } catch {
+            //nothing
+        }
+        g++;
+    }            
+}
+
+
+function doCallAToast(vText="Empty",vDuration=2500,vGood="linear-gradient(to right, #005454, #003030)") {
     // run once for top
     Toastify({
         text: `${vText}`,
@@ -84,7 +98,7 @@ function doExport(vJSONIn){
 
 function doPing(vIdx){
     // mock function
-    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: black; border-radius: 5px;">OK [MOCK]</p>`,false);
+    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: black; border-radius: 5px;">${doRandomPing()}ms</p>`,false);
 }
 
 function doAccess(vIdx){
@@ -125,9 +139,15 @@ function getIcon(vEngineType="generic"){
     return vResponse // resturns a string containing the path to the icon image
 }
 
+function doResetScroll(){
+    //general screen scroll
+    window.scrollTo(0, 0);
+    document.getElementById('cartboxPopup').scrollTo(0,0);
+}
+
 function doPrevious(){
     doClosePopUp();
-    window.scrollTo(0, 0);
+    doResetScroll();
     if (((page*vItemsPerPage) > 1 || page > 1)){
         page--;
     } else {
@@ -138,17 +158,17 @@ function doPrevious(){
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
-    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1500);
+    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
 }
 
 function doAllItems() {
-    window.scrollTo(0, 0);
+    doResetScroll();
     displayInThumbs();
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
     document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
-    
     doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+    
     //doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
@@ -195,7 +215,7 @@ function doUpdateCart() {
 
 function doNext(){
     // close potentially open pop-up events
-    window.scrollTo(0, 0);
+    doResetScroll();
     doClosePopUp();
     // if we still have pages, we add one, otherwise we reset
     if ((page*vItemsPerPage)+vItemsPerPage < aImages.length){
@@ -211,11 +231,11 @@ function doNext(){
     randomArrayAccess();
     // print the special message to guide the user
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
-    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1500);
+    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
 }
 
 function doRecoverPage(){
-    window.scrollTo(0, 0);
+    doResetScroll();
     doClosePopUp();
     if (page < 0 ) { // reset the page number to 1 when coming back from the all view
         page = 1;
@@ -304,6 +324,12 @@ function doRandomItem() {
     document.getElementById("activityShow").innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
 }
 
+function doRandomPing() {
+    let vSelection = Math.trunc(Math.floor(Math.random() * 1600));
+    return vSelection;
+}
+
+
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
     document.getElementById("msgboxPopup").style.visibility="visible";
     document.getElementById("backLockPlus").style.visibility="visible";
@@ -350,7 +376,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><div class="flex-button" onclick="doRemoveFromCart(${i})">del</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">export</div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -368,7 +394,7 @@ function doCartBox() {
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("cartboxPopup").style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> ${itemInjection} <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" class="flex-button">dismiss</div>`;
+    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:40px;" class="flex-button">dismiss</div>${itemInjection}`;
     document.getElementById("closeButtonCart").addEventListener("click", function(){
         document.getElementById("cartboxPopup").style.visibility="hidden";
         document.getElementById("backLock").style.visibility="hidden";
@@ -431,6 +457,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         Generates the list of images and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
         */
         let vButtonInject;
+        let vExtraInject;
         if (vEndIdx == 0){ // if no end is given the funtion defaults to the length of the array
             vEndIdx=aImages.length;
         }
@@ -443,11 +470,12 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         }
         // return button adder
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`;
+        
         let i=vStartIdx; // initialize my counter with start index
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
+            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             if (isNaN(vPercentFree)){
                 vPercentFree="NA"
@@ -463,14 +491,17 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             }
             if (! special) {
                 // injecting buttons for thumb view
-                vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html    
-                vButtonInject=`${vOTFbuttons}`
+                vCSSClass = "flex-item-articles"; // my class to be injected in the dynamically generated html    
+                vButtonInject = `${vOTFbuttons}`;
+                vExtraInject = "";
             } else {
-                vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
-                vButtonInject=`${vOTFbuttons}${vReturnButton}`
+                document.getElementById("activityShow").innerHTML=`${vReturnButton}`
+                vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
+                vButtonInject = `${vOTFbuttons}`;
+                vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}}><p class="reg-text" style="width: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}}><p class="reg-text" style="width: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
@@ -615,4 +646,7 @@ setTimeout(() => {
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
     doClosePopUp();
+    // start the ping simulator once page loaded or failed
+    setInterval(doMockPing, vTimeOut);
 }, vTimeOut)
+
