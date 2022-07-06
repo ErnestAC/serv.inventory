@@ -26,7 +26,7 @@ const vRndColor = "Orange";
 let vIsCtrlDn=false;
 // page display controllers
 let page = 1;
-const vItemsPerPage = 32; 
+const vItemsPerPage = 20; 
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
@@ -127,6 +127,7 @@ function getIcon(vEngineType="generic"){
 
 function doPrevious(){
     doClosePopUp();
+    window.scrollTo(0, 0);
     if (((page*vItemsPerPage) > 1 || page > 1)){
         page--;
     } else {
@@ -137,9 +138,11 @@ function doPrevious(){
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
+    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1500);
 }
 
 function doAllItems() {
+    window.scrollTo(0, 0);
     displayInThumbs();
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
@@ -192,6 +195,7 @@ function doUpdateCart() {
 
 function doNext(){
     // close potentially open pop-up events
+    window.scrollTo(0, 0);
     doClosePopUp();
     // if we still have pages, we add one, otherwise we reset
     if ((page*vItemsPerPage)+vItemsPerPage < aImages.length){
@@ -206,10 +210,12 @@ function doNext(){
     //write the bottom signature of the page
     randomArrayAccess();
     // print the special message to guide the user
-    document.getElementById("activityShow").innerHTML=`${vNavMessage}`
+    document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
+    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1500);
 }
 
 function doRecoverPage(){
+    window.scrollTo(0, 0);
     doClosePopUp();
     if (page < 0 ) { // reset the page number to 1 when coming back from the all view
         page = 1;
@@ -287,6 +293,7 @@ function displayInLowerBox(vTextToPrint){
     const vBottomText = document.getElementById('bottom-box');
     vBottomText.innerHTML=`${vTextToPrint}`;
 }
+
 
 function doRandomItem() {
     doClosePopUp();
@@ -408,6 +415,14 @@ function doClosePopUp(){
     document.getElementById("backLockPlus").style.visibility="hidden";
 }
 
+function doGoURL(myurl){
+    doPopUp(`Opening ${myurl} in new tab...`,true,1000)
+    setTimeout(() => {
+        window.open(`http://${myurl}`, '_blank')    
+    }, 1000);
+    
+}
+
 function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
     // main gallery rendering funciton, reads all items from a specified index and displays them. 
     // vStartIdx is where to start reading the array, vEndIdx is where to stop reading and special controls if the item needs a big box around or it is a thumb.
@@ -432,7 +447,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="window.open('http://${aImages[i].fqdn}', '_blank');">go ></div>`;
+            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             if (isNaN(vPercentFree)){
                 vPercentFree="NA"
@@ -504,33 +519,6 @@ function clearStuff(){
         i++; // increment for next idx
     }
 }
-
-function ping(host, port, pong) {
-
-    var started = new Date().getTime();
-  
-    var http = new XMLHttpRequest();
-  
-    http.open("GET", "http://" + host + ":" + port, /*async*/true);
-    http.onreadystatechange = function() {
-      if (http.readyState == 4) {
-        var ended = new Date().getTime();
-  
-        var milliseconds = ended - started;
-  
-        if (pong != null) {
-          pong(milliseconds);
-        }
-      }
-    };
-    try {
-      http.send(null);
-    } catch(exception) {
-      // this is expected
-    }
-  
-  }
-
 
 // main code ----------------------------------------------------------
 // here goes the code for calling the rendering functions
