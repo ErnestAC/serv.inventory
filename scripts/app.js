@@ -169,7 +169,7 @@ function doAllItems() {
     displayInThumbs();
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
-    document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
+    document.getElementById("activityShow").innerHTML=`<div class="flex-button">add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
     doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
     
     //doPopUp('All items are being displayed in this page now.',true,1200)
