@@ -228,7 +228,7 @@ a​:hover {
   display: flexbox;
   background-color: rgba(15, 15, 15, 0.95);
   width: 30%;
-  height: 20vh;
+  height:auto;
   border-radius: 4px;
   word-wrap: normal;
   padding: 0.3rem;
