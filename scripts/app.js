@@ -26,7 +26,7 @@ const vRndColor = "Orange";
 let vIsCtrlDn=false;
 // page display controllers
 let page = 1;
-const vItemsPerPage = 12; 
+const vItemsPerPage = 32; 
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
@@ -217,7 +217,7 @@ function doRecoverPage(){
     document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
-    document.getElementById("activityShow").innerHTML="Hit R to display a random item. Arrow keys move through pages. Holding Ctrl+click selects multiple items";
+    document.getElementById("activityShow").innerHTML="";
 }
 
 function addStr(str, index, stringToAdd){
@@ -278,7 +278,7 @@ function randomArrayAccess(){
     let vSelection = Math.floor(Math.random() * aImages.length);
     let vRandomIndex = vSelection;
     let vWTII = WhatTimeIsIt();
-    displayInLowerBox(`<p class="reg-text">Page rendered on ${vWTII}, client local time. Engine count: ${aImages.length}.</p>`);
+    displayInLowerBox(`<p class="reg-text"> ${vWTII}, client local time.</p>`);
     return vRandomIndex;
 }
 
@@ -343,7 +343,7 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><div class="flex-button" onclick="doRemoveFromCart(${i})">drop</div><div class="flex-button">check</div></div></div></div><br>`;
+                itemInjection = `${itemInjection}<div><div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><br><div class="flex-button" onclick="doRemoveFromCart(${i})">del</div><div class="flex-button">check</div></div></div></div><br>`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -415,9 +415,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         /* What 
         Generates the list of images and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
         */
-
         let vButtonInject;
-
         if (vEndIdx == 0){ // if no end is given the funtion defaults to the length of the array
             vEndIdx=aImages.length;
         }
@@ -428,22 +426,16 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         } else {
             returnString = ``; // empty the return string if the end index is not 0 to clear the gallery page
         }
-        if (! special){ // ask if it is a special box and set the class to the appropriate value
-            vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html
-            vButtonInject=``; // no button gets injected here.
-        } else {
-            vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
-            vButtonInject=`<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`; // return to gallery button is added with this statement.
-        }
-        
-
-        let i=vStartIdx; // initialize my counter's local index in 0
+        // return button adder
+        let vReturnButton = `<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`;
+        let i=vStartIdx; // initialize my counter with start index
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
+            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="window.open('http://${aImages[i].fqdn}', '_blank');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             if (isNaN(vPercentFree)){
-                vPercentFree="100%"
+                vPercentFree="NA"
             }
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             // decide alert category and accumulate html
@@ -456,14 +448,19 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             }
             if (! special) {
                 // injecting buttons for thumb view
-                vButtonInject=`<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doAccess(${i})">go ></div>`
+                vCSSClass = "flex-item-articles" // my class to be injected in the dynamically generated html    
+                vButtonInject=`${vOTFbuttons}`
+            } else {
+                vCSSClass = "flex-item-articles-half-width" // my other class, used only for special objects
+                vButtonInject=`${vOTFbuttons}${vReturnButton}`
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><p class="reg-text" style="width: 100%;"><img id="thumb${i}" style:"display: inline-block;" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}}><p class="reg-text" style="width: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}<br></p><div>${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
         vThumbBox.innerHTML=returnString;
+        return true;
     }
     catch{ // if there is an error just say it in console and carry on
         //write to console error received
@@ -507,6 +504,32 @@ function clearStuff(){
         i++; // increment for next idx
     }
 }
+
+function ping(host, port, pong) {
+
+    var started = new Date().getTime();
+  
+    var http = new XMLHttpRequest();
+  
+    http.open("GET", "http://" + host + ":" + port, /*async*/true);
+    http.onreadystatechange = function() {
+      if (http.readyState == 4) {
+        var ended = new Date().getTime();
+  
+        var milliseconds = ended - started;
+  
+        if (pong != null) {
+          pong(milliseconds);
+        }
+      }
+    };
+    try {
+      http.send(null);
+    } catch(exception) {
+      // this is expected
+    }
+  
+  }
 
 
 // main code ----------------------------------------------------------

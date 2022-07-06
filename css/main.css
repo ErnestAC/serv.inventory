@@ -5,6 +5,7 @@
   padding: 0.1rem !important;
   align-self: center;
   font-size: 0.7rem !important;
+  width:100%;
 }
 
 .special-text {
@@ -18,93 +19,30 @@
   font-size: 0.6rem;
 }
 
-
-.menubuttonback, .menubuttonback2 {
-  
-  background-size: contain;
-  background-color: rgba(192, 192, 192, 0.8);
-  color: black;
-  font-family: "Roboto";
-  border-style: none;
-  width: 8rem;
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
 }
 
-.menubuttonback2 {
-  width: 5.2rem;
-}
-.menubuttonback2 :hover {
-  
-  background-size: contain;
-  background-color: rgba(204, 204, 204, 0.7);
-  color: black;
-  font-family: "Roboto";
-  border-style: none;
-  min-width: 15%;
-}
-
-.horizontal_list img {
-  height: 15px;
-}
-
-.flex-item-menu img {
-  height: 15px;
-  vertical-align: middle;
-  height: 15px;
-  vertical-align: middle;
-}
-
-/* logo intro */
-.flex-container-logo {
-  top: 0px;
-  display: flex;
-  width: 99vw;
-  margin: 0px;
-  height: 15vh;
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
   text-align: center;
-  flex-direction: column;
-  flex-wrap: wrap;
-  flex-flow: wrap;
-  align-items: center;
-  align-content: center;
-  align-self: left;
-  vertical-align: middle;
-  justify-content: left;
-  padding: 0px;
-  padding-left: 2vw;
-  top: 0px;
-  /* effect (when scrolling - and font size is decreased) */
-  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-  transition-duration: 0.5s;
-  transform: scale(110%);
-  transition-duration: 0.9s;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
 }
 
-.flex-item-logo img {
-  vertical-align: middle;
-  font-size: 15px;
-  margin: 10px;
-  width: 19vw;
-  height: auto;
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
-/* footer */
-.flex-container-footer {
-  
-  background-size: contain;
-  display: flex;
-  align-items: flex-end;
-  height: 5em;
-  width: auto;
-  align-self: flex-start;
-  margin: 0px;
-  font-family: OpenSans;
-  flex-direction: row;
-  flex-wrap: wrap;
-  flex-flow: wrap;
-  vertical-align: middle;
-  justify-content: flex-end;
-  background-color: rgba(45, 172, 204, 0.35);
-}
 
 /* general tags */
 h1 {
@@ -163,7 +101,7 @@ h4 {
   border-top-right-radius: 0px;
   border-top-left-radius: 0px;
   /*background-image: linear-gradient(rgba(255, 255, 255,0.35), rgba(255, 255, 255, 0.00));*/
-  word-break: break-all;
+  word-break: normal;
   margin: 0rem;
   color: black;
   justify-self: center !important;
@@ -273,15 +211,14 @@ a​:hover {
 .flex-container-articles, .flex-container-articles-half-width {
   display: flex;
   height: auto;
-  /* width: 100%; */
+  width: 100%;
   align-self: flex-start;
-  margin: 0px;
   line-height: auto;
   font-size: 0.8rem;
   flex-direction: column;
   flex-wrap: wrap-reverse;
   flex-flow: wrap;
-  align-content:space-between;
+  align-content:stretch;
   justify-content:center;
   vertical-align: top;
   padding: 0.1rem;
@@ -291,7 +228,7 @@ a​:hover {
   align-items: center;
   display: flexbox;
   background-color: rgba(15, 15, 15, 0.95);
-  width: 25vw;
+  width: 30%;
   border-radius: 4px;
   word-wrap: normal;
   padding: 0.3rem;
@@ -333,8 +270,11 @@ border-color: rgb(64,64,64);
 .flex-item-articles img {
   display: block;
   height: auto;
-  width: 40px;
+  width: 34px;
   border-radius: 5px;
+  /*border-style:solid;
+  border-width: 1px;
+  border-color: rgb(25,25,25);*/
   transition: all 0.5s;
 }
 .flex-item-articles img:hover, .flex-item-articles-half-width img:hover {
@@ -582,12 +522,12 @@ border-color: rgb(64,64,64);
   align-content:flex-start;
   border-radius: 15px;
   flex-direction: column;
-  justify-content: left !important;
+  justify-content: flex-start !important;
   padding: .71rem;
   top: 4.2rem;
   margin-top: 4.2rem;
   margin-bottom:1rem;
-  width: 60vw;
+  width: 85vw;
   background-color: rgba(0, 48, 48, 0.99);
   overflow-wrap: break-word;
   visibility: hidden;
@@ -618,18 +558,18 @@ border-color: rgb(64,64,64);
   margin: 0rem;
   width: 100%;
   border-radius: 0px;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start !important;
   overflow-wrap: break-word;
   background-color: rgba(15, 15, 15, 0.9);
-  border-radius: 7px;
-  padding: 0rem;
+  border-radius: 5px;
+  padding: 0.2rem;
 }
 
 
 .flex-item-cartbox-inner img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 7px;
   justify-self: center;
 }
@@ -873,7 +813,7 @@ border-color: rgb(64,64,64);
 @media screen and (min-width: 452px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 85vw;
+    width: 85%;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
@@ -882,14 +822,14 @@ border-color: rgb(64,64,64);
 
 @media screen and (min-width: 650px) {
   .flex-item-articles, .flex-item-articles-half-width {
-    width: 43vw;
+    width: 43%;
   }
 }
 
 @media screen and (min-width: 801px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 38vw;
+    width: 40%;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
@@ -899,7 +839,7 @@ border-color: rgb(64,64,64);
 @media screen and (min-width: 900px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 32vw;
+    width: 30%;
     padding: 0.3rem;
     flex-direction: row;
   }
@@ -911,7 +851,7 @@ border-color: rgb(64,64,64);
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    width: auto;
+    width: 30%;
   }
 }
 
@@ -921,14 +861,24 @@ border-color: rgb(64,64,64);
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
-    width: auto;
+    width: 30.%;
   }
 }
 
 @media screen and (min-width: 1200px) {
   .flex-item-articles, .flex-item-articles-half-width {
     display: flex;
-    width: 20vw;
+    width: 30%;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .flex-item-articles, .flex-item-articles-half-width {
+    display: flex;
+    width: 22%;
     word-wrap: normal;
     padding: 0.3rem;
     flex-direction: row;
