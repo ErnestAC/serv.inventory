@@ -40,12 +40,12 @@ let cWarnValueUpper = 25; // how much space free is considered warn
 
 // functions    ----------------------------------------------------------
 
-function testS(){
+function doMockPing(){
     let g = 0;
     
     while (g < aImages.length){
         try {
-            document.getElementById(`button-pingt${g}`).innerHTML=doRandomPing()
+            document.getElementById(`button-pingt${g}`).innerHTML=`${doRandomPing()}ms`;
         } catch {
             //nothing
         }
@@ -168,7 +168,7 @@ function doAllItems() {
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
     document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
     doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
-    setInterval(testS, vTimeOut);
+    
     //doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
@@ -646,5 +646,7 @@ setTimeout(() => {
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
     doClosePopUp();
+    // start the ping simulator once page loaded or failed
+    setInterval(doMockPing, vTimeOut);
 }, vTimeOut)
 
