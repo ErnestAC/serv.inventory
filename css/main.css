@@ -33,7 +33,6 @@
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
-
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -302,7 +301,6 @@ border-color: rgb(64,64,64);
 
 .flex-item-articles, .flex-item-articles-half-width {
   transition-duration: 150ms;
-  transform: scale();
 }
 .flex-item-articles ul, .flex-item-articles-half-width ul {
   margin: 0.2rem;
@@ -374,7 +372,6 @@ border-color: rgb(64,64,64);
   padding-left: 0.4rem;
 }
 
-
 .flex-container-floater {
   display:flex;
   grid-auto-flow: row;
@@ -415,8 +412,7 @@ border-color: rgb(64,64,64);
   position: fixed;
   left: 0rem;
   bottom: 0rem;
-  background-color: rgba(32, 32, 32, 0.8);
-  
+  background-color: rgba(32, 32, 32, 0.8);  
   overflow-wrap: break-word;
 }
 
@@ -456,7 +452,6 @@ border-color: rgb(64,64,64);
   width: max-content;
   height: max-content;
   background-color: rgba(0, 128, 128, 0.90);
-  
   overflow-wrap: break-word;
   visibility: hidden;
 }
@@ -475,7 +470,6 @@ border-color: rgb(64,64,64);
   margin: 0rem;
   width: 75vw;
   background-color: rgba(0, 96, 96, 0.90);
-  
   overflow-wrap: break-word;
   visibility: hidden;
   font-family: "OpenSans";
@@ -508,55 +502,53 @@ border-color: rgb(64,64,64);
   flex-direction: row;
   justify-content: center !important;
   padding: 0.20rem;
-  
   overflow-wrap: break-word;
   position: relative;
 }
 
 .flex-container-cartbox {
-  display:inline;
-  grid-auto-flow: row;
-  height:max-content;
+  display:block;
+  /*grid-auto-flow: row;*/
+  height:auto;
   align-self: center;
   justify-self: center;
   align-content:flex-start;
-  border-radius: 15px;
-  flex-direction: column;
-  justify-content: flex-start !important;
+  border-radius: 4px;
+  flex-flow:column;
+  flex-direction:column;
   padding: .71rem;
   top: 4.2rem;
   margin-top: 4.2rem;
   margin-bottom:1rem;
-  width: 85vw;
+  width: 90%;
   background-color: rgba(0, 48, 48, 0.99);
-  overflow-wrap: break-word;
   visibility: hidden;
   overflow-y: scroll;
   overflow-x: hidden;
-  transition: ease-in-out;
-  transition-duration: 000ms;
 }
 
 .flex-item-cartbox {
-  display: block;
-  flex-flow: row;
+  display: inline-flexbox;
+  flex-flow: column;
+  flex-direction: column;
   align-self: center;
   align-content: center;
   width: 100%;
+  height: min-content;
   border-radius: 0px;
-  flex-direction: row;
-  justify-content: left !important;
+  flex-direction:row;
+  justify-content: flex-start !important;
   overflow-wrap: break-word;
   margin: 0rem !important;
 }
 
 .flex-item-cartbox-inner {
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
   align-self: center;
   align-content: center;
   margin: 0rem;
-  width: 100%;
+  margin-top: 0rem;
   border-radius: 0px;
   flex-direction: column;
   justify-content: flex-start !important;
@@ -564,21 +556,22 @@ border-color: rgb(64,64,64);
   background-color: rgba(15, 15, 15, 0.9);
   border-radius: 5px;
   padding: 0.2rem;
+  width: 100%;
+  height:min-content;
 }
 
 
 .flex-item-cartbox-inner img {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   border-radius: 7px;
   justify-self: center;
+  margin: 0rem;
 }
 
-.flex-no-button-alert {
+.flex-no-button-alert  {
   display: inline-block;
   height: 0.9rem;
-  /*width:fit-content, -moz-fit-content;*/
-  /*align-self: flex-start;*/
   align-content: center;
   margin: 0.3rem;
   border-radius: 5px;
@@ -586,10 +579,10 @@ border-color: rgb(64,64,64);
   font-size: 0.7rem;
   justify-content: center !important;
   font-family: "Roboto";
-  padding: .35rem;
-  padding-left: .70rem;
-  padding-right: .70rem;
-  position:relative;
+  padding: 0.35rem;
+  padding-left: 0.70rem;
+  padding-right: 0.70rem;
+  position: relative;
   background-color: rgba(255, 91, 92, 0.999);
   border-width: 1px;
   border-color: rgba(64,64,64);
@@ -597,15 +590,15 @@ border-color: rgb(64,64,64);
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  min-width: 32px;
+  min-width: 40px;
 }
 
-.flex-no-button-alert:hover{
+.flex-no-button-alert:hover {
   color:white;
   transition:all;
   transition-delay: 0.0s;
   transition-duration: 200ms;
-  transform: scale(107%);
+  transform: scale(105%);
 }
 
 .flex-no-button-warning {
@@ -631,7 +624,7 @@ border-color: rgb(64,64,64);
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  min-width: 32px;
+  min-width: 40px;
 }
 
 .flex-no-button-warning:hover{
@@ -665,7 +658,7 @@ border-color: rgb(64,64,64);
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  min-width: 32px;
+  min-width: 40px;
   border-width: 1px;
   border-color: rgba(64,64,64);
   border-style: 1px;
@@ -676,7 +669,7 @@ border-color: rgb(64,64,64);
   transition:all;
   transition-delay: 0.0s;
   transition-duration: 200ms;
-  transform: scale(107%);
+  transform: scale(105%);
 }
 
 .flex-button {
@@ -702,7 +695,7 @@ border-color: rgb(64,64,64);
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  min-width: 32px;
+  min-width: 40px;
 }
 
 .flex-button:hover {
@@ -731,11 +724,10 @@ border-color: rgb(64,64,64);
     padding-right: .70rem;
     position:relative;
     background-color: rgba(88, 88, 88, 0.999);
-    
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
-    min-width: 32px;
+    min-width: 40px;
   }
 
 /* THE INNER GRID */
@@ -792,12 +784,13 @@ border-color: rgb(64,64,64);
   position: fixed;
   top: 0rem;
   left: 0rem;
-  
   justify-items: center;
   justify-content: center;
   margin: 0rem;
   visibility: hidden;
-
+  transition-timing-function:cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transition: opacity, ease-out;
+  transition-duration: 50ms;
 }
 
 @media screen and (max-width: 450px) {
