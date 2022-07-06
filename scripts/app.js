@@ -42,12 +42,15 @@ let cWarnValueUpper = 25; // how much space free is considered warn
 
 function doMockPing(){
     let g = 0;
-    
+    let vDummy = 0;
     while (g < aImages.length){
-        try {
-            document.getElementById(`button-pingt${g}`).innerHTML=`${doRandomPing()}ms`;
-        } catch {
-            //nothing
+        vDummy = doRandomPing();
+        if (vDummy/2==Math.trunc(vDummy/2)) {            
+            try {
+                document.getElementById(`button-pingt${g}`).innerHTML=`${doRandomPing()}ms`;
+            } catch {
+                //nothing
+            }
         }
         g++;
     }            
@@ -325,8 +328,7 @@ function doRandomItem() {
 }
 
 function doRandomPing() {
-    let vSelection = Math.trunc(Math.floor(Math.random() * 1600));
-    return vSelection;
+    return Math.trunc(Math.floor(Math.random() * 900));
 }
 
 
@@ -647,6 +649,6 @@ setTimeout(() => {
     // this needs to happen after the page is rendered
     doClosePopUp();
     // start the ping simulator once page loaded or failed
-    setInterval(doMockPing, vTimeOut);
+    setInterval(doMockPing, 750);
 }, vTimeOut)
 
