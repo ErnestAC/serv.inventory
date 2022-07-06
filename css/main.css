@@ -228,14 +228,14 @@ a​:hover {
   display: flexbox;
   background-color: rgba(15, 15, 15, 0.95);
   width: 30%;
+  height: 20vh;
   border-radius: 4px;
   word-wrap: normal;
   padding: 0.3rem;
   flex-direction: row;
   border: solid;
   border-width: 1px;
-border-color: rgb(64,64,64);
-  border-color: rgba(128, 128, 128, 0.999);
+  border-color: rgb(64,64,64);
   justify-items: center;
   justify-content: stretch !important;
   background-repeat: no-repeat;
@@ -281,8 +281,23 @@ border-color: rgb(64,64,64);
   transform: scale(115%);
 }
 
+.flex-item-articles-badges, .flex-item-articles-badges-buttonboard {
+  display: flex;
+  width: 34px;
+  flex-direction: column;
+  align-items: center !important;
+  align-content: flex-end;
+  height: 100%;
+}
+.flex-item-articles-badges-buttonboard {
+  display: flex;
+  flex-wrap:wrap;
+  overflow-wrap:normal;
+  padding: 0rem;
+}
+
 .flex-item-articles-half-width img {
-  width: 10%;
+  width: 100%;
   display: block;
 }
 
