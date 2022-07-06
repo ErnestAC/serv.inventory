@@ -40,6 +40,20 @@ let cWarnValueUpper = 25; // how much space free is considered warn
 
 // functions    ----------------------------------------------------------
 
+function testS(){
+    let g = 0;
+    
+    while (g < aImages.length){
+        try {
+            document.getElementById(`button-pingt${g}`).innerHTML=doRandomPing()
+        } catch {
+            //nothing
+        }
+        g++;
+    }            
+}
+
+
 function doCallAToast(vText="Empty",vDuration=2500,vGood="linear-gradient(to right, #005454, #003030)") {
     // run once for top
     Toastify({
@@ -84,7 +98,7 @@ function doExport(vJSONIn){
 
 function doPing(vIdx){
     // mock function
-    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: black; border-radius: 5px;">OK [MOCK]</p>`,false);
+    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: black; border-radius: 5px;">${doRandomPing()}ms</p>`,false);
 }
 
 function doAccess(vIdx){
@@ -153,8 +167,8 @@ function doAllItems() {
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
     document.getElementById("activityShow").innerHTML=`Displaying complete list of servers. ${aImages.length} item(s) listed.`
-    
     doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+    setInterval(testS, vTimeOut);
     //doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
@@ -310,6 +324,12 @@ function doRandomItem() {
     document.getElementById("activityShow").innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
 }
 
+function doRandomPing() {
+    let vSelection = Math.trunc(Math.floor(Math.random() * 1600));
+    return vSelection;
+}
+
+
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
     document.getElementById("msgboxPopup").style.visibility="visible";
     document.getElementById("backLockPlus").style.visibility="visible";
@@ -455,7 +475,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-ping${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
+            let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             if (isNaN(vPercentFree)){
                 vPercentFree="NA"
@@ -627,3 +647,4 @@ setTimeout(() => {
     // this needs to happen after the page is rendered
     doClosePopUp();
 }, vTimeOut)
+
