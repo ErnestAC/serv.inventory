@@ -99,9 +99,9 @@ function doExport(vJSONIn){
 }
 
 
-function doPing(vIdx){
+function doPing(){
     // mock function
-    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: black; border-radius: 5px;">${doRandomPing()}ms</p>`,false);
+    doPopUp(`Simulated ping: <p class="reg-text" border-radius: 5px;">${doRandomPing()}ms</p>`,false);
 }
 
 function doAccess(vIdx){
