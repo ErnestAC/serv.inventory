@@ -1,7 +1,7 @@
 // 2022 ernestac
 // a simple gallery page built based on the contents of a given passed json string using vanilla js
 
-// glob al variables and constants    --------------------------------------
+// global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
 // array of items pulled from a JSON input.
 
@@ -31,7 +31,7 @@ let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
-let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
+let vNavMessage=`<div class="flex-button" style="width:64px";>page ${page} </div>`
 let vgResponse = false;
 
 // values for free space evaluation
@@ -111,10 +111,10 @@ function doAccess(vIdx){
 
 function doPopulateButtons(){
     // button writing routine
-    document.getElementById("button-prev").innerHTML=`prev`;
-    document.getElementById("button-next").innerHTML=`next`;
-    document.getElementById("button-all").innerHTML=`*`;
-    document.getElementById("button-cart").innerHTML=`to export (0)`;
+    //document.getElementById("button-prev").innerHTML=`prev`;
+    //document.getElementById("button-next").innerHTML=`next`;
+    document.getElementById("button-all").innerHTML=`see all`;
+    document.getElementById("button-cart").innerHTML=`export (0)`;
     document.getElementById("button-help").innerHTML=`?`;
     document.getElementById("page-number").innerHTML=`wait...`;
     document.getElementById("title-app-name").innerHTML=`serv.inventory`;
@@ -145,10 +145,19 @@ function getIcon(vEngineType="generic"){
 function doResetScroll(){
     //general screen scroll
     window.scrollTo(0, 0);
-    document.getElementById('cartboxPopup').scrollTo(0,0);
+    const oCartBoxPopUp = document.getElementById('cartboxPopup')
+    oCartBoxPopUp.scrollTo(0,0);
+    //refresh page box
+    if (page>(-1)){
+        if (page < 0){
+            vNavMessage=`<div class="flex-button" style="width:64px";>items ${(page)*vItemsPerPage} </div><div class="flex-button" style="width:64px";>page ${page+2} </div>`
+        }
+    }
+
 }
 
 function doPrevious(){
+    const oPageNumber = document.getElementById("page-number")
     doClosePopUp();
     doResetScroll();
     if (((page*vItemsPerPage) > 1 || page > 1)){
@@ -157,7 +166,7 @@ function doPrevious(){
         // control pages by comapring the trunc and round results
         page = vTotalPages-1;
     }
-    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
+    oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
@@ -211,7 +220,7 @@ function addItem(i) {
 }
 
 function doUpdateCart() {
-    document.getElementById('button-cart').innerHTML=`to export (${aSelected.length})`;
+    return document.getElementById('button-cart').innerHTML=`to export (${aSelected.length})`
 }
 
 function doNext(){
