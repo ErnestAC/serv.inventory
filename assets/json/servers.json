@@ -61,7 +61,7 @@
     "engine_type": "masking",
     "storage": 1,
     "storage_used": "0",
-    "associated_seals": 11023,
+    "associated_seals": ["12243","9021"],
     "version": "5.1.0.1.0",
     "uuid": "jksxx-9992-qqpza-lm",
     "placeholder1": "",
