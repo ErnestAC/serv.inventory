@@ -44,8 +44,15 @@ const oCartBoxPopUp = document.getElementById('cartboxPopup');
 const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
 const oPageNumber = document.getElementById("page-number");
+const oInnerButtons = document.getElementById("activityShow");
 
 // functions    ----------------------------------------------------------
+
+async function requestDataFromURL(inURL='https://ernestac.github.io/serv.inventory/') {
+    const incomingData = await fetch(inURL);
+    const incomingText = await incomingData;
+    console.log(incomingText);
+}
 
 function doMockPing(){
     let g = 0;
@@ -56,7 +63,7 @@ function doMockPing(){
             try {
                 document.getElementById(`button-pingt${g}`).innerHTML=`${doRandomPing()}ms`;
             } catch {
-                //nothing
+                //nothing, let it fail silently
             }
         }
         g++;
@@ -74,7 +81,7 @@ function doCallAToast(vText="Empty",vDuration=2500,vGood="linear-gradient(to rig
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
-            hideProgressBar: false,
+            hideProgressBar: true,
             style: {
                 fontFamily: "Roboto",
                 fontSize: "0.7rem",
@@ -181,7 +188,7 @@ try {
     oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
-    document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
+    oInnerButtons.innerHTML=`${vNavMessage}`;
     doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
     return true;
 } catch (error) {
@@ -196,7 +203,7 @@ function doAllItems() {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(3)'>sort by type</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
         doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
         return true; 
     } catch {
@@ -271,7 +278,7 @@ function doNext(){
         //write the bottom signature of the page
         randomArrayAccess();
         // print the special message to guide the user
-        document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
+        oInnerButtons.innerHTML=`${vNavMessage}`;
         doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
         return true;
     } catch {
@@ -289,7 +296,7 @@ function doRecoverPage(){
         oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
         displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
         randomArrayAccess();
-        document.getElementById("activityShow").innerHTML="";
+        oInnerButtons.innerHTML="";
         return true;
     } catch {
         return false;
@@ -366,11 +373,11 @@ function doRandomItem() {
     let vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
     oPageNumber.innerHTML=`item: ${vRandomValueID}`;
     displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
-    document.getElementById("activityShow").innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
+    oInnerButtons.innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
 }
 
 function doRandomPing() {
-    return Math.trunc(Math.floor(Math.random() * 900));
+    return Math.trunc(Math.floor(Math.random() * 500));
 }
 
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
@@ -542,7 +549,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = "";
             } else {
-                document.getElementById("activityShow").innerHTML=`${vReturnButton}`
+                oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
@@ -584,6 +591,35 @@ function dblClickStuff(vItemIndex){
         oPageNumber.innerHTML=`item: ${vItemIndex}`;
         displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
     }
+}
+
+function sortBy(vAttrOrdinalPos = 1){
+    // order of options:
+    // 1fqdn,2location,3engine_type,4storage,
+    // 5storage_used,6associated_seals,7version,8uuid,9rsa_enabled
+    switch (vAttrOrdinalPos) {
+        case 1:
+            aImages.sort((a, b) => (a.fqdn > b.fqdn) ? 1 : -1);
+            break;
+        case 2:
+            aImages.sort((a, b) => (a.location > b.location) ? 1 : -1);
+            break;
+        case 3:
+            aImages.sort((a, b) => (a.engine_type > b.engine_type) ? 1 : -1);
+            break;
+        case 4:
+            aImages.sort((a, b) => (a.storage > b.storage) ? 1 : -1);
+            break;                  
+        case 5:
+            aImages.sort((a, b) => (a.storage_used > b.storage_used) ? 1 : -1);
+            break;
+        case 6:
+            aImages.sort((a, b) => (a.uuid > b.uuid) ? 1 : -1);
+            break;
+        default:
+            break;
+    }
+    doAllItems();
 }
 
 function clearStuff(){
@@ -682,14 +718,15 @@ let aImages = [];
 
 // time is up, bring the data
 setTimeout(() => {
-    console.log("json input", aImages)
+    console.log("json input", aImages);
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
     doRecoverSavedItems(); // read localStorage saved data
-    doAllItems(); //bootstrap
+    sortBy(1); // sort and boot
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
     doClosePopUp();
     // start the ping simulator once page loaded or failed
     setInterval(doMockPing, 750);
-}, vTimeOut)
+}, vTimeOut);
 
+requestDataFromURL();
