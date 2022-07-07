@@ -373,7 +373,7 @@ function doCartBox() {
     let i = 0; //start the cart index in the first item of the array
     let itemInjection = ""; // empty local HTML builder
     let lvCSSClass = "flex-item-cartbox-inner";
-    let vButtons = `<div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div><br>`
+    let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div></div><br>`
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
@@ -643,16 +643,13 @@ let aImages = [];
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         }else{
             console.log('Welcome back.');
-            doSplashScreen("serv.inventory, loading...","",true,vTimeOut+10000);
+            doSplashScreen("serv.inventory, loading...","",false);
         }  
 
     })
 })();
 
-
-
-// this is outside - might be empty, if the response does
-// not arrive under the preset time in ms
+// time is up, bring the data
 setTimeout(() => {
     console.log("data in setTimeout", aImages)
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
