@@ -31,7 +31,7 @@ let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
-let vNavMessage=`<div class="flex-button" style="width:64px";>page ${page} </div>`
+let vNavMessage = '';
 let vgResponse = false;
 
 // values for free space evaluation
@@ -174,12 +174,17 @@ function doPrevious(){
 }
 
 function doAllItems() {
-    doResetScroll();
-    displayInThumbs();
-    page=-1 // reset page number to restart the gallery at page 1
-    document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
-    document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
-    doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+    try{
+        doResetScroll();
+        displayInThumbs();
+        page=-1 // reset page number to restart the gallery at page 1
+        document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
+        document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
+        doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+        return true; 
+    } catch {
+        return false;
+    }
 }
 
 function addItem(i) {
@@ -195,9 +200,11 @@ function addItem(i) {
             }
             ix++;
         }
+        return true;
     }
     catch {
         console.log(`With index ${ix} reached the index of te collection. Nothing to worry.`)
+        return true;
     }
     finally{
         if (vFoundFlag) {
@@ -242,6 +249,7 @@ function doNext(){
     // print the special message to guide the user
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
     doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
+    
 }
 
 function doRecoverPage(){
@@ -663,7 +671,7 @@ setTimeout(() => {
     console.log("json input", aImages)
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
     doRecoverSavedItems(); // read localStorage saved data
-    doNext(); // run doNext to render the 1st page of the gallery
+    doAllItems(); //bootstrap
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
     doClosePopUp();
