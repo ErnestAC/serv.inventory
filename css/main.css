@@ -361,7 +361,8 @@ border-color: rgb(64,64,64);
   font-family: "Roboto";
   font-size: 1.3rem;
   color: white;
-  margin:0rem;
+  margin:0.5rem;
+  margin-left: 0rem;
   padding: 0px;
   padding-left: 0.4rem;
 }
