@@ -169,10 +169,8 @@ function doAllItems() {
     displayInThumbs();
     page=-1 // reset page number to restart the gallery at page 1
     document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
-    document.getElementById("activityShow").innerHTML=`<div class="flex-button">add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
+    document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
     doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
-    
-    //doPopUp('All items are being displayed in this page now.',true,1200)
 }
 
 function addItem(i) {
@@ -375,10 +373,11 @@ function doCartBox() {
     let i = 0; //start the cart index in the first item of the array
     let itemInjection = ""; // empty local HTML builder
     let lvCSSClass = "flex-item-cartbox-inner";
+    let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div></div><br>`
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
-                itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b><div class="flex-button" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button">export</div></div></div><br>`;
+                itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -458,21 +457,19 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         /* What 
         Generates the list of images and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
         */
-        let vButtonInject;
-        let vExtraInject;
-        if (vEndIdx == 0){ // if no end is given the funtion defaults to the length of the array
-            vEndIdx=aImages.length;
-        }
         const vThumbBox = document.getElementById('thumb-box'); // tell vThumbBox that is a page element
+        let vButtonInject; // button injector
+        let vExtraInject; // extra info injector
         let returnString = ""; // empty the html building string
+        if (vEndIdx == 0){vEndIdx=aImages.length;}
+        
         if (vEndIdx == 0 ){
-            returnString = document.getElementById('thumb-box').innerHTML; // get the current contents of the div to add stuff to
+            returnString = vThumbBox.innerHTML; // get the current contents of the div to add stuff to
         } else {
             returnString = ``; // empty the return string if the end index is not 0 to clear the gallery page
         }
         // return button adder
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`;
-        
         let i=vStartIdx; // initialize my counter with start index
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
@@ -502,8 +499,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
             }
+            // check if the server has apps
+            let vAppsBadge = '';
+            if (aImages[i].associated_seals != 'vacant'){
+                vAppsBadge = '<img id="appbadge${i}" src=\'../assets/images/engine_app.png\'" alt=${aImages[i].associated_seals}}>';
+            }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}}><img id="badge${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}}></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
@@ -512,10 +514,18 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
     }
     catch{ // if there is an error just say it in console and carry on
         //write to console error received
-        console.log(`Something broke when trying to build the thumbnail view. Will try to continue.`)
+        console.log(`End of routine.`)
         console.log(`Page var: ${page}`)
-        console.log(`Execute previous page to reset page var to an acceptable value.`)
+        console.log(`Page reset to expected value.`)
+        return false;
     }
+}
+
+function addAllItemsToCart(){
+    aSelected = aImages
+    doUpdateCart();
+    localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+    doPopUp(`${aSelected.length} servers added to the export cart.`,true,1500);
 }
 
 function clickStuff(vItemIndex){
@@ -633,13 +643,13 @@ let aImages = [];
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         }else{
             console.log('Welcome back.');
-            doSplashScreen("serv.inventory, loading...","",true,vTimeOut+10000);
+            doSplashScreen("serv.inventory, loading...","",false);
         }  
+
     })
 })();
 
-// this is outside - might be empty, if the response does
-// not arrive under the preset time in ms
+// time is up, bring the data
 setTimeout(() => {
     console.log("data in setTimeout", aImages)
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
@@ -650,8 +660,5 @@ setTimeout(() => {
     doClosePopUp();
     // start the ping simulator once page loaded or failed
     setInterval(doMockPing, 750);
-    var sample = document.getElementById('\U0001f374').value;
-    sample = sample.replace(/\\U([0-9a-f]{8})/gi, "&#x$1;");
-    document.getElementById('badge0').innerHTML = sample;
 }, vTimeOut)
 
