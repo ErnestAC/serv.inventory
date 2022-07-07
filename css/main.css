@@ -131,11 +131,8 @@ h5 {
   font-family: "Roboto";
   padding: 0.4rem;
   font-size: 1rem;
-  padding-bottom: 0.4rem;
   margin: 0px;
-  margin-top: 0.5rem;
   border-radius: 0px;
-  border-top-left-radius: 7px;
   background-image: linear-gradient(rgba(255, 255, 255,95), rgba(255, 255, 255, 0.65));
 }
 
@@ -212,12 +209,12 @@ a​:hover {
   height: auto;
   width: 100%;
   align-self: flex-start;
-  line-height: auto;
+  /*line-height: auto;*/
   font-size: 0.8rem;
   flex-direction: column;
-  margin: left 0;
+  margin: left 0rem;
   flex-flow: wrap;
-  align-content:stretch;
+  justify-content: center;
   justify-content:center;
   vertical-align: top;
   padding: 0.1rem;

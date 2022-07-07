@@ -31,7 +31,7 @@ let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
-let vNavMessage="Arrow keys move through pages. Esc dismisses windows and pop-ups.";
+let vNavMessage = '';
 let vgResponse = false;
 
 // values for free space evaluation
@@ -99,9 +99,9 @@ function doExport(vJSONIn){
 }
 
 
-function doPing(vIdx){
+function doPing(){
     // mock function
-    doPopUp(`Ping result from ${aImages[vIdx].fqdn}: <p class="reg-text" style="color: green; background-color: black; border-radius: 5px;">${doRandomPing()}ms</p>`,false);
+    doPopUp(`Simulated ping: <p class="reg-text" border-radius: 5px;">${doRandomPing()}ms</p>`,false);
 }
 
 function doAccess(vIdx){
@@ -111,10 +111,10 @@ function doAccess(vIdx){
 
 function doPopulateButtons(){
     // button writing routine
-    document.getElementById("button-prev").innerHTML=`prev`;
-    document.getElementById("button-next").innerHTML=`next`;
-    document.getElementById("button-all").innerHTML=`*`;
-    document.getElementById("button-cart").innerHTML=`to export (0)`;
+    //document.getElementById("button-prev").innerHTML=`prev`;
+    //document.getElementById("button-next").innerHTML=`next`;
+    document.getElementById("button-all").innerHTML=`see all`;
+    document.getElementById("button-cart").innerHTML=`export (0)`;
     document.getElementById("button-help").innerHTML=`?`;
     document.getElementById("page-number").innerHTML=`wait...`;
     document.getElementById("title-app-name").innerHTML=`serv.inventory`;
@@ -145,10 +145,19 @@ function getIcon(vEngineType="generic"){
 function doResetScroll(){
     //general screen scroll
     window.scrollTo(0, 0);
-    document.getElementById('cartboxPopup').scrollTo(0,0);
+    const oCartBoxPopUp = document.getElementById('cartboxPopup')
+    oCartBoxPopUp.scrollTo(0,0);
+    //refresh page box
+    if (page>(-1)){
+        if (page < 0){
+            vNavMessage=`<div class="flex-button" style="width:64px";>items ${(page)*vItemsPerPage} </div><div class="flex-button" style="width:64px";>page ${page+2} </div>`
+        }
+    }
+
 }
 
 function doPrevious(){
+    const oPageNumber = document.getElementById("page-number")
     doClosePopUp();
     doResetScroll();
     if (((page*vItemsPerPage) > 1 || page > 1)){
@@ -157,7 +166,7 @@ function doPrevious(){
         // control pages by comapring the trunc and round results
         page = vTotalPages-1;
     }
-    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
+    oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
     displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
     randomArrayAccess();
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
@@ -165,12 +174,17 @@ function doPrevious(){
 }
 
 function doAllItems() {
-    doResetScroll();
-    displayInThumbs();
-    page=-1 // reset page number to restart the gallery at page 1
-    document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
-    document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
-    doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+    try{
+        doResetScroll();
+        displayInThumbs();
+        page=-1 // reset page number to restart the gallery at page 1
+        document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
+        document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
+        doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
+        return true; 
+    } catch {
+        return false;
+    }
 }
 
 function addItem(i) {
@@ -186,9 +200,11 @@ function addItem(i) {
             }
             ix++;
         }
+        return true;
     }
     catch {
         console.log(`With index ${ix} reached the index of te collection. Nothing to worry.`)
+        return true;
     }
     finally{
         if (vFoundFlag) {
@@ -211,7 +227,7 @@ function addItem(i) {
 }
 
 function doUpdateCart() {
-    document.getElementById('button-cart').innerHTML=`to export (${aSelected.length})`;
+    return document.getElementById('button-cart').innerHTML=`to export (${aSelected.length})`
 }
 
 function doNext(){
@@ -233,6 +249,7 @@ function doNext(){
     // print the special message to guide the user
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
     doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
+    
 }
 
 function doRecoverPage(){
@@ -654,7 +671,7 @@ setTimeout(() => {
     console.log("json input", aImages)
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
     doRecoverSavedItems(); // read localStorage saved data
-    doNext(); // run doNext to render the 1st page of the gallery
+    doAllItems(); //bootstrap
     // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
     // this needs to happen after the page is rendered
     doClosePopUp();
