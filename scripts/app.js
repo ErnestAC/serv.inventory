@@ -204,7 +204,7 @@ function addItem(i) {
     }
     catch {
         console.log(`With index ${ix} reached the index of te collection. Nothing to worry.`)
-        return true;
+        return false;
     }
     finally{
         if (vFoundFlag) {
@@ -227,46 +227,56 @@ function addItem(i) {
 }
 
 function doUpdateCart() {
-    return document.getElementById('button-cart').innerHTML=`to export (${aSelected.length})`
-}
-
-function doNext(){
-    // close potentially open pop-up events
-    doResetScroll();
-    doClosePopUp();
-    // if we still have pages, we add one, otherwise we reset
-    if ((page*vItemsPerPage)+vItemsPerPage < aImages.length){
-        page++;
-    } else {
-        page=0;
+    try {
+        document.getElementById('button-cart').innerHTML=`export (${aSelected.length})`;
+        return true;    
+    } catch (error) {
+        console.log(`${error} - Can't update the cart.`);
+        return false;
     }
-    //update the page display box
-    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
-    // generate the gallery thumbs based on the calculations for page number
-    displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
-    //write the bottom signature of the page
-    randomArrayAccess();
-    // print the special message to guide the user
-    document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
-    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
     
 }
 
-function doRecoverPage(){
-    doResetScroll();
-    doClosePopUp();
-    if (page < 0 ) { // reset the page number to 1 when coming back from the all view
-        page = 1;
+function doNext(){
+    try {   // close potentially open pop-up events
+        doResetScroll();
+        doClosePopUp();
+        // if we still have pages, we add one, otherwise we reset
+        if ((page*vItemsPerPage)+vItemsPerPage < aImages.length){
+            page++;
+        } else {
+            page=0;
+        }
+        //update the page display box
+        document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
+        // generate the gallery thumbs based on the calculations for page number
+        displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
+        //write the bottom signature of the page
+        randomArrayAccess();
+        // print the special message to guide the user
+        document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
+        doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
+        return true;
+    } catch {
+        return false;
     }
-    document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
-    displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
-    randomArrayAccess();
-    document.getElementById("activityShow").innerHTML="";
 }
 
-function addStr(str, index, stringToAdd){
-    // injects a string by starting index
-    return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+function doRecoverPage(){
+    try {
+        doResetScroll();
+        doClosePopUp();
+        if (page < 0 ) { // reset the page number to 1 when coming back from the all view
+            page = 1;
+        }
+        document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
+        displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
+        randomArrayAccess();
+        document.getElementById("activityShow").innerHTML="";
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 function doRecoverSavedItems(){
@@ -274,11 +284,13 @@ function doRecoverSavedItems(){
     try{
         aSelected = JSON.parse(aSelectedTemp);
         doUpdateCart();
+        return true;
     }
     catch{
         lFirstTime="yes";
         console.log("Nothing found in local storage or an error occurred. Data is ignored.");
         aSelected=[];
+        return false;
     }
 }
 
@@ -332,20 +344,17 @@ function displayInLowerBox(vTextToPrint){
     vBottomText.innerHTML=`${vTextToPrint}`;
 }
 
-
 function doRandomItem() {
     doClosePopUp();
     let vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
     document.getElementById("page-number").innerHTML=`item: ${vRandomValueID}`;
     displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
-    //modifyElement(`myitem${vRandomValueID}`,vRndColor); // uses the value to highlight the random item
     document.getElementById("activityShow").innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
 }
 
 function doRandomPing() {
     return Math.trunc(Math.floor(Math.random() * 900));
 }
-
 
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
     document.getElementById("msgboxPopup").style.visibility="visible";
@@ -467,7 +476,7 @@ function doGoURL(myurl){
     
 }
 
-function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
+function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
     // main gallery rendering funciton, reads all items from a specified index and displays them. 
     // vStartIdx is where to start reading the array, vEndIdx is where to stop reading and special controls if the item needs a big box around or it is a thumb.
     try{
@@ -478,6 +487,10 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         let vButtonInject; // button injector
         let vExtraInject; // extra info injector
         let returnString = ""; // empty the html building string
+        // return button adder
+        let vReturnButton = `<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`;
+        let i=vStartIdx; // initialize my counter with start index
+        
         if (vEndIdx == 0){vEndIdx=aImages.length;}
         
         if (vEndIdx == 0 ){
@@ -485,17 +498,12 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
         } else {
             returnString = ``; // empty the return string if the end index is not 0 to clear the gallery page
         }
-        // return button adder
-        let vReturnButton = `<div class="flex-button" id="button-return" onclick="doRecoverPage()">go back</div>`;
-        let i=vStartIdx; // initialize my counter with start index
+
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
             let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
-            if (isNaN(vPercentFree)){
-                vPercentFree="NA"
-            }
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
