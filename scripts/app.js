@@ -1,7 +1,7 @@
 // 2022 ernestac
 // a simple gallery page built based on the contents of a given passed json string using vanilla js
 
-// global variables and constants    --------------------------------------
+// glob al variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
 // array of items pulled from a JSON input.
 
