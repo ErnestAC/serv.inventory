@@ -38,6 +38,13 @@ let vgResponse = false;
 let cAlertValueUpper = 10; // how much space free is considered alert
 let cWarnValueUpper = 25; // how much space free is considered warn
 
+// ui object constants
+const oButtonAll = document.getElementById("button-all");
+const oCartBoxPopUp = document.getElementById('cartboxPopup');
+const oButtonCart = document.getElementById("button-cart");
+const oBackLockPlus = document.getElementById("backLockPlus");
+const oPageNumber = document.getElementById("page-number");
+
 // functions    ----------------------------------------------------------
 
 function doMockPing(){
@@ -53,29 +60,35 @@ function doMockPing(){
             }
         }
         g++;
-    }            
+    }
+    return true;            
 }
 
 
 function doCallAToast(vText="Empty",vDuration=2500,vGood="linear-gradient(to right, #005454, #003030)") {
-    // run once for top
-    Toastify({
-        text: `${vText}`,
-        duration: vDuration,
-        close: true,
-        gravity: "top", // `top` or `bottom`
-        position: "center", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        hideProgressBar: false,
-        style: {
-            fontFamily: "Roboto",
-            fontSize: "0.7rem",
-            padding: "0.5rem",
-            color: "white",
-            background: vGood,
-        },
-      onClick: function(){console.log("Don't click my toasts!")} // Callback after click
-    }).showToast();
+    try{
+        Toastify({
+            text: `${vText}`,
+            duration: vDuration,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            hideProgressBar: false,
+            style: {
+                fontFamily: "Roboto",
+                fontSize: "0.7rem",
+                padding: "0.5rem",
+                color: "white",
+                background: vGood,
+            },
+        onClick: function(){console.log("Don't click my toasts!")} // Callback after click
+        }).showToast();
+        return true;
+    } catch {
+        console.log('No toast for you...')
+        return false;
+    }
 }
 
 function doExport(vJSONIn){
@@ -113,10 +126,10 @@ function doPopulateButtons(){
     // button writing routine
     //document.getElementById("button-prev").innerHTML=`prev`;
     //document.getElementById("button-next").innerHTML=`next`;
-    document.getElementById("button-all").innerHTML=`see all`;
-    document.getElementById("button-cart").innerHTML=`export (0)`;
+    oButtonAll.innerHTML=`see all`;
+    oButtonCart.innerHTML=`export (0)`;
     document.getElementById("button-help").innerHTML=`?`;
-    document.getElementById("page-number").innerHTML=`wait...`;
+    oPageNumber.innerHTML=`wait...`;
     document.getElementById("title-app-name").innerHTML=`serv.inventory`;
 }
 
@@ -145,7 +158,6 @@ function getIcon(vEngineType="generic"){
 function doResetScroll(){
     //general screen scroll
     window.scrollTo(0, 0);
-    const oCartBoxPopUp = document.getElementById('cartboxPopup')
     oCartBoxPopUp.scrollTo(0,0);
     //refresh page box
     if (page>(-1)){
@@ -157,7 +169,7 @@ function doResetScroll(){
 }
 
 function doPrevious(){
-    const oPageNumber = document.getElementById("page-number")
+try {
     doClosePopUp();
     doResetScroll();
     if (((page*vItemsPerPage) > 1 || page > 1)){
@@ -171,6 +183,11 @@ function doPrevious(){
     randomArrayAccess();
     document.getElementById("activityShow").innerHTML=`${vNavMessage}`;
     doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
+    return true;
+} catch (error) {
+    return false;
+}
+    
 }
 
 function doAllItems() {
@@ -178,7 +195,7 @@ function doAllItems() {
         doResetScroll();
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
-        document.getElementById("page-number").innerText=`${aImages.length} item(s) displayed`;
+        oPageNumber.innerText=`${aImages.length} item(s) displayed`;
         document.getElementById("activityShow").innerHTML=`<div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div><div class="flex-button">add only alert & warn</div><div class="flex-button">${aImages.length} item(s)</div>`
         doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 5000);
         return true; 
@@ -248,7 +265,7 @@ function doNext(){
             page=0;
         }
         //update the page display box
-        document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
+        oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
         // generate the gallery thumbs based on the calculations for page number
         displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
         //write the bottom signature of the page
@@ -269,7 +286,7 @@ function doRecoverPage(){
         if (page < 0 ) { // reset the page number to 1 when coming back from the all view
             page = 1;
         }
-        document.getElementById("page-number").innerHTML=`page: ${page+1} of ${vTotalPages}`;
+        oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
         displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
         randomArrayAccess();
         document.getElementById("activityShow").innerHTML="";
@@ -347,7 +364,7 @@ function displayInLowerBox(vTextToPrint){
 function doRandomItem() {
     doClosePopUp();
     let vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
-    document.getElementById("page-number").innerHTML=`item: ${vRandomValueID}`;
+    oPageNumber.innerHTML=`item: ${vRandomValueID}`;
     displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
     document.getElementById("activityShow").innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
 }
@@ -357,27 +374,31 @@ function doRandomPing() {
 }
 
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
-    document.getElementById("msgboxPopup").style.visibility="visible";
-    document.getElementById("backLockPlus").style.visibility="visible";
-    let buttonInjector;
-    if (vAuto){
-        buttonInjector = "";
-        setTimeout(doClosePopUp, vDelay);
-    }else{
-        buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
-    }
-    document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
-    if (! vAuto){
-        document.getElementById("closeButton").addEventListener("click", function(){
-            document.getElementById("msgboxPopup").style.visibility="hidden";
-            document.getElementById("backLockPlus").style.visibility="hidden";
-        });
+    try {
+        document.getElementById("msgboxPopup").style.visibility="visible";
+        oBackLockPlus.style.visibility="visible";
+        let buttonInjector;
+        if (vAuto){
+            buttonInjector = "";
+            setTimeout(doClosePopUp, vDelay);
+        }else{
+            buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
+        }
+        document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
+        if (! vAuto){
+            document.getElementById("closeButton").addEventListener("click", function(){
+                document.getElementById("msgboxPopup").style.visibility="hidden";
+                oBackLockPlus.style.visibility="hidden";
+            });
+        }
+    } catch {
+        return false;
     }
 }
 
 function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
     document.getElementById("msgboxSplash").style.visibility="visible";
-    document.getElementById("backLockPlus").style.visibility="visible";
+    oBackLockPlus.style.visibility="visible";
     let buttonInjector;
     if (vAuto){
         buttonInjector = "";
@@ -389,7 +410,7 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
     if (! vAuto){
         document.getElementById("closeButton2").addEventListener("click", function(){
             document.getElementById("msgboxSplash").style.visibility="hidden";
-            document.getElementById("backLockPlus").style.visibility="hidden";
+            oBackLockPlus.style.visibility="hidden";
         });
     }
 }
@@ -434,8 +455,10 @@ function doRemoveFromCart(indexToRemove){
     // removes an item from the selection array based on the index passed
     try {
         aSelected.splice(indexToRemove,1);      // ix position then length
+        return true;
     } catch {
         console.log("Well, the index you passed me does not correspond to an item in my list.");
+        return false;
     }
     finally{
         doClosePopUp();
@@ -465,7 +488,7 @@ function doClosePopUp(){
     document.getElementById("msgboxPopup").style.visibility="hidden";
     document.getElementById("cartboxPopup").style.visibility="hidden";
     document.getElementById("backLock").style.visibility="hidden";
-    document.getElementById("backLockPlus").style.visibility="hidden";
+    oBackLockPlus.style.visibility="hidden";
 }
 
 function doGoURL(myurl){
@@ -553,23 +576,12 @@ function addAllItemsToCart(){
     doPopUp(`${aSelected.length} servers added to the export cart.`,true,1500);
 }
 
-function clickStuff(vItemIndex){
-    if (! vIsCtrlDn) {
-        clearStuff();
-    }
-    if (document.getElementById(`thumb${vItemIndex}`).style.backgroundColor == vSelColor){
-        document.getElementById(`thumb${vItemIndex}`).style.backgroundColor = vUnSelColor; // uses the of unselcolor to remove highlight        
-    } else {
-        document.getElementById(`thumb${vItemIndex}`).style.backgroundColor=vSelColor; // uses the value to highlight the clicked item        
-    }
-}
-
 function dblClickStuff(vItemIndex){
     if (vIsCtrlDn) {
         doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>app ids: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
     }else{
         doClosePopUp();
-        document.getElementById("page-number").innerHTML=`item: ${vItemIndex}`;
+        oPageNumber.innerHTML=`item: ${vItemIndex}`;
         displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
     }
 }
@@ -627,21 +639,15 @@ document.addEventListener('keyup', (event) => {
 
 
 //TOP BUTTON LISTENERS
-document.getElementById("button-prev").addEventListener("click", function(){
-    doPrevious();
-});
-document.getElementById("button-next").addEventListener("click", function(){
-    doNext();
-});
-document.getElementById("button-all").addEventListener("click", function(){
+oButtonAll.addEventListener("click", function(){
     doAllItems();
 });
-document.getElementById("page-number").addEventListener("click", function(){
+oPageNumber.addEventListener("click", function(){
     console.log("Don't just click stuff.")
 });
 
 //BOTTOM BUTTON LISTENERS
-document.getElementById("button-cart").addEventListener("click", function(){
+oButtonCart.addEventListener("click", function(){
     doCartBox();
 });
 document.getElementById("button-help").addEventListener("click", function(){
