@@ -502,7 +502,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special=false){
             // check if the server has apps
             let vAppsBadge = '';
             if (aImages[i].associated_seals != 'vacant'){
-                vAppsBadge = '<img id="appbadge${i}" src=\'./assets/images/engine_app.png\'" alt=${aImages[i].associated_seals}}>';
+                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
             returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div>${vButtonInject}</div></div>`; // build the HTML string
@@ -651,7 +651,7 @@ let aImages = [];
 
 // time is up, bring the data
 setTimeout(() => {
-    console.log("data in setTimeout", aImages)
+    console.log("json input", aImages)
     page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
     doRecoverSavedItems(); // read localStorage saved data
     doNext(); // run doNext to render the 1st page of the gallery
