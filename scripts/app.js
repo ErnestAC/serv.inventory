@@ -87,9 +87,9 @@ function doHumanize(sizeInBytes, unitLabel = true){
         vPower++
     }
     if (unitLabel) {
-        xTRC = `${Math.round(sizeInBytes/Math.pow(1024,vPower+1))} ${aLabels[vPower+1]}`;
+        xTRC = `${Math.round(sizeInBytes/Math.pow(1024,vPower))} ${aLabels[vPower+1]}`;
     } else{
-        xTRC = Math.round(sizeInBytes/Math.pow(1024,vPower+1));
+        xTRC = Math.round(sizeInBytes/Math.pow(1024,vPower));
     }
     return xTRC
 
@@ -540,7 +540,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         while (i < vEndIdx) {
             let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
-            let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
+            let vEvalInjector = `<div class="flex-not-button" )">${doHumanize(aImages[i].storage)}</div>`; // add the type badge first
             let vAppsBadge = '';
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
@@ -560,7 +560,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
                 vButtonInject = `${vOTFbuttons}`;
-                vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
+                vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${doHumanize(aImages[i].storage)}<br><b>storage used: </b>${doHumanize(aImages[i].storage_used)}<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
             }
             // check if the server has apps
             
