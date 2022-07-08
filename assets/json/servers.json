@@ -600,5 +600,20 @@
     "placeholder2": "",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
+},
+{
+    "fqdn": "msx3412dr.externaltel.net",
+    "location": "AM1",
+    "engine_type": "hypervisor",
+    "storage": 10,
+    "storage_used": 9,
+    "associated_seals": 10001,
+    "version": "9.1.1",
+    "uuid": "taKup-5159-kReAo-ax",
+    "placeholder1": "",
+    "placeholder2": "",
+    "placeholder3": "",
+    "rsa_enabled": "FALSE"
 }
+
 ]

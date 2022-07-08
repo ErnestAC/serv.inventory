@@ -207,7 +207,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(3)'>sort by type</div><div class="flex-button" onclick='sortBy(4)'>sort by size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(6)'>type</div><div class="flex-button" onclick='sortBy(4)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -540,7 +540,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
             let vAppsBadge = '';
-
+            aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
@@ -562,7 +562,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             }
             // check if the server has apps
             
-            if (aImages[i].associated_seals != 'vacant'){
+            if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals !="" ){
                 vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
@@ -630,8 +630,8 @@ function sortBy(vAttrOrdinalPos = 1){
             doCallAToast(`sorting by storage used`);
             break;
         case 6:
-            aImages.sort((a, b) => (a.uuid > b.uuid) ? 1 : -1);
-            doCallAToast(`sorting by uuid`);
+            aImages.sort((a, b) => (a.placeholder1 < b.placeholder1) ? 1 : -1);
+            doCallAToast(`space free`);
             break;
         default:
             doCallAToast('Oh noes!')
@@ -654,16 +654,42 @@ function clearStuff(){
     }
 }
 
+function doPreBoot(){
+    windowTitle.innerText = `${vAppTitle} loading`;
+    (function() {
+        fetch(url)
+        .then(response => response.json())
+        .then(json => {
+            aImages = [...json];
+            vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
+            if (lFirstTime == "yes"){
+                doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+                localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+            }else{
+                console.log('Welcome back.');
+                doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
+            }  
+
+        })
+    })();
+}
+
 function doBootApp(){
-    windowTitle.innerText = `${vAppTitle}`;
-    page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
-    doRecoverSavedItems(); // read localStorage saved data
-    sortBy(1); // sort and boot
-    // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
-    // this needs to happen after the page is rendered
-    doClosePopUp();
-    // start the ping simulator once page loaded or failed
-    setInterval(doMockPing, 750);
+    doPreBoot();
+    setTimeout(() => {
+        //bootstraping routine
+        // fetch my data sources in under vDelay ms
+        windowTitle.innerText = `${vAppTitle}`;
+        page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
+        doRecoverSavedItems(); // read localStorage saved data
+        sortBy(1); // sort and boot
+        // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
+        // this needs to happen after the page is rendered
+        doClosePopUp();
+        // start the ping simulator once page loaded or failed
+        setInterval(doMockPing, 750);
+        requestDataFromURL();
+    }, vTimeOut);
 }
 
 // main code ----------------------------------------------------------
@@ -718,31 +744,9 @@ The statements below control the start of page behavior.
 */
 
 let vTotalPages = 0;
-
 // async loading of the main json file
 let aImages = [];
-windowTitle.innerText = `${vAppTitle} loading`;
-(function() {
-    fetch(url)
-    .then(response => response.json())
-    .then(json => {
-        aImages = [...json];
-        vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
-        if (lFirstTime == "yes"){
-            doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
-            localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-        }else{
-            console.log('Welcome back.');
-            doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
-        }  
-
-    })
-})();
-
+doBootApp();
 // time is up, bring the data // BOOT APP
-setTimeout(() => {
-    //bootstraping routine
-    doBootApp();
-    requestDataFromURL();
-}, vTimeOut);
+
 
