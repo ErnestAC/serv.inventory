@@ -521,7 +521,7 @@ border-color: rgb(64,64,64);
 }
 
 .flex-item-cartbox {
-  display: inline-flexbox;
+  display: flex;
   flex-flow: row;
   align-self: center;
   align-content: center;
@@ -531,24 +531,25 @@ border-color: rgb(64,64,64);
   flex-direction:row;
   overflow-wrap: break-word;
   margin: 0rem !important;
+  overflow-wrap: normal;
 }
 
 .flex-item-cartbox-inner {
-  display: flex;
-  flex-flow: row;
+  display: block;
+  flex-flow: column;
   align-self: center;
   align-content: center;
   margin: 0rem;
   margin-top: 0rem;
   border-radius: 0px;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start !important;
   overflow-wrap: break-word;
   background-color: rgba(15, 15, 15, 0.9);
   border-radius: 5px;
   padding: 0.2rem;
-  width: 100%;
   height:min-content;
+  width:45%;
 }
 
 

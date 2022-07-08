@@ -179,35 +179,13 @@ function doResetScroll(){
 
 }
 
-function doPrevious(){
-try {
-    doClosePopUp();
-    doResetScroll();
-    if (((page*vItemsPerPage) > 1 || page > 1)){
-        page--;
-    } else {
-        // control pages by comapring the trunc and round results
-        page = vTotalPages-1;
-    }
-    oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
-    displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
-    randomArrayAccess();
-    oInnerButtons.innerHTML=`${vNavMessage}`;
-    doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
-    return true;
-} catch (error) {
-    return false;
-}
-    
-}
-
 function doAllItems(showToast = false) {
     try{
         doResetScroll();
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(6)'>type</div><div class="flex-button" onclick='sortBy(4)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(6)'>type</div><div class="flex-button" onclick='sortBy(6)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -571,11 +549,6 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
         vThumbBox.innerHTML=returnString;
-        if (special){
-            document.getElementById(`button-detail${i}`).visibility = hidden;
-        } else {
-            document.getElementById(`button-detail${i}`).visibility = visible;
-        }
         return true;
     }
     catch{ // if there is an error just say it in console and carry on
@@ -663,7 +636,7 @@ function doPreBoot(){
             aImages = [...json];
             vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
             if (lFirstTime == "yes"){
-                doSplashScreen(`Hi there! This is serv.inventory.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
+                doSplashScreen(`Hi there! This is ${vAppTitle}.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
                 localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             }else{
                 console.log('Welcome back.');
@@ -675,7 +648,9 @@ function doPreBoot(){
 }
 
 function doBootApp(){
+    // call preloading async routine
     doPreBoot();
+    //wait for it...
     setTimeout(() => {
         //bootstraping routine
         // fetch my data sources in under vDelay ms
@@ -730,6 +705,15 @@ oPageNumber.addEventListener("click", function(){
     console.log("Don't just click stuff.")
 });
 
+document.getElementById('button-support').addEventListener("click", function(){
+    doPopUp(`This function (${document.getElementById('button-support').innerHTML}) is not ready yet.`);
+});
+
+document.getElementById('button-team').addEventListener("click", function(){
+    doPopUp(`This function (${document.getElementById('button-team').innerHTML}) is not ready yet.`);
+});
+
+
 //BOTTOM BUTTON LISTENERS
 oButtonCart.addEventListener("click", function(){
     doCartBox();
@@ -748,5 +732,3 @@ let vTotalPages = 0;
 let aImages = [];
 doBootApp();
 // time is up, bring the data // BOOT APP
-
-
