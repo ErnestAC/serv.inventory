@@ -77,15 +77,22 @@ function doMockPing(){
     return true;            
 }
 
-function doHumanize(sizeInBytes){
+function doHumanize(sizeInBytes, unitLabel = true){
     let vPower = 0;
     let vTemp;
+    let xTRC;
     const aLabels = ["B","KB","MB","GB","TB","PB","EB","TMB"];
-    while (vTemp > 1*Math.pow(1024, vPower)) {
+    while (vTemp > 1) {
+        vTemp = sizeInBytes/(Math.pow(1024,vPower))
         vPower++
     }
-    alert(vPower, Math.round(sizeInBytes/(Math.pow(1024, vPower-1))));
-    return Math.round(sizeInBytes/(Math.pow(1024, vPower-1)))
+    if (unitLabel) {
+        xTRC = `${Math.round(sizeInBytes/Math.pow(1024,vPower+1))} ${aLabels[vPower+1]}`;
+    } else{
+        xTRC = Math.round(sizeInBytes/Math.pow(1024,vPower+1));
+    }
+    return xTRC
+
 }
 
 function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to right, #005454, #003030)") {
@@ -538,11 +545,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${doHumanize(aImages[i].storage_used)} out of ${doHumanize(aImages[i].storage)} installed.')">alert</div>`;
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${doHumanize(aImages[i].storage_used)} out of ${doHumanize(aImages[i].storage)} installed.')">warn</div>`
             } else {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${doHumanize(aImages[i].storage_used)} out of ${doHumanize(aImages[i].storage)} installed.')">ok</div>`
             }
             if (! special) {
                 // injecting buttons for thumb view
@@ -747,5 +754,5 @@ let vTotalPages = 0;
 // async loading of the main json file
 let aImages = [];
 doBootApp();
-console.log(doHumanize(10000000000000))
+
 // time is up, bring the data // BOOT APP
