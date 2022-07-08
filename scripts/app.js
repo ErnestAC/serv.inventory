@@ -77,6 +77,16 @@ function doMockPing(){
     return true;            
 }
 
+function doHumanize(sizeInBytes){
+    let vPower = 0;
+    let vTemp;
+    const aLabels = ["B","KB","MB","GB","TB","PB","EB","TMB"];
+    while (vTemp > 1*Math.pow(1024, vPower)) {
+        vPower++
+    }
+    alert(vPower, Math.round(sizeInBytes/(Math.pow(1024, vPower-1))));
+    return Math.round(sizeInBytes/(Math.pow(1024, vPower-1)))
+}
 
 function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to right, #005454, #003030)") {
     try{
@@ -185,7 +195,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("free_space")'>free space</div><div class="flex-button" onclick='sortBy("engine_type")'>type</div><div class="flex-button" onclick='sortBy("storage")'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div><div class="flex-button" onclick='sortBy("storage")'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -595,16 +605,16 @@ function sortBy(vAttrOrdinalPos = 'fqdn'){
         case 'location':
             aImages.sort((a, b) => (a.location > b.location) ? 1 : -1);
             break;
-        case 'engine_type':
+        case 'engine type':
             aImages.sort((a, b) => (a.engine_type > b.engine_type) ? 1 : -1);
             break;
         case 'storage':
-            aImages.sort((a, b) => (a.storage > b.storage) ? 1 : -1);
+            aImages.sort((a, b) => (a.storage < b.storage) ? 1 : -1);
             break;                  
-        case 'storage_used':
+        case 'storage used':
             aImages.sort((a, b) => (a.storage_used > b.storage_used) ? 1 : -1);
             break;
-        case 'free_space':
+        case 'space free':
             aImages.sort((a, b) => ((100-(a.storage_used/a.storage)) > (100-(b.storage_used/b.storage))) ? 1 : -1);
             break;
         default:
@@ -737,4 +747,5 @@ let vTotalPages = 0;
 // async loading of the main json file
 let aImages = [];
 doBootApp();
+console.log(doHumanize(10000000000000))
 // time is up, bring the data // BOOT APP
