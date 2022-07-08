@@ -595,6 +595,8 @@ function dblClickStuff(vItemIndex){
     }
 }
 
+
+
 function sortBy(vAttrOrdinalPos = 1){
     // order of options:
     // 1fqdn,2location,3engine_type,4storage,
