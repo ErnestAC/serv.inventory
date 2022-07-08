@@ -5,6 +5,9 @@
 // create my array with all my images which is a global constant
 // array of items pulled from a JSON input.
 
+const vAppTitle = `JSA Serv.explorer`
+const windowTitle = document.getElementById(`app-Title`)
+
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 // local testing usage only!
@@ -48,7 +51,7 @@ const oInnerButtons = document.getElementById("activityShow");
 const oButtonHelp = document.getElementById("button-help");
 const oTitleAppName = document.getElementById("title-app-name");
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
-
+const oCartBoxText = document.getElementById("msgOfTheCartBox1");
 // functions    ----------------------------------------------------------
 
 async function requestDataFromURL(inURL='https://ernestac.github.io/serv.inventory/') {
@@ -134,13 +137,11 @@ function doAccess(vIdx){
 
 function doPopulateButtons(){
     // button writing routine
-    //document.getElementById("button-prev").innerHTML=`prev`;
-    //document.getElementById("button-next").innerHTML=`next`;
-    oButtonAll.innerHTML=`see all`;
+    oButtonAll.innerHTML=`refresh`;
     oButtonCart.innerHTML=`export (0)`;
     oButtonHelp.innerHTML=`?`;
-    oPageNumber.innerHTML=`wait...`;
-    oTitleAppName.innerHTML=`serv.inventory`;
+    oPageNumber.innerHTML=`loading...`;
+    oTitleAppName.innerHTML=`${vAppTitle}`;
 }
 
 function getIcon(vEngineType="generic"){
@@ -200,14 +201,16 @@ try {
     
 }
 
-function doAllItems() {
+function doAllItems(showToast = false) {
     try{
         doResetScroll();
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
         oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(3)'>sort by type</div><div class="flex-button" onclick='sortBy(4)'>sort by size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
-        doCallAToast(`Displaying all: ${aImages.length} item(s) retrieved.`, 1500);
+        if (showToast){
+            doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
+        }
         return true; 
     } catch {
         return false;
@@ -449,15 +452,14 @@ function doCartBox() {
     } else {
         itemInjection = `<div class="reg-text">Your cart is empty! <br> Add some items by clicking the 'add' buttons in the gallery view.</div>`;
     }
-    document.getElementById("cartboxPopup").style.visibility="visible";
-    document.getElementById("cartboxPopup").style.visibility="visible";
+    oCartBoxPopUp.style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
     document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:40px;" class="flex-button">dismiss</div>${itemInjection}`;
     document.getElementById("closeButtonCart").addEventListener("click", function(){
-        document.getElementById("cartboxPopup").style.visibility="hidden";
-        document.getElementById("backLock").style.visibility="hidden";
+    document.getElementById("cartboxPopup").style.visibility="hidden";
+    document.getElementById("backLock").style.visibility="hidden";
     });
-    document.getElementById("msgOfTheCartBox1").innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    oCartBoxText.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
 }
 
 
@@ -537,6 +539,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
+            let vAppsBadge = '';
+
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
@@ -557,7 +561,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
             }
             // check if the server has apps
-            let vAppsBadge = '';
+            
             if (aImages[i].associated_seals != 'vacant'){
                 vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
@@ -567,6 +571,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
         vThumbBox.innerHTML=returnString;
+        if (special){
+            document.getElementById(`button-detail${i}`).visibility = hidden;
+        } else {
+            document.getElementById(`button-detail${i}`).visibility = visible;
+        }
         return true;
     }
     catch{ // if there is an error just say it in console and carry on
@@ -645,6 +654,18 @@ function clearStuff(){
     }
 }
 
+function doBootApp(){
+    windowTitle.innerText = `${vAppTitle}`;
+    page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
+    doRecoverSavedItems(); // read localStorage saved data
+    sortBy(1); // sort and boot
+    // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
+    // this needs to happen after the page is rendered
+    doClosePopUp();
+    // start the ping simulator once page loaded or failed
+    setInterval(doMockPing, 750);
+}
+
 // main code ----------------------------------------------------------
 // here goes the code for calling the rendering functions
 //KEY LISTENERS
@@ -676,7 +697,8 @@ document.addEventListener('keyup', (event) => {
 
 //TOP BUTTON LISTENERS
 oButtonAll.addEventListener("click", function(){
-    doAllItems();
+    //re-request all and sends you back to top
+    doBootApp();
 });
 oPageNumber.addEventListener("click", function(){
     console.log("Don't just click stuff.")
@@ -687,7 +709,7 @@ oButtonCart.addEventListener("click", function(){
     doCartBox();
 });
 oButtonHelp.addEventListener("click", function(){
-    doSplashScreen("serv.inventory help","Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
+    doSplashScreen(`${vAppTitle} help`,"Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
 });
 
 //PAGE RENDERING SECTION
@@ -699,6 +721,7 @@ let vTotalPages = 0;
 
 // async loading of the main json file
 let aImages = [];
+windowTitle.innerText = `${vAppTitle} loading`;
 (function() {
     fetch(url)
     .then(response => response.json())
@@ -710,23 +733,16 @@ let aImages = [];
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         }else{
             console.log('Welcome back.');
-            doSplashScreen("serv.inventory, loading...","",false);
+            doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
         }  
 
     })
 })();
 
-// time is up, bring the data
+// time is up, bring the data // BOOT APP
 setTimeout(() => {
-    console.log("json input", aImages);
-    page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
-    doRecoverSavedItems(); // read localStorage saved data
-    sortBy(1); // sort and boot
-    // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
-    // this needs to happen after the page is rendered
-    doClosePopUp();
-    // start the ping simulator once page loaded or failed
-    setInterval(doMockPing, 750);
+    //bootstraping routine
+    doBootApp();
+    requestDataFromURL();
 }, vTimeOut);
 
-requestDataFromURL();
