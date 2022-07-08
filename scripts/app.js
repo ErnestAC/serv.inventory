@@ -45,6 +45,9 @@ const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
 const oPageNumber = document.getElementById("page-number");
 const oInnerButtons = document.getElementById("activityShow");
+const oButtonHelp = document.getElementById("button-help");
+const oTitleAppName = document.getElementById("title-app-name");
+const oMsgBoxPopUp = document.getElementById("msgboxPopup");
 
 // functions    ----------------------------------------------------------
 
@@ -135,9 +138,9 @@ function doPopulateButtons(){
     //document.getElementById("button-next").innerHTML=`next`;
     oButtonAll.innerHTML=`see all`;
     oButtonCart.innerHTML=`export (0)`;
-    document.getElementById("button-help").innerHTML=`?`;
+    oButtonHelp.innerHTML=`?`;
     oPageNumber.innerHTML=`wait...`;
-    document.getElementById("title-app-name").innerHTML=`serv.inventory`;
+    oTitleAppName.innerHTML=`serv.inventory`;
 }
 
 function getIcon(vEngineType="generic"){
@@ -252,7 +255,7 @@ function addItem(i) {
 
 function doUpdateCart() {
     try {
-        document.getElementById('button-cart').innerHTML=`export (${aSelected.length})`;
+        oButtonCart.innerHTML=`export (${aSelected.length})`;
         return true;    
     } catch (error) {
         console.log(`${error} - Can't update the cart.`);
@@ -382,7 +385,7 @@ function doRandomPing() {
 
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
     try {
-        document.getElementById("msgboxPopup").style.visibility="visible";
+        oMsgBoxPopUp.style.visibility="visible";
         oBackLockPlus.style.visibility="visible";
         let buttonInjector;
         if (vAuto){
@@ -391,10 +394,10 @@ function doPopUp(vMsg,vAuto=false,vDelay=950) {
         }else{
             buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
         }
-        document.getElementById("msgboxPopup").innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
+        oMsgBoxPopUp.innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
         if (! vAuto){
             document.getElementById("closeButton").addEventListener("click", function(){
-                document.getElementById("msgboxPopup").style.visibility="hidden";
+                oMsgBoxPopUp.style.visibility="hidden";
                 oBackLockPlus.style.visibility="hidden";
             });
         }
@@ -466,8 +469,7 @@ function doRemoveFromCart(indexToRemove){
     } catch {
         console.log("Well, the index you passed me does not correspond to an item in my list.");
         return false;
-    }
-    finally{
+    } finally {
         doClosePopUp();
         doUpdateCart();
         localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
@@ -479,7 +481,7 @@ function doEmptyCart(){
     doClosePopUp();
     if (aSelected.length == 0){ // ask if the cart is empty
         doPopUp("Your cart is already empty.", true, 1500);    
-    }else{ // if the cart is not empty, empty it
+    } else { // if the cart is not empty, empty it
         aSelected=[]; // empty the array
         doUpdateCart(); // recalculate the contents of the cart
         doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
@@ -492,7 +494,7 @@ function doClosePopUp(){
     // general reusable function
     // clear the screen from any open popups, used in transitions between screens and boxes
     document.getElementById("msgboxSplash").style.visibility="hidden";
-    document.getElementById("msgboxPopup").style.visibility="hidden";
+    oMsgBoxPopUp.style.visibility="hidden";
     document.getElementById("cartboxPopup").style.visibility="hidden";
     document.getElementById("backLock").style.visibility="hidden";
     oBackLockPlus.style.visibility="hidden";
@@ -686,7 +688,7 @@ oPageNumber.addEventListener("click", function(){
 oButtonCart.addEventListener("click", function(){
     doCartBox();
 });
-document.getElementById("button-help").addEventListener("click", function(){
+oButtonHelp.addEventListener("click", function(){
     doSplashScreen("serv.inventory help","Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
 });
 
