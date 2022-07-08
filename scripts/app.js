@@ -185,7 +185,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(6)'>type</div><div class="flex-button" onclick='sortBy(6)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(9)'>type</div><div class="flex-button" onclick='sortBy(6)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }

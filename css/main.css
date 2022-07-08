@@ -500,20 +500,20 @@ border-color: rgb(64,64,64);
 }
 
 .flex-container-cartbox {
-  display:block;
+  display:flex;
   /*grid-auto-flow: row;*/
-  height:auto;
+  height:95%;
   align-self: center;
   justify-self: center;
   align-content:flex-start;
   border-radius: 4px;
-  flex-flow:column;
-  flex-direction:column;
+  flex-flow: column;
+  overflow-wrap: normal;
   padding: .71rem;
   top: 4.2rem;
   margin-top: 4.2rem;
   margin-bottom:1rem;
-  width: 90%;
+  width: 85%;
   background-color: rgba(0, 48, 48, 0.99);
   visibility: hidden;
   overflow-y: scroll;
@@ -525,17 +525,17 @@ border-color: rgb(64,64,64);
   flex-flow: row;
   align-self: center;
   align-content: center;
-  width: 100%;
+  width: 45%;
   height: min-content;
   border-radius: 0px;
   flex-direction:row;
-  overflow-wrap: break-word;
+  overflow-wrap: normal;
   margin: 0rem !important;
   overflow-wrap: normal;
 }
 
 .flex-item-cartbox-inner {
-  display: block;
+  display: flex;
   flex-flow: column;
   align-self: center;
   align-content: center;
@@ -549,7 +549,7 @@ border-color: rgb(64,64,64);
   border-radius: 5px;
   padding: 0.2rem;
   height:min-content;
-  width:45%;
+  width:100%;
 }
 
 
