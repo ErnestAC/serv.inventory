@@ -634,8 +634,6 @@ function clearStuff(){
     }
 }
 
-''
-
 //pre boot routine
 function doPreBoot(){
     windowTitle.innerText = `${vAppTitle} loading`;
