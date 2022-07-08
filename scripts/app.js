@@ -185,7 +185,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(6)'>type</div><div class="flex-button" onclick='sortBy(6)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("free_space")'>free space</div><div class="flex-button" onclick='sortBy("engine_type")'>type</div><div class="flex-button" onclick='sortBy("storage")'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -584,39 +584,33 @@ function dblClickStuff(vItemIndex){
     }
 }
 
-function sortBy(vAttrOrdinalPos = 1){
+function sortBy(vAttrOrdinalPos = 'fqdn'){
     // order of options:
     // 1fqdn,2location,3engine_type,4storage,
     // 5storage_used,6associated_seals,7version,8uuid,9rsa_enabled
     switch (vAttrOrdinalPos) {
-        case 1:
+        case 'fqdn':
             aImages.sort((a, b) => (a.fqdn > b.fqdn) ? 1 : -1);
-            doCallAToast(`sorting by fqdn`);
             break;
-        case 2:
+        case 'location':
             aImages.sort((a, b) => (a.location > b.location) ? 1 : -1);
-            doCallAToast(`sorting by location`);
             break;
-        case 3:
+        case 'engine_type':
             aImages.sort((a, b) => (a.engine_type > b.engine_type) ? 1 : -1);
-            doCallAToast(`sorting by type`);
             break;
-        case 4:
+        case 'storage':
             aImages.sort((a, b) => (a.storage > b.storage) ? 1 : -1);
-            doCallAToast(`sorting by storage installed`);
             break;                  
-        case 5:
+        case 'storage_used':
             aImages.sort((a, b) => (a.storage_used > b.storage_used) ? 1 : -1);
-            doCallAToast(`sorting by storage used`);
             break;
-        case 6:
-            aImages.sort((a, b) => (a.placeholder1 < b.placeholder1) ? 1 : -1);
-            doCallAToast(`space free`);
+        case 'free_space':
+            aImages.sort((a, b) => ((100-(a.storage_used/a.storage)) > (100-(b.storage_used/b.storage))) ? 1 : -1);
             break;
         default:
-            doCallAToast('Oh noes!')
             break;
     }
+    doCallAToast(`sorting by ${vAttrOrdinalPos}`);
     doAllItems();
 }
 
@@ -665,7 +659,7 @@ function doBootApp(){
         windowTitle.innerText = `${vAppTitle}`;
         doRecoverSavedItems(); // read localStorage saved data
         page=0; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
-        sortBy(1); // sort and boot
+        sortBy('fqdn'); // sort and boot
         // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
         // this needs to happen after the page is rendered
         if (aSelected == null){
