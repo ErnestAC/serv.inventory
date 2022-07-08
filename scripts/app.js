@@ -185,7 +185,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(9)'>type</div><div class="flex-button" onclick='sortBy(6)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy(1)'>sort by fqdn</div><div class="flex-button" onclick='sortBy(6)'>free space</div><div class="flex-button" onclick='sortBy(6)'>type</div><div class="flex-button" onclick='sortBy(6)'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -199,6 +199,10 @@ function addItem(i) {
     let vFoundFlag =  false;
     let ix = 0;
     // read through the selection array and compare the ID, if they match raise a popup and deny the add
+    if (aSelected == null){
+        aSelected = [];
+        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+    }
     try {
         while (ix != aSelected.lenght) {
             if (aSelected[ix].fqdn == aImages[i].fqdn){
@@ -298,6 +302,7 @@ function doRecoverSavedItems(){
         lFirstTime="yes";
         console.log("Nothing found in local storage or an error occurred. Data is ignored.");
         aSelected=[];
+        doUpdateCart()
         return false;
     }
 }
@@ -428,6 +433,8 @@ function doCartBox() {
             }
         }
     } else {
+        aSelected = [];
+        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         itemInjection = `<div class="reg-text">Your cart is empty! <br> Add some items by clicking the 'add' buttons in the gallery view.</div>`;
     }
     oCartBoxPopUp.style.visibility="visible";
@@ -627,6 +634,7 @@ function clearStuff(){
     }
 }
 
+//pre boot routine
 function doPreBoot(){
     windowTitle.innerText = `${vAppTitle} loading`;
     (function() {
@@ -655,11 +663,15 @@ function doBootApp(){
         //bootstraping routine
         // fetch my data sources in under vDelay ms
         windowTitle.innerText = `${vAppTitle}`;
-        page=-1; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
         doRecoverSavedItems(); // read localStorage saved data
+        page=0; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
         sortBy(1); // sort and boot
         // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
         // this needs to happen after the page is rendered
+        if (aSelected == null){
+            aSelected = [];
+            localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+        }
         doClosePopUp();
         // start the ping simulator once page loaded or failed
         setInterval(doMockPing, 750);
