@@ -77,15 +77,22 @@ function doMockPing(){
     return true;            
 }
 
-function doHumanize(sizeInBytes){
+function doHumanize(sizeInBytes, unitLabel = true){
     let vPower = 0;
     let vTemp;
+    let xTRC;
     const aLabels = ["B","KB","MB","GB","TB","PB","EB","TMB"];
-    while (vTemp > 1*Math.pow(1024, vPower)) {
+    while (vTemp > 1) {
+        vTemp = sizeInBytes/(Math.pow(1024,vPower))
         vPower++
     }
-    alert(vPower, Math.round(sizeInBytes/(Math.pow(1024, vPower-1))));
-    return Math.round(sizeInBytes/(Math.pow(1024, vPower-1)))
+    if (unitLabel) {
+        xTRC = `${Math.round(sizeInBytes/Math.pow(1024,vPower))} ${aLabels[vPower+1]}`;
+    } else{
+        xTRC = Math.round(sizeInBytes/Math.pow(1024,vPower));
+    }
+    return xTRC
+
 }
 
 function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to right, #005454, #003030)") {
@@ -533,16 +540,16 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         while (i < vEndIdx) {
             let vOTFbuttons = `<div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div><div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-ping${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
-            let vEvalInjector = `<div class="flex-not-button" )">${vPercentFree}%</div>`; // add the type badge first
+            let vEvalInjector = `<div class="flex-not-button" )">${doHumanize(aImages[i].storage)}</div>`; // add the type badge first
             let vAppsBadge = '';
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${doHumanize(aImages[i].storage_used)} out of ${doHumanize(aImages[i].storage)} installed.')">alert</div>`;
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${doHumanize(aImages[i].storage_used)} out of ${doHumanize(aImages[i].storage)} installed.')">warn</div>`
             } else {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">ok</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${doHumanize(aImages[i].storage_used)} out of ${doHumanize(aImages[i].storage)} installed.')">ok</div>`
             }
             if (! special) {
                 // injecting buttons for thumb view
@@ -553,7 +560,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
                 vButtonInject = `${vOTFbuttons}`;
-                vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
+                vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${doHumanize(aImages[i].storage)}<br><b>storage used: </b>${doHumanize(aImages[i].storage_used)}<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
             }
             // check if the server has apps
             
@@ -747,5 +754,5 @@ let vTotalPages = 0;
 // async loading of the main json file
 let aImages = [];
 doBootApp();
-console.log(doHumanize(10000000000000))
+
 // time is up, bring the data // BOOT APP
