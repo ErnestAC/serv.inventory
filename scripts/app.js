@@ -40,6 +40,9 @@ let vgResponse = false;
 // values for free space evaluation
 let cAlertValueUpper = 10; // how much space free is considered alert
 let cWarnValueUpper = 25; // how much space free is considered warn
+let vCountAlert = 0;
+let vCountWarn = 0;
+let vCountOK = 0;
 
 // ui object constants
 const oButtonAll = document.getElementById("button-all");
@@ -196,9 +199,16 @@ function doResetScroll(){
 
 }
 
+function doResetCounters() {
+    vCountAlert=0;
+    vCountWarn=0;
+    vCountOK=0;
+}
+
 function doAllItems(showToast = false) {
     try{
         doResetScroll();
+        doResetCounters();
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
@@ -526,7 +536,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         // return button adder
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doAllItems()">go back</div>`;
         let i=vStartIdx; // initialize my counter with start index
-        
+        let vSummaryInject = "";
+
         if (vEndIdx == 0){vEndIdx=aImages.length;}
         
         if (vEndIdx == 0 ){
@@ -546,21 +557,26 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">alert</div>`;
+                vCountAlert++
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">warn</div>`;
+                vCountWarn++
             } else {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used} out of ${aImages[i].storage} installed.')">ok</div>`
+                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used} out of ${aImages[i].storage} installed.')">ok</div>`;
+                vCountOK++
             }
             if (! special) {
                 // injecting buttons for thumb view
                 vCSSClass = "flex-item-articles"; // my class to be injected in the dynamically generated html    
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = "";
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="thumb${i}" src='./assets/images/engine_dbs.png' alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>grid summary</b><br><b>server count: </b>${aImages.length}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
+                vSummaryInject= "";
             }
             // check if the server has apps
             
@@ -572,7 +588,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
-        vThumbBox.innerHTML=returnString;
+        vThumbBox.innerHTML=`${vSummaryInject}${returnString}`;
         return true;
     }
     catch{ // if there is an error just say it in console and carry on
@@ -668,6 +684,9 @@ function doPreBoot(){
 
 function doBootApp(){
     // call preloading async routine
+    vCountAlert=0;
+    vCountWarn=0;
+    vCountOK=0;
     doPreBoot();
     //wait for it...
     setTimeout(() => {
