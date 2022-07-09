@@ -220,7 +220,7 @@ a​:hover {
   padding: 0.1rem;
 }
 
-.flex-item-articles {
+.flex-item-articles, .flex-item-articles-summary {
   align-items: center;
   display: flexbox;
   background-color: rgba(15, 15, 15, 0.95);
@@ -240,6 +240,9 @@ a​:hover {
   background-size: 100%;
 }
 
+.flex-item-articles-summary {
+  background-color: rgba(0, 32, 32, 1);
+}
 
 /*  added for details */
 .flex-item-articles-half-width {
@@ -261,6 +264,17 @@ border-color: rgb(64,64,64);
   background-position: top;
   background-size: 100%;
   width: 95vw !important;
+}
+
+.flex-item-articles-summary img {
+  display: block;
+  height: auto;
+  width: 34px;
+  border-radius: 5px;
+  /*border-style:solid;
+  border-width: 1px;
+  border-color: rgb(25,25,25);*/
+  transition: all 0.5s;
 }
 
 .flex-item-articles img {
@@ -311,7 +325,7 @@ border-color: rgb(64,64,64);
   padding: 0.8rem;
 }
 
-.flex-item-articles, .flex-item-articles-half-width {
+.flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
   transition: all, 150ms;
 }
 .flex-item-articles ul, .flex-item-articles-half-width ul {
@@ -784,7 +798,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (max-width: 450px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 95vw !important;
     word-wrap: normal;
@@ -817,7 +831,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 452px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 85%;
     word-wrap: normal;
@@ -827,13 +841,13 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 650px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     width: 43%;
   }
 }
 
 @media screen and (min-width: 801px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 40%;
     word-wrap: normal;
@@ -843,7 +857,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 900px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 30%;
     padding: 0.3rem;
@@ -852,7 +866,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 1000px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     word-wrap: normal;
     padding: 0.3rem;
@@ -862,7 +876,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 1100px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     word-wrap: normal;
     padding: 0.3rem;
@@ -872,7 +886,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 1200px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 30%;
     word-wrap: normal;
@@ -882,7 +896,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 1400px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 22%;
     word-wrap: normal;
@@ -892,7 +906,7 @@ border-color: rgb(64,64,64);
 }
 
 @media screen and (min-width: 1600px) {
-  .flex-item-articles, .flex-item-articles-half-width {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 18%;
     word-wrap: normal;
