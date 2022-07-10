@@ -602,10 +602,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
 }
 
 function addAllItemsToCart(){
+    // copy one array into the other, then save and update
     aSelected = aImages
     doUpdateCart();
     localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-    doPopUp(`${aSelected.length} servers added to the export cart.`,true,1500);
+    doPopUp(`${aSelected.length} servers added to the export cart.`,true,2000);
 }
 
 function dblClickStuff(vItemIndex){
