@@ -11,7 +11,7 @@ const windowTitle = document.getElementById(`app-Title`)
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 // local testing usage only!
-// const url = "../assets/json/servers.json"
+// const url = "../assets/json/xservers.json"
 
 // selection color constant
 const vSelColor="rgba(0,255,255,0.3)";
@@ -46,7 +46,7 @@ let vCountOK = 0;
 
 // ui object constants
 const oButtonAll = document.getElementById("button-all");
-const oCartBoxPopUp = document.getElementById('cartboxPopup');
+const oCartBoxPopUp = document.getElementById("cartboxPopup");
 const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
 const oPageNumber = document.getElementById("page-number");
@@ -54,7 +54,8 @@ const oInnerButtons = document.getElementById("activityShow");
 const oButtonHelp = document.getElementById("button-help");
 const oTitleAppName = document.getElementById("title-app-name");
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
-const oCartBoxText = document.getElementById("msgOfTheCartBox1");
+
+
 // functions    ----------------------------------------------------------
 
 async function requestDataFromURL(inURL='https://ernestac.github.io/serv.inventory/') {
@@ -442,8 +443,8 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
 function doCartBox() {
     let i = 0; //start the cart index in the first item of the array
     let itemInjection = ""; // empty local HTML builder
-    let lvCSSClass = "flex-item-cartbox-inner";
-    let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div></div><br>`
+    let lvCSSClass = "flex-item-articles";
+    let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div><br>`
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
             try{
@@ -466,12 +467,15 @@ function doCartBox() {
     }
     oCartBoxPopUp.style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    document.getElementById("cartboxPopup").innerHTML=`<h2>export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5>contents</h5> <div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:40px;" class="flex-button">dismiss</div>${itemInjection}`;
+    oCartBoxPopUp.innerHTML=`<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button">dismiss</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
+    const oCartBoxText = document.getElementById("msgOfTheCartBox");
+    const oCartBoxText1 = document.getElementById("msgOfTheCartBox1");
     document.getElementById("closeButtonCart").addEventListener("click", function(){
-    document.getElementById("cartboxPopup").style.visibility="hidden";
+    oCartBoxPopUp.style.visibility="hidden";
     document.getElementById("backLock").style.visibility="hidden";
     });
     oCartBoxText.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    oCartBoxText1.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
 }
 
 
@@ -509,7 +513,7 @@ function doClosePopUp(){
     // clear the screen from any open popups, used in transitions between screens and boxes
     document.getElementById("msgboxSplash").style.visibility="hidden";
     oMsgBoxPopUp.style.visibility="hidden";
-    document.getElementById("cartboxPopup").style.visibility="hidden";
+    oCartBoxPopUp.style.visibility="hidden";
     document.getElementById("backLock").style.visibility="hidden";
     oBackLockPlus.style.visibility="hidden";
 }
@@ -570,7 +574,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vCSSClass = "flex-item-articles"; // my class to be injected in the dynamically generated html    
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><!--X--></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>grid summary</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok">${vCountOK}</div></div></div>`;
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><!--X--></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>grid summary</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
@@ -601,10 +605,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
 }
 
 function addAllItemsToCart(){
+    // copy one array into the other, then save and update
     aSelected = aImages
     doUpdateCart();
     localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-    doPopUp(`${aSelected.length} servers added to the export cart.`,true,1500);
+    doPopUp(`${aSelected.length} servers added to the export cart.`,true,2000);
 }
 
 function dblClickStuff(vItemIndex){
@@ -663,23 +668,34 @@ function clearStuff(){
 
 //pre boot routine
 function doPreBoot(){
+//modern
     windowTitle.innerText = `${vAppTitle} loading`;
-    (function() {
-        fetch(url)
-        .then(response => response.json())
-        .then(json => {
-            aImages = [...json];
-            vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
-            if (lFirstTime == "yes"){
-                doSplashScreen(`Hi there! This is ${vAppTitle}.`,`Looks like it is your first time here.<br><br>Be sure to check out the help (?) button on the bottom bar.`,false)
-                localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-            }else{
-                console.log('Welcome back.');
-                doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
-            }  
 
-        })
-    })();
+    fetch(url).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(`Can't read from ${url}`);
+    })
+    .then((responseJson) => {
+        aImages = [...responseJson];
+                    vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
+                    if (lFirstTime == "yes"){
+                        doSplashScreen(`Starting ${vAppTitle}`,`Saving initialization data.`,false)
+                        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+                    }else{
+                        console.log('Welcome back.');
+                        doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
+                    }  
+    })
+    .catch((error) => {
+        doPopUp(`Error: Can't read data from ${url}. Retrying...`);
+        //recursive call to self
+        setTimeout(() => {
+            doPreBoot();    
+        }, vTimeOut);
+        console.log(error)
+    });
 }
 
 function doBootApp(){
