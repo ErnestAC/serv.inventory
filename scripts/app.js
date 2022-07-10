@@ -79,25 +79,7 @@ function doMockPing(){
         g++;
     }
     return true;            
-}
-
-function doHumanize(sizeInBytes, unitLabel = true){
-    let vPower = 0;
-    let vTemp;
-    let xTRC;
-    const aLabels = ["B","KB","MB","GB","TB","PB","EB","TMB"];
-    while (vTemp > 1) {
-        vTemp = sizeInBytes/(Math.pow(1024,vPower))
-        vPower++
-    }
-    if (unitLabel) {
-        xTRC = `${Math.round(sizeInBytes/Math.pow(1024,vPower+1))} ${aLabels[vPower+1]}`;
-    } else{
-        xTRC = Math.round(sizeInBytes/Math.pow(1024,vPower+1));
-    }
-    return xTRC
-
-}
+}    
 
 function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to right, #005454, #003030)") {
     try{
@@ -762,17 +744,12 @@ oButtonAll.addEventListener("click", function(){
 oPageNumber.addEventListener("click", function(){
     console.log("Don't just click stuff.")
 });
-
 document.getElementById('button-support').addEventListener("click", function(){
     doPopUp(`This function (${document.getElementById('button-support').innerHTML}) is not ready yet.`);
 });
-
 document.getElementById('button-team').addEventListener("click", function(){
     doPopUp(`This function (${document.getElementById('button-team').innerHTML}) is not ready yet.`);
 });
-
-
-//BOTTOM BUTTON LISTENERS
 oButtonCart.addEventListener("click", function(){
     doCartBox();
 });
@@ -780,13 +757,7 @@ oButtonHelp.addEventListener("click", function(){
     doSplashScreen(`${vAppTitle} help`,"Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
 });
 
-//PAGE RENDERING SECTION
-/*READ ME -----------------------------------------------
-The statements below control the start of page behavior.
-*/
-
+//COLD BOOT PARAMETERS
 let vTotalPages = 0;
-// async loading of the main json file
 let aImages = [];
-doBootApp();
-// time is up, bring the data // BOOT APP
+doBootApp(); //BOOT APP
