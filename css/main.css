@@ -10,7 +10,7 @@
 
 .special-text {
   color: white;
-  padding: 1rem !important;
+  padding: 0.7rem !important;
 }
 
 .special-text-bar {
@@ -530,7 +530,7 @@ border-color: rgb(64,64,64);
 .flex-container-cartbox {
   display:flex;
   /*grid-auto-flow: row;*/
-  align-self: center;
+  align-self: flex-start;
   align-items:flex-start;
   border-radius: 4px;
   flex-flow: row;
