@@ -259,31 +259,6 @@ function doUpdateCart() {
     
 }
 
-function doNext(){
-    try {   // close potentially open pop-up events
-        doResetScroll();
-        doClosePopUp();
-        // if we still have pages, we add one, otherwise we reset
-        if ((page*vItemsPerPage)+vItemsPerPage < aImages.length){
-            page++;
-        } else {
-            page=0;
-        }
-        //update the page display box
-        oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
-        // generate the gallery thumbs based on the calculations for page number
-        displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
-        //write the bottom signature of the page
-        randomArrayAccess();
-        // print the special message to guide the user
-        oInnerButtons.innerHTML=`${vNavMessage}`;
-        doCallAToast(`Page ${page+1} of ${vTotalPages}`,1000);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
 function doRecoverPage(){
     try {
         doResetScroll();
@@ -372,7 +347,6 @@ function doRandomItem() {
     let vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
     oPageNumber.innerHTML=`item: ${vRandomValueID}`;
     displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
-    //oInnerButtons.innerHTML="Hit an arrow key to return to the gallery view or R to get another random item."
 }
 
 function doRandomPing() {
@@ -523,15 +497,12 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doAllItems()">go back</div>`;
         let i=vStartIdx; // initialize my counter with start index
         let vSummaryInject = "";
-
         if (vEndIdx == 0){vEndIdx=aImages.length;}
-        
         if (vEndIdx == 0 ){
             returnString = vThumbBox.innerHTML; // get the current contents of the div to add stuff to
         } else {
             returnString = ``; // empty the return string if the end index is not 0 to clear the gallery page
         }
-
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
@@ -564,8 +535,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
                 vSummaryInject= "";
             }
-            // check if the server has apps
-            
+            // check if the server has apps   
             if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals !="" ){
                 vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
@@ -632,20 +602,6 @@ function sortBy(vAttrOrdinalPos = 'fqdn'){
     }
     doCallAToast(`sorting by ${vAttrOrdinalPos}`);
     doAllItems();
-}
-
-function clearStuff(){
-    // clear all selections from the page
-    let i=0; // start an empty counter
-    while (i < aImages.length) {
-        try {
-            document.getElementById(`thumb${i}`).style.backgroundColor=vUnSelColor;
-        }
-        catch {
-            console.log('Cleared selection.');        
-        }
-        i++; // increment for next idx
-    }
 }
 
 //pre boot routine
