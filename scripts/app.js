@@ -54,7 +54,7 @@ const oInnerButtons = document.getElementById("activityShow");
 const oButtonHelp = document.getElementById("button-help");
 const oTitleAppName = document.getElementById("title-app-name");
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
-const oCartBoxText = document.getElementById("msgOfTheCartBox1");
+
 
 // functions    ----------------------------------------------------------
 
@@ -443,7 +443,7 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
 function doCartBox() {
     let i = 0; //start the cart index in the first item of the array
     let itemInjection = ""; // empty local HTML builder
-    let lvCSSClass = "flex-item-cartbox-inner";
+    let lvCSSClass = "flex-item-articles";
     let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div><br>`
     if (aSelected.length != 0) {
         while (i != aSelected.lenght) {
@@ -467,12 +467,15 @@ function doCartBox() {
     }
     oCartBoxPopUp.style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    oCartBoxPopUp.innerHTML=`<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><h5 style="width=100%">contents</h5><div class="flex-item-articles-badges-buttonboard-horizontal"><div class="flex-item-cartbox" id="msgOfTheCartBox1"></div><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button">dismiss</div></div>${itemInjection}`;
+    oCartBoxPopUp.innerHTML=`<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button">dismiss</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
+    const oCartBoxText = document.getElementById("msgOfTheCartBox");
+    const oCartBoxText1 = document.getElementById("msgOfTheCartBox1");
     document.getElementById("closeButtonCart").addEventListener("click", function(){
     oCartBoxPopUp.style.visibility="hidden";
     document.getElementById("backLock").style.visibility="hidden";
     });
     oCartBoxText.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    oCartBoxText1.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
 }
 
 

@@ -310,10 +310,12 @@ border-color: rgb(64,64,64);
 .flex-item-articles-badges-buttonboard-horizontal {
   display: flex;
   width: 100%;
-  height: 34px !important;
+  height: min-content !important;
   flex-wrap:wrap;
+  flex-direction: row;
   overflow-wrap:normal;
   padding: 0rem;
+  align-content: flex-start;
 }
 
 .flex-item-articles-half-width img {
@@ -525,20 +527,21 @@ border-color: rgb(64,64,64);
 .flex-container-cartbox {
   display:flex;
   /*grid-auto-flow: row;*/
-  height:95%;
   align-self: center;
+  align-items:flex-start;
   border-radius: 4px;
-  flex-flow: column;
+  flex-flow: row;
+  flex-wrap: wrap;
   overflow-wrap: normal;
   padding: .71rem;
-  top: 4.2rem;
-  margin-top: 4.2rem;
+  margin-top: 2.8rem;
   margin-bottom:1rem;
-  width: 85%;
+  width: 100%;
   background-color: rgba(0, 48, 48, 0.99);
   visibility: hidden;
   overflow-y: scroll;
   overflow-x: hidden;
+  justify-content:flex-start;
 }
 
 .flex-item-cartbox {
@@ -557,7 +560,7 @@ border-color: rgb(64,64,64);
   display: block;
   align-self: center;
   align-content: center;
-  margin: 0rem;
+  margin: 0.2rem;
   border-radius: 0px;
   flex-direction: row;
   overflow-wrap: normal;
@@ -565,7 +568,7 @@ border-color: rgb(64,64,64);
   border-radius: 5px;
   padding: 0.2rem;
   width:15vw;
-  justify-content:space-around;
+  
 }
 
 
