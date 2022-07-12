@@ -65,16 +65,16 @@ function doSearch(searchTerm) {
     doAllItems();
     let ix;
     let aFound = [];
-    let exists;
+    let existString;
+    let vTemp = ``;
     ix = 0;
     while (ix < aImages.length){
         try {
-        exists = `${aImages[ix].fqdn} | ${aImages[ix].location} | ${aImages[ix].engine_type}${aImages[ix].associated_seals} | ${aImages[ix].version} | ${aImages[ix].uuid} | ${aImages[ix].placeholder1$} | ${aImages[ix].rsa_enabled}`;
-        if (exists.indexOf((searchTerm)) > -1){
+        existString = `${aImages[ix].fqdn} | ${aImages[ix].location} | ${aImages[ix].engine_type}${aImages[ix].associated_seals} | ${aImages[ix].version} | ${aImages[ix].uuid} | ${aImages[ix].placeholder1$} | ${aImages[ix].rsa_enabled}`;
+        if (existString.indexOf((searchTerm)) > -1){
             aFound.push(aImages[ix]);
         }
         }
-        
         catch {
             console.log("OK0");
         }
