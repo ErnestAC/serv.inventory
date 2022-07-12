@@ -54,9 +54,29 @@ const oInnerButtons = document.getElementById("activityShow");
 const oButtonHelp = document.getElementById("button-help");
 const oTitleAppName = document.getElementById("title-app-name");
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
+const oSearchBox = document.getElementById("search-box");
 
 
 // functions    ----------------------------------------------------------
+
+function doSearch(searchTerm) {
+    let ix;
+    let aFound = [];
+    let exists = "";
+    alert("here1")
+    while (ix < aImages.lentgh){
+        exists = `${aImages[ix]}.fqdn}|${aImages[ix]}.location}|${aImages[ix]}.engine_type}|${aImages[ix]}.associated_seals}|${aImages[ix]}.version}|${aImages[ix]}.uuid}|${aImages[ix]}.placeholder1|${aImages[ix]}.rsa_enabled}}`
+        alert(exists)
+        if (exists.indexOf(searchTerm) > -1){
+            alert("here")
+        }
+        ix++
+    }
+    aImages = [];
+    aImages = aFound;
+    displayInThumbs();
+}
+
 
 async function requestDataFromURL(inURL='https://ernestac.github.io/serv.inventory/') {
     const incomingData = await fetch(inURL);
@@ -672,13 +692,6 @@ doPopulateButtons();
 document.addEventListener('keydown', (event) => {
 // should use switch case instead of a large list of if
     let name = event.key;
-
-    if (name == "A" || name == "a"){
-        doAllItems();
-    }
-    if (name == "R" || name == "r"){
-        doRandomItem();
-    }
     if (name == "Escape"){
         doClosePopUp();
     }
@@ -688,6 +701,13 @@ document.addEventListener('keyup', (event) => {
     let name = event.key;
     if (name == "Control"){
         vIsCtrlDn=false;
+    }
+}, false);
+
+document.addEventListener('keyup', (event) => {
+    let name = event.key;
+    if (name == "Enter"){
+        doSearch(oSearchBox.value);
     }
 }, false);
 
@@ -712,8 +732,13 @@ oButtonCart.addEventListener("click", function(){
 oButtonHelp.addEventListener("click", function(){
     doSplashScreen(`${vAppTitle} help`,"Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
 });
+oSearchBox.addEventListener("click", function(){
+    doCallAToast("Hit ENTER to search",10000,vOKColor);
+    oSearchBox.value="";
+});
 
 //COLD BOOT PARAMETERS
 let vTotalPages = 0;
 let aImages = [];
+oSearchBox.value="(search)";
 doBootApp(); //BOOT APP
