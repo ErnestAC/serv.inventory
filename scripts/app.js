@@ -59,6 +59,17 @@ const oSearchBox = document.getElementById("search-box");
 
 // functions    ----------------------------------------------------------
 
+function doAppendToCart(){
+    aSelected = aSelected.concat(aImages);
+    doUpdateCart();
+}
+
+function doResetDisplay(){
+    aImages = aImagesMirror;
+    doAllItems();
+    doPopUp(`back to grid view`,true,1500)
+}
+
 function doSearch(searchTerm) {
     // reset display
     aImages = aImagesMirror;
@@ -66,12 +77,11 @@ function doSearch(searchTerm) {
     let ix;
     let aFound = [];
     let existString;
-    let vTemp = ``;
     ix = 0;
     while (ix < aImages.length){
         try {
         existString = `${aImages[ix].fqdn} | ${aImages[ix].location} | ${aImages[ix].engine_type}${aImages[ix].associated_seals} | ${aImages[ix].version} | ${aImages[ix].uuid} | ${aImages[ix].placeholder1$} | ${aImages[ix].rsa_enabled}`;
-        if (existString.indexOf((searchTerm)) > -1){
+        if (existString.toLowerCase().indexOf((searchTerm.toLowerCase())) > -1){
             aFound.push(aImages[ix]);
         }
         }
@@ -84,7 +94,7 @@ function doSearch(searchTerm) {
     }
     aImages = aFound;
     doAllItems();
-    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doAllItems()">go back</div>`;
+    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
     // NO 
     doPopUp(oPageNumber.innerText,true,2000);
 }
@@ -745,5 +755,5 @@ oSearchBox.addEventListener("click", function(){
 let vTotalPages = 0;
 let aImages = [];
 let aImagesMirror = [];
-oSearchBox.value="(search)";
+oSearchBox.value="";
 doBootApp(); //BOOT APP
