@@ -59,10 +59,15 @@ const oSearchBox = document.getElementById("search-box");
 
 // functions    ----------------------------------------------------------
 
+function doAppendToCart(){
+    aSelected = aSelected.concat(aImages);
+    doUpdateCart();
+}
+
 function doResetDisplay(){
     aImages = aImagesMirror;
     doAllItems();
-    DoPopUp(`Displaying now all ${aImages.lentgh} servers`,true,1500)
+    doPopUp(`back to grid view`,true,1500)
 }
 
 function doSearch(searchTerm) {
@@ -89,7 +94,7 @@ function doSearch(searchTerm) {
     }
     aImages = aFound;
     doAllItems();
-    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="">append to cart</div>`;
+    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">append to cart</div>`;
     // NO 
     doPopUp(oPageNumber.innerText,true,2000);
 }
