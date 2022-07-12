@@ -51,7 +51,7 @@ const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
 const oPageNumber = document.getElementById("page-number");
 const oInnerButtons = document.getElementById("activityShow");
-const oButtonHelp = document.getElementById("button-help");
+const oButtonSearch = document.getElementById("button-search");
 const oTitleAppName = document.getElementById("title-app-name");
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
 const oSearchBox = document.getElementById("search-box");
@@ -60,21 +60,32 @@ const oSearchBox = document.getElementById("search-box");
 // functions    ----------------------------------------------------------
 
 function doSearch(searchTerm) {
+    // reset display
+    doAllItems();
     let ix;
     let aFound = [];
-    let exists = "";
-    alert("here1")
-    while (ix < aImages.lentgh){
-        exists = `${aImages[ix]}.fqdn}|${aImages[ix]}.location}|${aImages[ix]}.engine_type}|${aImages[ix]}.associated_seals}|${aImages[ix]}.version}|${aImages[ix]}.uuid}|${aImages[ix]}.placeholder1|${aImages[ix]}.rsa_enabled}}`
-        alert(exists)
-        if (exists.indexOf(searchTerm) > -1){
-            alert("here")
+    let exists;
+    ix = 0;
+    while (ix < aImages.length){
+        try {
+        exists = `${aImages[ix].fqdn} | ${aImages[ix].location} | ${aImages[ix].engine_type}${aImages[ix].associated_seals} | ${aImages[ix].version} | ${aImages[ix].uuid} | ${aImages[ix].placeholder1$} | ${aImages[ix].rsa_enabled}`;
+        if (exists.indexOf((searchTerm)) > -1){
+            aFound.push(aImages[ix]);
         }
-        ix++
+        }
+        
+        catch {
+            console.log("OK0");
+        }
+        finally {
+            ix++;
+        }
     }
-    aImages = [];
     aImages = aFound;
-    displayInThumbs();
+    doAllItems();
+    oInnerButtons.innerHTML = `<div class="flex-button">go back</div>`;
+    aImages = aImagesMirror;
+    doPopUp(oPageNumber.innerText,false);
 }
 
 
@@ -162,7 +173,7 @@ function doPopulateButtons(){
     // button writing routine
     oButtonAll.innerHTML=`refresh`;
     oButtonCart.innerHTML=`export (0)`;
-    oButtonHelp.innerHTML=`?`;
+    oButtonSearch.innerHTML=`search`;
     oPageNumber.innerHTML=`loading...`;
     oTitleAppName.innerHTML=`${vAppTitle}`;
 }
@@ -234,7 +245,7 @@ function addItem(i) {
         localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
     }
     try {
-        while (ix != aSelected.lenght) {
+        while (ix < aSelected.length) {
             if (aSelected[ix].fqdn == aImages[i].fqdn){
                 vFoundFlag = true;
                 // NO document.getElementById(`button-add-${i}`).style.visibility=hidden;
@@ -422,7 +433,7 @@ function doCartBox() {
     let lvCSSClass = "flex-item-articles";
     let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div><br>`
     if (aSelected.length != 0) {
-        while (i != aSelected.lenght) {
+        while (i < aSelected.length) {
             try{
                 itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
                 } // build the HTML string
@@ -644,6 +655,7 @@ function doPreBoot(){
                     }else{
                         console.log('Welcome back.');
                         doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
+                        aImagesMirror = aImages;
                     }  
     })
     .catch((error) => {
@@ -704,14 +716,6 @@ document.addEventListener('keyup', (event) => {
     }
 }, false);
 
-document.addEventListener('keyup', (event) => {
-    let name = event.key;
-    if (name == "Enter"){
-        doSearch(oSearchBox.value);
-    }
-}, false);
-
-
 //TOP BUTTON LISTENERS
 oButtonAll.addEventListener("click", function(){
     //re-request all and sends you back to top
@@ -729,8 +733,8 @@ document.getElementById('button-team').addEventListener("click", function(){
 oButtonCart.addEventListener("click", function(){
     doCartBox();
 });
-oButtonHelp.addEventListener("click", function(){
-    doSplashScreen(`${vAppTitle} help`,"Use the left and right arrow keys to move between gallery pages. <br> Use R to get a random item <br>  Use Esc to dismiss pop-ups and windows.<br>Clicking the 'add' buttons below each item adds it to the download cart. <br><br> The contents of your cart are saved for your next visit.",false,0)
+oButtonSearch.addEventListener("click", function(){
+    doSearch(oSearchBox.value);
 });
 oSearchBox.addEventListener("click", function(){
     doCallAToast("Hit ENTER to search",10000,vOKColor);
@@ -740,5 +744,6 @@ oSearchBox.addEventListener("click", function(){
 //COLD BOOT PARAMETERS
 let vTotalPages = 0;
 let aImages = [];
+let aImagesMirror = [];
 oSearchBox.value="(search)";
 doBootApp(); //BOOT APP
