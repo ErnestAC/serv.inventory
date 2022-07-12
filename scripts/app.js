@@ -94,7 +94,7 @@ function doSearch(searchTerm) {
     }
     aImages = aFound;
     doAllItems();
-    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">append to cart</div>`;
+    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
     // NO 
     doPopUp(oPageNumber.innerText,true,2000);
 }
