@@ -56,7 +56,6 @@ const oTitleAppName = document.getElementById("title-app-name");
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
 const oSearchBox = document.getElementById("search-box");
 
-
 // functions    ----------------------------------------------------------
 
 function doAppendToCart(){
@@ -92,17 +91,24 @@ function doSearch(searchTerm) {
             ix++;
         }
     }
-    aImages = aFound;
-    doAllItems();
-    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
-    // NO 
-    doPopUp(oPageNumber.innerText,true,2000);
+    
+    if (aFound.length != 0) {
+        aImages = aFound;
+        doAllItems();
+        oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
+        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,true,3000);
+    } else if (aFound.length == 1) {
+        aImages = aFound;
+        displayInThumbs(0,0,true);
+    } else {
+        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,false,2000);
+        oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div>`;
+    }
 }
-
 
 async function requestDataFromURL(inURL='https://ernestac.github.io/serv.inventory/') {
     const incomingData = await fetch(inURL);
-    const incomingText = await incomingData;
+    const incomingText = incomingData;
     console.log(incomingText);
 }
 
@@ -659,16 +665,17 @@ function doPreBoot(){
     })
     .then((responseJson) => {
         aImages = [...responseJson];
-                    vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
-                    if (lFirstTime == "yes"){
-                        doSplashScreen(`Starting ${vAppTitle}`,`Saving initialization data.`,false)
-                        localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-                    }else{
-                        console.log('Welcome back.');
-                        doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",false);
-                        aImagesMirror = aImages;
-                    }  
+            vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
+            if (lFirstTime == "yes"){
+                doSplashScreen(`Starting ${vAppTitle}`,`Saving initialization data.`,true)
+                localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
+            }else{
+                console.log(`welcome. start: ${WhatTimeIsIt()}`);
+                doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",true);
+                aImagesMirror = aImages;
+            }  
     })
+    
     .catch((error) => {
         doPopUp(`Error: Can't read data from ${url}. Retrying...`,true,10000);
         //recursive call to self
@@ -757,3 +764,5 @@ let aImages = [];
 let aImagesMirror = [];
 oSearchBox.value="";
 doBootApp(); //BOOT APP
+
+
