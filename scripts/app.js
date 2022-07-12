@@ -61,6 +61,7 @@ const oSearchBox = document.getElementById("search-box");
 
 function doSearch(searchTerm) {
     // reset display
+    aImages = aImagesMirror;
     doAllItems();
     let ix;
     let aFound = [];
@@ -83,9 +84,9 @@ function doSearch(searchTerm) {
     }
     aImages = aFound;
     doAllItems();
-    oInnerButtons.innerHTML = `<div class="flex-button">go back</div>`;
-    aImages = aImagesMirror;
-    doPopUp(oPageNumber.innerText,false);
+    oInnerButtons.innerHTML = `<div class="flex-button" onclick="doAllItems()">go back</div>`;
+    // NO 
+    doPopUp(oPageNumber.innerText,true,2000);
 }
 
 
@@ -173,7 +174,7 @@ function doPopulateButtons(){
     // button writing routine
     oButtonAll.innerHTML=`refresh`;
     oButtonCart.innerHTML=`export (0)`;
-    oButtonSearch.innerHTML=`search`;
+    oButtonSearch.innerHTML=`filter`;
     oPageNumber.innerHTML=`loading...`;
     oTitleAppName.innerHTML=`${vAppTitle}`;
 }
