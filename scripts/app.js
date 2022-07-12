@@ -738,7 +738,6 @@ oButtonSearch.addEventListener("click", function(){
     doSearch(oSearchBox.value);
 });
 oSearchBox.addEventListener("click", function(){
-    doCallAToast("Hit ENTER to search",10000,vOKColor);
     oSearchBox.value="";
 });
 
