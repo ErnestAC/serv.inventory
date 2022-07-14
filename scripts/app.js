@@ -190,7 +190,7 @@ function doPopulateButtons(){
     // button writing routine
     oButtonAll.innerHTML=`refresh`;
     oButtonCart.innerHTML=`export (0)`;
-    oButtonSearch.innerHTML=`filter`;
+    oButtonSearch.innerHTML=`search`;
     oPageNumber.innerHTML=`loading...`;
     oTitleAppName.innerHTML=`${vAppTitle}`;
 }

@@ -151,7 +151,7 @@ h5 {
 }
 
 body {
-  margin-top:5.9rem;
+  margin-top:3rem;
   margin-bottom:2.5rem;
   font-family: OpenSans;
   overflow-x: hidden;
@@ -408,7 +408,7 @@ border-color: rgb(64,64,64);
   padding: 0.3rem;
   position: fixed;
   left: 0%;
-  top: 2.9rem;
+  top: 0%;
   background-color: rgba(32, 32, 32, 0.8);
   overflow-wrap: break-word;
   flex-wrap:wrap;
