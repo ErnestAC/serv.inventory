@@ -839,6 +839,22 @@ border-color: rgb(64,64,64);
 
 }
 
+@media screen and (max-width: 450px) {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
+    display: flex;
+    width: 85%;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+  }
+
+  body {
+    margin-top:8.2rem;
+  }
+
+}
+
+
 @media screen and (min-width: 452px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
@@ -855,12 +871,12 @@ border-color: rgb(64,64,64);
 }
 
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 550px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     width: 43%;
   }
   body {
-    margin-top:6.2rem;
+    margin-top:3.2rem;
   }
 
 }
