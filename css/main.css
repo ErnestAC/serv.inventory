@@ -537,9 +537,9 @@ border-color: rgb(64,64,64);
   flex-wrap: wrap;
   overflow-wrap: normal;
   padding: .71rem;
-  margin-top: 2.8rem;
-  margin-bottom:1rem;
-  width: 100%;
+  margin: 3.5vw;
+  
+  width: 90vw;
   background-color: rgba(0, 48, 48, 0.99);
   visibility: hidden;
   overflow-y: scroll;
@@ -570,7 +570,7 @@ border-color: rgb(64,64,64);
   background-color: rgba(15, 15, 15, 0.9);
   border-radius: 5px;
   padding: 0.2rem;
-  width:15vw;
+  width:25vw;
   
 }
 

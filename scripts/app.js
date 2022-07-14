@@ -92,17 +92,18 @@ function doSearch(searchTerm) {
         }
     }
     
-    if (aFound.length != 0) {
+    if (aFound.length < 1) {
+        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,false,2000);
+        
+    } else if (aFound.length == 1) {
+        //alert(aFound.length)
+        aImages = aFound;
+        displayInThumbs(0,0,true);
+    } else {
         aImages = aFound;
         doAllItems();
         oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
         doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,true,3000);
-    } else if (aFound.length == 1) {
-        aImages = aFound;
-        displayInThumbs(0,0,true);
-    } else {
-        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,false,2000);
-        oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div>`;
     }
 }
 
@@ -188,9 +189,12 @@ function doAccess(vIdx){
 
 function doPopulateButtons(){
     // button writing routine
-    oButtonAll.innerHTML=`refresh`;
-    oButtonCart.innerHTML=`export (0)`;
-    oButtonSearch.innerHTML=`search`;
+    oButtonAll.innerHTML = `refresh`;
+    oButtonAll.title = `refreshes this pages from all data sources`;
+    oButtonCart.innerHTML = `export (0)`;
+    oButtonCart.title = `opens the download cart window`;
+    oButtonSearch.innerHTML = `search`;
+    oButtonSearch.title = `does a search`
     oPageNumber.innerHTML=`loading...`;
     oTitleAppName.innerHTML=`${vAppTitle}`;
 }
@@ -472,7 +476,7 @@ function doCartBox() {
     }
     oCartBoxPopUp.style.visibility="visible";
     document.getElementById("backLock").style.visibility="visible";
-    oCartBoxPopUp.innerHTML=`<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))"> export data </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button">dismiss</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
+    oCartBoxPopUp.innerHTML=`<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))" title="download cart's data"> download </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()" title="clear cart's contents">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button" title="closes this window">close</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
     const oCartBoxText = document.getElementById("msgOfTheCartBox");
     const oCartBoxText1 = document.getElementById("msgOfTheCartBox1");
     document.getElementById("closeButtonCart").addEventListener("click", function(){
@@ -555,9 +559,9 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}');">go ></div><div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})">detail</div>`;
+            let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}')" title="go to server's gui">go ></div><div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})" title="display the detail card for ${aImages[i].fqdn}">detail</div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
-            let vEvalInjector = `<div class="flex-not-button" )">${aImages[i].storage}TB</div>`; // add the type badge first
+            let vEvalInjector = `<div class="flex-not-button" )" title="installed storage">${aImages[i].storage}TB</div>`; // add the type badge first
             let vAppsBadge = '';
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
@@ -576,7 +580,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vCSSClass = "flex-item-articles"; // my class to be injected in the dynamically generated html    
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><!--X--></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>grid summary</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok">${vCountOK}</div></div></div>`;
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><!--X--></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>grid summary</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
@@ -589,7 +593,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})">add</div></div></div>`; // build the HTML string
+            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">add</div></div></div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
@@ -734,6 +738,14 @@ document.addEventListener('keyup', (event) => {
         vIsCtrlDn=false;
     }
 }, false);
+
+document.addEventListener('keyup', (event) => {
+    let name = event.key;
+    if (name == "Enter"){
+        doSearch(oSearchBox.value);
+    }
+}, false);
+
 
 //TOP BUTTON LISTENERS
 oButtonAll.addEventListener("click", function(){
