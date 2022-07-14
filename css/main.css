@@ -839,7 +839,7 @@ border-color: rgb(64,64,64);
 
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 370px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 85%;
@@ -855,7 +855,7 @@ border-color: rgb(64,64,64);
 }
 
 
-@media screen and (min-width: 452px) {
+@media screen and (min-width: 371px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 85%;
