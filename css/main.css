@@ -849,19 +849,18 @@ border-color: rgb(64,64,64);
   }
 
   body {
-    margin-top:6rem;
+    margin-top:6.2rem;
   }
 
 }
 
 
-
-@media screen and (min-width: 650px) {
+@media screen and (min-width: 600px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     width: 43%;
   }
   body {
-    margin-top:3rem;
+    margin-top:6.2rem;
   }
 
 }
