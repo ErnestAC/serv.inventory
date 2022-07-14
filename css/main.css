@@ -823,6 +823,7 @@ border-color: rgb(64,64,64);
     align-content: flex-end;
     height: 100%;
   }
+
   .flex-item-articles-badges-buttonboard {
     display: flex;
     flex-wrap:wrap;
