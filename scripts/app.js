@@ -98,7 +98,8 @@ function doSearch(searchTerm) {
     } else if (aFound.length == 1) {
         //alert(aFound.length)
         aImages = aFound;
-        displayInThumbs(0,0,true);
+        displayInThumbs(0, 0, true);
+        oPageNumber.innerText = `search results for '${oSearchBox.value}'`;
     } else {
         aImages = aFound;
         doAllItems();
@@ -777,5 +778,3 @@ let aImages = [];
 let aImagesMirror = [];
 oSearchBox.value="";
 doBootApp(); //BOOT APP
-
-
