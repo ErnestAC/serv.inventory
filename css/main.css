@@ -390,6 +390,7 @@ border-color: rgb(64,64,64);
   margin-left: 0rem;
   padding: 0px;
   padding-left: 0.4rem;
+  padding-right: 1rem;
 }
 
 .flex-container-floater {
@@ -404,7 +405,7 @@ border-color: rgb(64,64,64);
   margin: 0px;
   border-radius: 0px;
   flex-direction: row;
-  justify-content: flex-start !important;
+  justify-content:space-between !important;
   padding: 0.3rem;
   position: fixed;
   left: 0%;
