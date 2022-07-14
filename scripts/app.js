@@ -190,7 +190,7 @@ function doPopulateButtons(){
     // button writing routine
     oButtonAll.innerHTML=`refresh`;
     oButtonCart.innerHTML=`export (0)`;
-    oButtonSearch.innerHTML=`filter`;
+    oButtonSearch.innerHTML=`search`;
     oPageNumber.innerHTML=`loading...`;
     oTitleAppName.innerHTML=`${vAppTitle}`;
 }
@@ -243,7 +243,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page=-1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div><div class="flex-button" onclick='sortBy("storage")'>size</div><div class="flex-button" onclick='addAllItemsToCart()'>add all to export</div>`
+        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -448,10 +448,11 @@ function doCartBox() {
     let i = 0; //start the cart index in the first item of the array
     let itemInjection = ""; // empty local HTML builder
     let lvCSSClass = "flex-item-articles";
-    let vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))">export</div></div></div><br>`
+    let vButtons;
     if (aSelected.length != 0) {
         while (i < aSelected.length) {
-            try{
+            try {
+                vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))" title="export this item">export</div></div></div><br>`
                 itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
                 } // build the HTML string
             catch{
