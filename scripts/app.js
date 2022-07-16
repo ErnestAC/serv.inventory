@@ -10,8 +10,10 @@ const windowTitle = document.getElementById(`app-Title`)
 
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
+const url_storage = "https://ernestac.github.io/serv.inventory/assets/json/storage.json";
 // local testing usage only!
-// const url = "../assets/json/xservers.json"
+// const url = "../assets/json/servers.json"
+//const url_storage = "../assets/json/storage.json";
 
 // selection color constant
 const vSelColor = "rgba(0,255,255,0.3)";
@@ -201,11 +203,11 @@ function doPopulateButtons(){
     oButtonGoToTop.title = `scrolls back to the top of the page`;
     
     if (localStorage.getItem("sett_viewmode") == "false") {
-        oButtonCompact.innerHTML = `normal view`;
-        oButtonCompact.title = `toggles the normal view mode`;
-    } else {
         oButtonCompact.innerHTML = `compact view`;
         oButtonCompact.title = `toggles the compact view mode`;       
+    } else {
+        oButtonCompact.innerHTML = `normal view`;
+        oButtonCompact.title = `toggles the normal view mode`;
     }
 
     //BUTTON LISTENERS
@@ -554,6 +556,31 @@ function doGoURL(myurl){
     
 }
 
+function doJoinSources(aArrayToAddTo = aImages, aArrayToReadFrom = aStorage) {
+    // joins data from secondary source into the main array and updates the array to display
+    let i = 0;
+    let r = 0;
+    let vFoundFlag = false;
+    while (i < aArrayToReadFrom.length) {
+        r = 0;
+        if (!vFoundFlag) { 
+            aArrayToAddTo.push(aArrayToReadFrom[i]);
+        }
+        vFoundFlag = false;
+        while (r < aArrayToAddTo.length) {
+            if (aArrayToReadFrom[i].fqdn == aArrayToAddTo[r].fqdn) {
+                vFoundFlag = true;
+                aArrayToAddTo[r].storage = aArrayToReadFrom[i].storage
+                aArrayToAddTo[r].storage_used = aArrayToReadFrom[i].storage_used
+                break;
+            }
+            r++;
+        }
+        i++;
+    }
+    return aArrayToAddTo;
+}
+
 function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
     // main gallery rendering funciton, reads all items from a specified index and displays them. 
     // vStartIdx is where to start reading the array, vEndIdx is where to stop reading and special controls if the item needs a big box around or if it is a thumb.
@@ -685,6 +712,21 @@ function doPreBoot(){
         vCompact = true;
     }
 
+    fetch(url_storage).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(`Can't read from ${url_storage}`);
+    })
+    .then((responseJson) => {
+        aStorage = [...responseJson];
+    })    
+    .catch((error) => {
+        doPopUp(`Error: Can't read ${url}.`);
+        console.log(error)
+    });
+
+
     fetch(url).then((response) => {
         if (response.ok) {
             return response.json();
@@ -699,8 +741,10 @@ function doPreBoot(){
             }else{
                 console.log(`welcome. start: ${WhatTimeIsIt()}`);
                 doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
-                aImagesMirror = aImages;
-            }  
+                
+            }
+        aImages = doJoinSources(aImages,aStorage);  
+        aImagesMirror = aImages;
     })
     
     .catch((error) => {
@@ -761,6 +805,7 @@ document.addEventListener('keyup', (event) => {
 
 //COLD BOOT VARIABLE SET
 let aImages = [];
+let aStorage = [];
 let aImagesMirror = [];
 oSearchBox.value = "";
 doBootApp(); //BOOT APP
