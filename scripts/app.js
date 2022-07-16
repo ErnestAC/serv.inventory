@@ -36,6 +36,7 @@ let lFirstTime = "";
 let aSelected = [];
 let vNavMessage = '';
 let vgResponse = false;
+let vCompact = false;
 
 // values for free space evaluation
 let cAlertValueUpper = 10; // how much space free is considered alert
@@ -49,12 +50,21 @@ const oButtonAll = document.getElementById("button-all");
 const oCartBoxPopUp = document.getElementById("cartboxPopup");
 const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
-const oPageNumber = document.getElementById("page-number");
-const oInnerButtons = document.getElementById("activityShow");
 const oButtonSearch = document.getElementById("button-search");
+// display witness box
+const oPageNumber = document.getElementById("page-number");
+// section for button insetion in scrolling page
+const oInnerButtons = document.getElementById("activityShow")
+// application title top right
 const oTitleAppName = document.getElementById("title-app-name");
+// popup box (regular)
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
 const oSearchBox = document.getElementById("search-box");
+// bottom options
+const oButtonGoToTop = document.getElementById("button-gotop");
+const oButtonCompact = document.getElementById("button-compact-view");
+const oButtonNormal = document.getElementById("button-normal-view");
+
 
 // functions    ----------------------------------------------------------
 
@@ -178,15 +188,70 @@ function doPing(){
 }
 
 function doPopulateButtons(){
-    // button writing routine
+    // BUTTON TEXT AND TOOLTIP
     oButtonAll.innerHTML = `refresh`;
     oButtonAll.title = `refreshes this pages from all data sources`;
     oButtonCart.innerHTML = `export (0)`;
     oButtonCart.title = `opens the download cart window`;
     oButtonSearch.innerHTML = `search`;
-    oButtonSearch.title = `does a search`
+    oButtonSearch.title = `does a search`;
     oPageNumber.innerHTML = `loading...`;
     oTitleAppName.innerHTML = `${vAppTitle}`;
+    oButtonGoToTop.innerHTML = `to top ^`;
+    oButtonGoToTop.title = `scrolls back to the top of the page`;
+    
+    if (localStorage.getItem("sett_viewmode") == "false") {
+        oButtonCompact.innerHTML = `normal view`;
+        oButtonCompact.title = `toggles the normal view mode`;
+    } else {
+        oButtonCompact.innerHTML = `compact view`;
+        oButtonCompact.title = `toggles the compact view mode`;       
+    }
+
+    //BUTTON LISTENERS
+    oButtonAll.addEventListener("click", function(){
+        //re-request all and sends you back to top
+        doBootApp();
+    });
+
+    oButtonCart.addEventListener("click", function(){
+        doCartBox();
+    });
+    oButtonSearch.addEventListener("click", function(){
+        doSearch(oSearchBox.value);
+    });
+    oSearchBox.addEventListener("click", function(){
+        oSearchBox.value = "";
+    });
+    oButtonGoToTop.addEventListener("click", function(){
+        doResetScroll();
+        doCallAToast(`You are back to the top of the list.`, 2500, vOKColor)
+    });
+    oButtonCompact.addEventListener("click", function(){
+        //try {
+            if (vCompact) {
+                vCompact = false;
+                oButtonCompact.innerHTML = `normal view`;
+                oButtonCompact.title = `toggles the normal view mode`;
+                doCallAToast(`Normal view mode active`, 2500, vOKColor)
+                localStorage.setItem("sett_viewmode", JSON.stringify(vCompact));    
+                doAllItems();
+            } else {
+                vCompact = true;
+                oButtonCompact.innerHTML = `compact view`;
+                oButtonCompact.title = `toggles the compact view mode`;
+                doCallAToast(`Compact view mode active`, 2500, vOKColor)
+                localStorage.setItem("sett_viewmode", JSON.stringify(vCompact));
+                doAllItems();    
+            }
+        /*} catch {
+            oButtonCompact.innerHTML = `normal view`;
+            oButtonCompact.title = `toggles the normal view mode`;
+            doCallAToast(`Normal view mode active`, 2500, vOKColor)
+            localStorage.setItem("sett_viewmode", JSON.stringify(vCompact));    
+            doAllItems();        
+        }    */ 
+    });
 }
 
 function getIcon(vEngineType="generic"){
@@ -259,7 +324,6 @@ function addItem(i) {
         while (ix < aSelected.length) {
             if (aSelected[ix].fqdn == aImages[i].fqdn){
                 vFoundFlag = true;
-                // NO document.getElementById(`button-add-${i}`).style.visibility=hidden;
                 break;
             }
             ix++;
@@ -533,7 +597,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             if (! special) {
                 // injecting buttons for thumb view
                 vCSSClass = "flex-item-articles"; // my class to be injected in the dynamically generated html    
-                vButtonInject = `${vOTFbuttons}`;
+                
+                if (vCompact) {
+                    vButtonInject = ``;
+                } else {
+                    vButtonInject = `${vOTFbuttons}`;
+                }
+
                 vExtraInject = "";
                 vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/inv_grid.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
             } else {
@@ -610,6 +680,11 @@ function doPreBoot(){
 //modern
     windowTitle.innerText = `${vAppTitle} loading`;
 
+    // load saved settings for view
+    if (localStorage.getItem("sett_viewmode") != "false") {
+        vCompact = true;
+    }
+
     fetch(url).then((response) => {
         if (response.ok) {
             return response.json();
@@ -660,7 +735,6 @@ function doBootApp(){
         doClosePopUp();
         // start the ping simulator once page loaded or failed
         setInterval(doMockPing, 750);
-        requestDataFromURL();
     }, vTimeOut);
     return true;
 }
@@ -684,29 +758,6 @@ document.addEventListener('keyup', (event) => {
         doSearch(oSearchBox.value);
     }
 }, false);
-
-
-//BUTTON LISTENERS
-oButtonAll.addEventListener("click", function(){
-    //re-request all and sends you back to top
-    doBootApp();
-});
-
-document.getElementById('button-support').addEventListener("click", function(){
-    doPopUp(`This function (${document.getElementById('button-support').innerHTML}) is not ready yet.`);
-});
-document.getElementById('button-team').addEventListener("click", function(){
-    doPopUp(`This function (${document.getElementById('button-team').innerHTML}) is not ready yet.`);
-});
-oButtonCart.addEventListener("click", function(){
-    doCartBox();
-});
-oButtonSearch.addEventListener("click", function(){
-    doSearch(oSearchBox.value);
-});
-oSearchBox.addEventListener("click", function(){
-    oSearchBox.value = "";
-});
 
 //COLD BOOT VARIABLE SET
 let aImages = [];
