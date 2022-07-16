@@ -14,21 +14,21 @@ const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json"
 // const url = "../assets/json/xservers.json"
 
 // selection color constant
-const vSelColor="rgba(0,255,255,0.3)";
-const vUnSelColor="rgba(219, 231, 236, 0.0)";
-const vCartItemColor="rgba(219, 231, 236, 0.5)";
-const vAlertColor="rgba(255, 91, 92, 0.999)";
-const vWarnColor="rgba(195, 172, 0, 0.999)";
-const vOKColor="rgba(0, 160, 80, 0.999)";
+const vSelColor = "rgba(0,255,255,0.3)";
+const vUnSelColor = "rgba(219, 231, 236, 0.0)";
+const vCartItemColor = "rgba(219, 231, 236, 0.5)";
+const vAlertColor = "rgba(255, 91, 92, 0.999)";
+const vWarnColor = "rgba(195, 172, 0, 0.999)";
+const vOKColor = "rgba(0, 160, 80, 0.999)";
 
 // used for timeout when requesting data
-const vTimeOut=2500;
+const vTimeOut = 2500;
 // random selector color indicator constant
 const vRndColor = "Orange";
 // keymonitoring
-let vIsCtrlDn=false;
+let vIsCtrlDn = false;
 // page display controllers
-let page = 1;
+let page;
 const vItemsPerPage = 20; 
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
@@ -85,7 +85,7 @@ function doSearch(searchTerm) {
         }
         }
         catch {
-            console.log("OK0");
+            //fail silently
         }
         finally {
             ix++;
@@ -96,7 +96,6 @@ function doSearch(searchTerm) {
         doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,false,2000);
         
     } else if (aFound.length == 1) {
-        //alert(aFound.length)
         aImages = aFound;
         displayInThumbs(0, 0, true);
         oPageNumber.innerText = `search results for '${oSearchBox.value}'`;
@@ -106,12 +105,6 @@ function doSearch(searchTerm) {
         oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
         doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,true,3000);
     }
-}
-
-async function requestDataFromURL(inURL='https://ernestac.github.io/serv.inventory/') {
-    const incomingData = await fetch(inURL);
-    const incomingText = incomingData;
-    console.log(incomingText);
 }
 
 function doMockPing(){
@@ -166,10 +159,11 @@ function doExport(vJSONIn){
             element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(vJSONIn));
             element.setAttribute('download', vFileNameDownload);
             element.click();
-            doPopUp(`download started for ${vFileNameDownload}...`,true,1000);
+            doPopUp(`download started for ${vFileNameDownload}...`, true, 2000);
             return true;
         } catch {
-            console.log("Dang, can't download.");
+            doPopUp(`download failed for '${vFileNameDownload}'.`);
+            console.log(`Dang, can't download '${vFileNameDownload}'. Try again.`);
             return false;
         }
     } else {
@@ -183,11 +177,6 @@ function doPing(){
     doPopUp(`Simulated ping: <p class="reg-text" border-radius: 5px;">${doRandomPing()}ms</p>`,false);
 }
 
-function doAccess(vIdx){
-    // mock function
-    doPopUp(`Access requested to: <p class="reg-text" style="color: rgb(0,64,64); background-color: black; border-radius: 5px;">${aImages[vIdx].fqdn}</p>`,false);
-}
-
 function doPopulateButtons(){
     // button writing routine
     oButtonAll.innerHTML = `refresh`;
@@ -196,8 +185,8 @@ function doPopulateButtons(){
     oButtonCart.title = `opens the download cart window`;
     oButtonSearch.innerHTML = `search`;
     oButtonSearch.title = `does a search`
-    oPageNumber.innerHTML=`loading...`;
-    oTitleAppName.innerHTML=`${vAppTitle}`;
+    oPageNumber.innerHTML = `loading...`;
+    oTitleAppName.innerHTML = `${vAppTitle}`;
 }
 
 function getIcon(vEngineType="generic"){
@@ -215,7 +204,7 @@ function getIcon(vEngineType="generic"){
             vResponse=aIconArray[i].resource_image; // load the value from the array
             break; // find and stop!
         } else {
-            vResponse="./assets/images/engine_gen.png"; // dbhost is not in the icon array, so it uses this one tnat is generic
+            vResponse = "./assets/images/engine_gen.png"; // dbhost is not in the icon array, so it uses this one tnat is generic
         }
         i++;
     }
@@ -229,16 +218,16 @@ function doResetScroll(){
     //refresh page box
     if (page>(-1)){
         if (page < 0){
-            vNavMessage=`<div class="flex-button" style="width:64px";>items ${(page)*vItemsPerPage} </div><div class="flex-button" style="width:64px";>page ${page+2} </div>`
+            vNavMessage = `<div class="flex-button" style="width:64px";>items ${(page)*vItemsPerPage} </div><div class="flex-button" style="width:64px";>page ${page+2} </div>`
         }
     }
 
 }
 
 function doResetCounters() {
-    vCountAlert=0;
-    vCountWarn=0;
-    vCountOK=0;
+    vCountAlert = 0;
+    vCountWarn = 0;
+    vCountOK = 0;
 }
 
 function doAllItems(showToast = false) {
@@ -246,9 +235,9 @@ function doAllItems(showToast = false) {
         doResetScroll();
         doResetCounters();
         displayInThumbs();
-        page=-1 // reset page number to restart the gallery at page 1
-        oPageNumber.innerText=`${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML=`<div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all to export</div>`
+        page = -1 // reset page number to restart the gallery at page 1
+        oPageNumber.innerText = `${aImages.length} item(s) displayed`;
+        oInnerButtons.innerHTML = `<div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -278,22 +267,17 @@ function addItem(i) {
         return true;
     }
     catch {
-        console.log(`With index ${ix} reached the index of te collection. Nothing to worry.`)
-        return false;
+        return false; //return false for testing and stop silently.
     }
     finally{
         if (vFoundFlag) {
-            
             // using toastify to replace some popups
             doCallAToast(`Can't add ${aImages[i].fqdn} to export cart.`,3500,vAlertColor)
-            
-            //doPopUp("Engine not added <br> This Engine is already present in your cart.", false, 1500)
         } else {
             aSelected.push(aImages[i]);
             document.getElementById(`thumb${i}`).backgroundColor=vSelColor;
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             doUpdateCart();
-            
             // using toastify to replace some popups
             doCallAToast( `Engine ${aImages[i].fqdn} added to export cart.`,3500,vOKColor);
         }
@@ -302,31 +286,15 @@ function addItem(i) {
 }
 
 function doUpdateCart() {
+    // refreshes the contents of the cart
     try {
-        oButtonCart.innerHTML=`export (${aSelected.length})`;
+        oButtonCart.innerHTML = `export (${aSelected.length})`;
         return true;    
     } catch (error) {
-        console.log(`${error} - Can't update the cart.`);
+        // fail silently and return false for testing
         return false;
     }
     
-}
-
-function doRecoverPage(){
-    try {
-        doResetScroll();
-        doClosePopUp();
-        if (page < 0 ) { // reset the page number to 1 when coming back from the all view
-            page = 1;
-        }
-        oPageNumber.innerHTML=`page: ${page+1} of ${vTotalPages}`;
-        displayInThumbs(page*vItemsPerPage,(page*vItemsPerPage)+vItemsPerPage);
-        randomArrayAccess();
-        oInnerButtons.innerHTML="";
-        return true;
-    } catch {
-        return false;
-    }
 }
 
 function doRecoverSavedItems(){
@@ -337,15 +305,15 @@ function doRecoverSavedItems(){
         return true;
     }
     catch{
-        lFirstTime="yes";
+        lFirstTime = "yes";
         console.log("Nothing found in local storage or an error occurred. Data is ignored.");
-        aSelected=[];
+        aSelected = [];
         doUpdateCart()
         return false;
     }
 }
 
-function WhatTimeIsIt(vForFile=false){
+function WhatTimeIsIt(vForFile = false){
     //parse the time returned from the object date and turn it into human readable, returns as string
     let today = new Date();
     let yyyy = today.getFullYear();
@@ -380,26 +348,10 @@ function WhatTimeIsIt(vForFile=false){
     return vResult;
 }
 
-function randomArrayAccess(){
-    //pick a random index using the array's count of items as the ceiling
-    let vSelection = Math.floor(Math.random() * aImages.length);
-    let vRandomIndex = vSelection;
-    let vWTII = WhatTimeIsIt();
-    displayInLowerBox(`<p class="reg-text"> ${vWTII}, client local time.</p>`);
-    return vRandomIndex;
-}
-
 function displayInLowerBox(vTextToPrint){
     //pushes HTML code into the designated box in the index file
     const vBottomText = document.getElementById('bottom-box');
     vBottomText.innerHTML=`${vTextToPrint}`;
-}
-
-function doRandomItem() {
-    doClosePopUp();
-    let vRandomValueID = randomArrayAccess(); //returns the index of the chosen value 
-    oPageNumber.innerHTML=`item: ${vRandomValueID}`;
-    displayInThumbs(vRandomValueID,vRandomValueID+1,true); // builds the thumbs     
 }
 
 function doRandomPing() {
@@ -408,8 +360,8 @@ function doRandomPing() {
 
 function doPopUp(vMsg,vAuto=false,vDelay=950) {
     try {
-        oMsgBoxPopUp.style.visibility="visible";
-        oBackLockPlus.style.visibility="visible";
+        oMsgBoxPopUp.style.visibility = "visible";
+        oBackLockPlus.style.visibility = "visible";
         let buttonInjector;
         if (vAuto){
             buttonInjector = "";
@@ -417,11 +369,11 @@ function doPopUp(vMsg,vAuto=false,vDelay=950) {
         }else{
             buttonInjector = `<div id="closeButton" class="flex-button"> close </div>`;
         }
-        oMsgBoxPopUp.innerHTML=`<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
+        oMsgBoxPopUp.innerHTML = `<div class="flex-item-msgbox" id="msgOfTheBox"><p class="special-text">${vMsg}</p</div><br><br>${buttonInjector}`;
         if (! vAuto){
             document.getElementById("closeButton").addEventListener("click", function(){
-                oMsgBoxPopUp.style.visibility="hidden";
-                oBackLockPlus.style.visibility="hidden";
+                oMsgBoxPopUp.style.visibility = "hidden";
+                oBackLockPlus.style.visibility = "hidden";
             });
         }
     } catch {
@@ -429,9 +381,9 @@ function doPopUp(vMsg,vAuto=false,vDelay=950) {
     }
 }
 
-function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
-    document.getElementById("msgboxSplash").style.visibility="visible";
-    oBackLockPlus.style.visibility="visible";
+function doSplashScreen(vtype, vMsg, vAuto = true, vDelay = 4000) {
+    document.getElementById("msgboxSplash").style.visibility = "visible";
+    oBackLockPlus.style.visibility = "visible";
     let buttonInjector;
     if (vAuto){
         buttonInjector = "";
@@ -442,8 +394,8 @@ function doSplashScreen(vtype,vMsg,vAuto=true,vDelay=4000) {
     document.getElementById("msgboxSplash").innerHTML=`<div class="flex-item-splash" id="msgOfTheBox"><p class="flex-item-floater-ttf-logo";>${vtype}</p><p class="reg-text" style="background-color: white; border-radius: 5px; color: black;">${vMsg}</p></div></div><br><br>${buttonInjector}`;
     if (! vAuto){
         document.getElementById("closeButton2").addEventListener("click", function(){
-            document.getElementById("msgboxSplash").style.visibility="hidden";
-            oBackLockPlus.style.visibility="hidden";
+            document.getElementById("msgboxSplash").style.visibility = "hidden";
+            oBackLockPlus.style.visibility = "hidden";
         });
     }
 }
@@ -458,7 +410,7 @@ function doCartBox() {
         while (i < aSelected.length) {
             try {
                 vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))" title="export this item">export</div></div></div><br>`
-                itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
+                itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
                 } // build the HTML string
             catch{
                 console.log("Maximum selection item array reached.");
@@ -475,24 +427,26 @@ function doCartBox() {
         localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         itemInjection = `<div class="reg-text">Your cart is empty! <br> Add some items by clicking the 'add' buttons in the gallery view.</div>`;
     }
-    oCartBoxPopUp.style.visibility="visible";
-    document.getElementById("backLock").style.visibility="visible";
-    oCartBoxPopUp.innerHTML=`<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))" title="download cart's data"> download </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()" title="clear cart's contents">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button" title="closes this window">close</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
+    oCartBoxPopUp.style.visibility = "visible";
+    document.getElementById("backLock").style.visibility = "visible";
+    oCartBoxPopUp.innerHTML = `<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))" title="download cart's data"> download </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()" title="clear cart's contents">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button" title="closes this window">close</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
     const oCartBoxText = document.getElementById("msgOfTheCartBox");
     const oCartBoxText1 = document.getElementById("msgOfTheCartBox1");
     document.getElementById("closeButtonCart").addEventListener("click", function(){
-    oCartBoxPopUp.style.visibility="hidden";
-    document.getElementById("backLock").style.visibility="hidden";
+    oCartBoxPopUp.style.visibility = "hidden";
+    document.getElementById("backLock").style.visibility = "hidden";
     });
-    oCartBoxText.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
-    oCartBoxText1.innerHTML=`<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    // top banner
+    oCartBoxText.innerHTML = `<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    // bottom banner
+    oCartBoxText1.innerHTML = `<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
 }
 
 
 function doRemoveFromCart(indexToRemove){
     // removes an item from the selection array based on the index passed
     try {
-        aSelected.splice(indexToRemove,1);      // ix position then length
+        aSelected.splice(indexToRemove, 1);      // ix position then length
         return true;
     } catch {
         console.log("Well, the index you passed me does not correspond to an item in my list.");
@@ -510,7 +464,7 @@ function doEmptyCart(){
     if (aSelected.length == 0){ // ask if the cart is empty
         doPopUp("Your cart is already empty.", true, 1500);    
     } else { // if the cart is not empty, empty it
-        aSelected=[]; // empty the array
+        aSelected = []; // empty the array
         doUpdateCart(); // recalculate the contents of the cart
         doPopUp("Your cart is now empty.", true, 1500) // text, automatic dismiss and time to dismiss in ms
         localStorage.setItem("localSavedItems", JSON.stringify(aSelected));             // save the value of the array to lStorage to make it session persistent        }
@@ -521,11 +475,11 @@ function doEmptyCart(){
 function doClosePopUp(){
     // general reusable function
     // clear the screen from any open popups, used in transitions between screens and boxes
-    document.getElementById("msgboxSplash").style.visibility="hidden";
-    oMsgBoxPopUp.style.visibility="hidden";
-    oCartBoxPopUp.style.visibility="hidden";
-    document.getElementById("backLock").style.visibility="hidden";
-    oBackLockPlus.style.visibility="hidden";
+    document.getElementById("msgboxSplash").style.visibility = "hidden";
+    oMsgBoxPopUp.style.visibility = "hidden";
+    oCartBoxPopUp.style.visibility = "hidden";
+    document.getElementById("backLock").style.visibility = "hidden";
+    oBackLockPlus.style.visibility = "hidden";
 }
 
 function doGoURL(myurl){
@@ -538,10 +492,10 @@ function doGoURL(myurl){
 
 function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
     // main gallery rendering funciton, reads all items from a specified index and displays them. 
-    // vStartIdx is where to start reading the array, vEndIdx is where to stop reading and special controls if the item needs a big box around or it is a thumb.
+    // vStartIdx is where to start reading the array, vEndIdx is where to stop reading and special controls if the item needs a big box around or if it is a thumb.
     try{
         /* What 
-        Generates the list of images and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
+        Generates the list of servers and displays it in a flexbox container using pre-defined styles, and generating the thumbs based on the JSON data attached at the top of the script 
         */
         const vThumbBox = document.getElementById('thumb-box'); // tell vThumbBox that is a page element
         let vButtonInject; // button injector
@@ -560,7 +514,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}')" title="go to server's gui">go ></div><div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})" title="display the detail card for ${aImages[i].fqdn}">detail</div>`;
+            let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}')" title="open the server's gui">open</div><div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})" title="display the detail card for ${aImages[i].fqdn}">detail</div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             let vEvalInjector = `<div class="flex-not-button" )" title="installed storage">${aImages[i].storage}TB</div>`; // add the type badge first
             let vAppsBadge = '';
@@ -568,13 +522,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">${vPercentFree}%</div>`;
-                vCountAlert++
+                vCountAlert++;
             } else if ( vPercentFree < cWarnValueUpper) {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">${vPercentFree}%</div>`;
-                vCountWarn++
+                vCountWarn++;
             } else {
                 vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used} out of ${aImages[i].storage} installed.')">${vPercentFree}%</div>`;
-                vCountOK++
+                vCountOK++;
             }
             if (! special) {
                 // injecting buttons for thumb view
@@ -587,10 +541,10 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
                 vButtonInject = `${vOTFbuttons}`;
                 vExtraInject = `<br><b>serial: </b>${aImages[i].uuid}<br><b>storage total: </b>${aImages[i].storage}TB<br><b>storage used: </b>${aImages[i].storage_used}TB<br><b>rsa: </b>${aImages[i].rsa_enabled}`;
-                vSummaryInject= "";
+                vSummaryInject = "";
             }
             // check if the server has apps   
-            if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals !="" ){
+            if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals != "" ){
                 vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
@@ -598,14 +552,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
-        vThumbBox.innerHTML=`${vSummaryInject}${returnString}`;
+        vThumbBox.innerHTML = `${vSummaryInject}${returnString}`;
         return true;
     }
     catch{ // if there is an error just say it in console and carry on
-        //write to console error received
-        console.log(`End of routine.`)
-        console.log(`Page var: ${page}`)
-        console.log(`Page reset to expected value.`)
+        //fail silently and return false in test
         return false;
     }
 }
@@ -619,13 +570,9 @@ function addAllItemsToCart(){
 }
 
 function dblClickStuff(vItemIndex){
-    if (vIsCtrlDn) {
-        doSplashScreen(aImages[vItemIndex].fqdn,`<p class="special-text">asset type: ${aImages[vItemIndex].engine_type}<br>used: ${aImages[vItemIndex].storage_used}TB<br>installed: ${aImages[vItemIndex].storage}TB<br>location: ${aImages[vItemIndex].location}<br>rsa enabled: ${aImages[vItemIndex].rsa_enabled}<br>asset uuid: ${aImages[vItemIndex].uuid}<br>app ids: ${aImages[vItemIndex].associated_seals}</p>`,false,0)
-    }else{
-        doClosePopUp();
-        oPageNumber.innerHTML=`item: ${vItemIndex}`;
-        displayInThumbs(vItemIndex,vItemIndex+1,true); // builds the thumbs     
-    }
+    doClosePopUp();
+    oPageNumber.innerHTML = `item: ${vItemIndex}`;
+    displayInThumbs(vItemIndex, vItemIndex+1, true); // builds the thumbs     
 }
 
 function sortBy(vAttrOrdinalPos = 'fqdn'){
@@ -671,20 +618,19 @@ function doPreBoot(){
     })
     .then((responseJson) => {
         aImages = [...responseJson];
-            vTotalPages = Math.trunc(aImages.length/vItemsPerPage)+1;
             if (lFirstTime == "yes"){
-                doSplashScreen(`Starting ${vAppTitle}`,`Saving initialization data.`,true)
+                doSplashScreen(`Starting ${vAppTitle}`, `Saving initialization data.`, true)
                 localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             }else{
                 console.log(`welcome. start: ${WhatTimeIsIt()}`);
-                doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`,"",true);
+                doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
                 aImagesMirror = aImages;
             }  
     })
     
     .catch((error) => {
         doPopUp(`Error: Can't read data from ${url}. Retrying...`,true,10000);
-        //recursive call to self
+        //recursive call to self to catch boot load failure
         setTimeout(() => {
             doPreBoot();    
         }, vTimeOut);
@@ -694,9 +640,9 @@ function doPreBoot(){
 
 function doBootApp(){
     // call preloading async routine
-    vCountAlert=0;
-    vCountWarn=0;
-    vCountOK=0;
+    vCountAlert = 0;
+    vCountWarn = 0;
+    vCountOK = 0;
     doPreBoot();
     //wait for it...
     setTimeout(() => {
@@ -704,8 +650,7 @@ function doBootApp(){
         // fetch my data sources in under vDelay ms
         windowTitle.innerText = `${vAppTitle}`;
         doRecoverSavedItems(); // read localStorage saved data
-        page=0; // force page to -1 on first render for the page number box, this is also used to signify that we are looking at the entire contents of the gallery
-        sortBy('fqdn'); // sort and boot
+        sortBy('space free'); // sort and boot
         // POP UP ACTION FOR THE FIRST TIME VISIT OF THE PAGE
         // this needs to happen after the page is rendered
         if (aSelected == null){
@@ -717,6 +662,7 @@ function doBootApp(){
         setInterval(doMockPing, 750);
         requestDataFromURL();
     }, vTimeOut);
+    return true;
 }
 
 // main code ----------------------------------------------------------
@@ -726,17 +672,9 @@ function doBootApp(){
 doPopulateButtons();
 
 document.addEventListener('keydown', (event) => {
-// should use switch case instead of a large list of if
     let name = event.key;
     if (name == "Escape"){
         doClosePopUp();
-    }
-}, false);
-
-document.addEventListener('keyup', (event) => {
-    let name = event.key;
-    if (name == "Control"){
-        vIsCtrlDn=false;
     }
 }, false);
 
@@ -748,14 +686,12 @@ document.addEventListener('keyup', (event) => {
 }, false);
 
 
-//TOP BUTTON LISTENERS
+//BUTTON LISTENERS
 oButtonAll.addEventListener("click", function(){
     //re-request all and sends you back to top
     doBootApp();
 });
-oPageNumber.addEventListener("click", function(){
-    console.log("Don't just click stuff.")
-});
+
 document.getElementById('button-support').addEventListener("click", function(){
     doPopUp(`This function (${document.getElementById('button-support').innerHTML}) is not ready yet.`);
 });
@@ -769,12 +705,11 @@ oButtonSearch.addEventListener("click", function(){
     doSearch(oSearchBox.value);
 });
 oSearchBox.addEventListener("click", function(){
-    oSearchBox.value="";
+    oSearchBox.value = "";
 });
 
-//COLD BOOT PARAMETERS
-let vTotalPages = 0;
+//COLD BOOT VARIABLE SET
 let aImages = [];
 let aImagesMirror = [];
-oSearchBox.value="";
+oSearchBox.value = "";
 doBootApp(); //BOOT APP
