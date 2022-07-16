@@ -154,6 +154,20 @@
     "rsa_enabled": "FALSE"
 },
 {
+    "fqdn": "gcs.cloud4.virtualcom.net",
+    "location": "NAE1",
+    "engine_type": "masking",
+    "storage": 1,
+    "storage_used": 0.9,
+    "associated_seals": 33200,
+    "version": "5.0.0.0.2",
+    "uuid": "ewsax-3312-salza-lm",
+    "placeholder1": "R",
+    "placeholder2": "R",
+    "placeholder3": "",
+    "rsa_enabled": "FALSE"
+},
+{
     "fqdn": "gcs.cloud2.virtualcom.net",
     "location": "GCS",
     "engine_type": "virtualserver",
@@ -180,6 +194,20 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
+},
+{
+    "fqdn": "seg5517sv.virtcomp.net",
+    "location": "AM3",
+    "engine_type": "appliance",
+    "storage": 200,
+    "storage_used": 155.5,
+    "associated_seals": 151122,
+    "version": "5.1.0.1.0",
+    "uuid": "agbcs-4256-qskal-mm",
+    "placeholder1": "W",
+    "placeholder2": "H",
+    "placeholder3": "",
+    "rsa_enabled": "TRUE"
 },
 {
     "fqdn": "seg1110sv.virtcomp.net",
