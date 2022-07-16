@@ -716,7 +716,7 @@ function doPreBoot(){
     .then((responseJson) => {
         aStorage = [...responseJson];
     })    
-    .catch((error) => {
+    .catch((_error) => {
         doPopUp(`Error: Can't read ${url}.`);
     });
 
@@ -740,7 +740,7 @@ function doPreBoot(){
         aImagesMirror = aImages;
     })
     
-    .catch((error) => {
+    .catch((_error) => {
         doPopUp(`Error: Can't read data from ${url}. Retrying...`,true,10000);
         //recursive call to self to catch boot load failure
         setTimeout(() => {
