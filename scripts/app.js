@@ -143,8 +143,8 @@ function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to rig
             duration: vDuration,
             close: true,
             gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
+            position: "left", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
             hideProgressBar: true,
             style: {
                 fontFamily: "Roboto",
@@ -157,7 +157,6 @@ function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to rig
         }).showToast();
         return true;
     } catch {
-        console.log('No toast for you...')
         return false;
     }
 }
@@ -175,7 +174,6 @@ function doExport(vJSONIn){
             return true;
         } catch {
             doPopUp(`download failed for '${vFileNameDownload}'.`);
-            console.log(`Dang, can't download '${vFileNameDownload}'. Try again.`);
             return false;
         }
     } else {
@@ -230,29 +228,29 @@ function doPopulateButtons(){
         doCallAToast(`You are back to the top of the list.`, 2500, vOKColor)
     });
     oButtonCompact.addEventListener("click", function(){
-        //try {
+        try {
             if (vCompact) {
                 vCompact = false;
-                oButtonCompact.innerHTML = `normal view`;
-                oButtonCompact.title = `toggles the normal view mode`;
+                oButtonCompact.innerHTML = `compact view`;
+                oButtonCompact.title = `toggles the compact view mode`;
                 doCallAToast(`Normal view mode active`, 2500, vOKColor)
                 localStorage.setItem("sett_viewmode", JSON.stringify(vCompact));    
                 doAllItems();
             } else {
                 vCompact = true;
-                oButtonCompact.innerHTML = `compact view`;
-                oButtonCompact.title = `toggles the compact view mode`;
+                oButtonCompact.innerHTML = `normal view`;
+                oButtonCompact.title = `toggles the normal view mode`;
                 doCallAToast(`Compact view mode active`, 2500, vOKColor)
                 localStorage.setItem("sett_viewmode", JSON.stringify(vCompact));
                 doAllItems();    
             }
-        /*} catch {
+        } catch {
             oButtonCompact.innerHTML = `normal view`;
             oButtonCompact.title = `toggles the normal view mode`;
             doCallAToast(`Normal view mode active`, 2500, vOKColor)
             localStorage.setItem("sett_viewmode", JSON.stringify(vCompact));    
             doAllItems();        
-        }    */ 
+        }     
     });
 }
 
@@ -372,7 +370,6 @@ function doRecoverSavedItems(){
     }
     catch{
         lFirstTime = "yes";
-        console.log("Nothing found in local storage or an error occurred. Data is ignored.");
         aSelected = [];
         doUpdateCart()
         return false;
@@ -479,7 +476,6 @@ function doCartBox() {
                 itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
                 } // build the HTML string
             catch{
-                console.log("Maximum selection item array reached.");
                 if(i >= aSelected.length){
                     break;
                 }
@@ -515,7 +511,6 @@ function doRemoveFromCart(indexToRemove){
         aSelected.splice(indexToRemove, 1);      // ix position then length
         return true;
     } catch {
-        console.log("Well, the index you passed me does not correspond to an item in my list.");
         return false;
     } finally {
         doClosePopUp();
@@ -632,7 +627,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 }
 
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/inv_grid.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
@@ -723,7 +718,6 @@ function doPreBoot(){
     })    
     .catch((error) => {
         doPopUp(`Error: Can't read ${url}.`);
-        console.log(error)
     });
 
 
@@ -739,7 +733,6 @@ function doPreBoot(){
                 doSplashScreen(`Starting ${vAppTitle}`, `Saving initialization data.`, true)
                 localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             }else{
-                console.log(`welcome. start: ${WhatTimeIsIt()}`);
                 doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
                 
             }
@@ -753,7 +746,6 @@ function doPreBoot(){
         setTimeout(() => {
             doPreBoot();    
         }, vTimeOut);
-        console.log(error)
     });
 }
 
