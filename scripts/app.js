@@ -143,8 +143,8 @@ function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to rig
             duration: vDuration,
             close: true,
             gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
+            position: "left", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
             hideProgressBar: true,
             style: {
                 fontFamily: "Roboto",
@@ -157,7 +157,6 @@ function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to rig
         }).showToast();
         return true;
     } catch {
-        console.log('No toast for you...')
         return false;
     }
 }
@@ -175,7 +174,6 @@ function doExport(vJSONIn){
             return true;
         } catch {
             doPopUp(`download failed for '${vFileNameDownload}'.`);
-            console.log(`Dang, can't download '${vFileNameDownload}'. Try again.`);
             return false;
         }
     } else {
@@ -372,7 +370,6 @@ function doRecoverSavedItems(){
     }
     catch{
         lFirstTime = "yes";
-        console.log("Nothing found in local storage or an error occurred. Data is ignored.");
         aSelected = [];
         doUpdateCart()
         return false;
@@ -479,7 +476,6 @@ function doCartBox() {
                 itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
                 } // build the HTML string
             catch{
-                console.log("Maximum selection item array reached.");
                 if(i >= aSelected.length){
                     break;
                 }
@@ -515,7 +511,6 @@ function doRemoveFromCart(indexToRemove){
         aSelected.splice(indexToRemove, 1);      // ix position then length
         return true;
     } catch {
-        console.log("Well, the index you passed me does not correspond to an item in my list.");
         return false;
     } finally {
         doClosePopUp();
@@ -723,7 +718,6 @@ function doPreBoot(){
     })    
     .catch((error) => {
         doPopUp(`Error: Can't read ${url}.`);
-        console.log(error)
     });
 
 
@@ -739,7 +733,6 @@ function doPreBoot(){
                 doSplashScreen(`Starting ${vAppTitle}`, `Saving initialization data.`, true)
                 localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             }else{
-                console.log(`welcome. start: ${WhatTimeIsIt()}`);
                 doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
                 
             }
@@ -753,7 +746,6 @@ function doPreBoot(){
         setTimeout(() => {
             doPreBoot();    
         }, vTimeOut);
-        console.log(error)
     });
 }
 
