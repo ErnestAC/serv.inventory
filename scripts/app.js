@@ -223,7 +223,7 @@ function doMiniGrid(aArrayIn = []) {
         } else {
             vCSSClass = `flex-no-button-ok-sq`;
         }
-        outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}">${vPercEval}%</div>`;
+        outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}" onclick="dblClickStuff(${i})">${vPercEval}%</div>`;
         i++;
     }
     return `${cWindowTitle}<div style="width: 100%; justify-content: space-around; padding: 0rem;">${outputString}</div>`;
