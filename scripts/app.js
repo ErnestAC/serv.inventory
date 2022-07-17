@@ -210,7 +210,8 @@ function doMiniGrid(aArrayIn = []) {
     let i = 0;
     let outputString = ``;
     let vPercEval = 0;
-    const cWindowTitle = `grid dashboard`;
+    const cWindowTitle = `server grid status`;
+    
     while (aArrayIn.length > i) {
         //evaluate warinng level
         vPercEval = 100-Math.round((aArrayIn[i].storage_used / aArrayIn[i].storage) * 100);
@@ -222,10 +223,10 @@ function doMiniGrid(aArrayIn = []) {
         } else {
             vCSSClass = `flex-no-button-ok-sq`;
         }
-        outputString = `${outputString}<div class="${vCSSClass}" title="${aArrayIn[i].fqdn}">${vPercEval}%</div>`;
+        outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}">${vPercEval}%</div>`;
         i++;
     }
-    return `${cWindowTitle}<div>${outputString}</div>`;
+    return `${cWindowTitle}<div style="width: 100%; justify-content: space-around; padding: 0rem;">${outputString}</div>`;
 }
 
 function doPing(){
