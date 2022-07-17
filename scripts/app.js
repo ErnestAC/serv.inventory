@@ -8,7 +8,7 @@
 
 // the application is logically organized as follows:
 //
-// APP LOAD ---------------------------> DISPLAY <-------------- ACTIONS
+// APP LOAD ----------------------------> DISPLAY <-------------- ACTIONS
 //
 // PREBOOT -----------> BOOT -----------> DISPLAY <-------| REFRESH
 // LOAD STORAGE         TIMEOUT           LISTEN EVNT     | VIEW OPTION                  | EXPORT CART
