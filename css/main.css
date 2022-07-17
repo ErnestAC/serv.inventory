@@ -223,7 +223,7 @@ a​:hover {
 .flex-item-articles, .flex-item-articles-summary {
   align-items: center;
   display: flexbox;
-  background-color: rgba(15, 15, 15, 0.95);
+  background-color: rgba(5, 5, 5, 0.95);
   width: 30%;
   height:auto;
   border-radius: 4px;
@@ -241,7 +241,7 @@ a​:hover {
 }
 
 .flex-item-articles-summary {
-  background-color: rgba(0, 32, 32, 1);
+  background-color: rgba(0, 10, 10, 1);
 }
 
 /*  added for details */

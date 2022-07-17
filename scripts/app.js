@@ -1,6 +1,22 @@
 // 2022 ernestac
-// a simple gallery page built based on the contents of a given passed json string using vanilla js
+// ernestac@github
+// a simple monitoring dsahboard page built based on the contents of a given set of passed json strings using vanilla JS and JSON Web APIs
 
+// two files are read from the webserver, being url, and url_storage. these files must be merged at array level producing no duplicates and only unique entries. if an item is identified in the array to be repeated, url_storage's values are given precedence over url's.
+
+// the presentation is done in a dashboard grid depicting each server in the grid as dictated by the above described process for merging the contents of both data soruces url and url_storage.
+
+// the application is logically organized as follows:
+//
+// APP LOAD ----------------------------> DISPLAY <-------------- ACTIONS
+//
+// PREBOOT -----------> BOOT -----------> DISPLAY <-------| REFRESH
+// LOAD STORAGE         TIMEOUT           LISTEN EVNT     | VIEW OPTION                  | EXPORT CART
+// LOAD URL_STOR        SORT ARRAY        REFRESH SCR     | EXPORT <---------------------| DELETE FROM CART
+// LOAD URL_SERV        DRAW ARRAY                        | SEARCH                       | EMPTY
+// RETRY                                                  | RESET SCROLL
+
+// # APP #############################################################################################################
 // global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
 // array of items pulled from a JSON input.
@@ -11,9 +27,6 @@ const windowTitle = document.getElementById(`app-Title`)
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 const url_storage = "https://ernestac.github.io/serv.inventory/assets/json/storage.json";
-// local testing usage only!
-// const url = "../assets/json/servers.json"
-//const url_storage = "../assets/json/storage.json";
 
 // selection color constant
 const vSelColor = "rgba(0,255,255,0.3)";
@@ -40,12 +53,15 @@ let vNavMessage = '';
 let vgResponse = false;
 let vCompact = false;
 
-// values for free space evaluation
+// settings for free space evaluation
 let cAlertValueUpper = 10; // how much space free is considered alert
 let cWarnValueUpper = 25; // how much space free is considered warn
 let vCountAlert = 0;
 let vCountWarn = 0;
 let vCountOK = 0;
+
+// search flag
+let vIsDataFiltered = false;
 
 // ui object constants
 const oButtonAll = document.getElementById("button-all");
@@ -53,20 +69,24 @@ const oCartBoxPopUp = document.getElementById("cartboxPopup");
 const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
 const oButtonSearch = document.getElementById("button-search");
+
 // display witness box
 const oPageNumber = document.getElementById("page-number");
+
 // section for button insetion in scrolling page
 const oInnerButtons = document.getElementById("activityShow")
-// application title top right
+
+// application title
 const oTitleAppName = document.getElementById("title-app-name");
+
 // popup box (regular)
 const oMsgBoxPopUp = document.getElementById("msgboxPopup");
 const oSearchBox = document.getElementById("search-box");
+
 // bottom options
 const oButtonGoToTop = document.getElementById("button-gotop");
 const oButtonCompact = document.getElementById("button-compact-view");
 const oButtonNormal = document.getElementById("button-normal-view");
-
 
 // functions    ----------------------------------------------------------
 
@@ -105,17 +125,17 @@ function doSearch(searchTerm) {
     }
     
     if (aFound.length < 1) {
-        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,false,2000);
-        
+        doPopUp(`'${oSearchBox.value}' returned no matches.`, false, 2000);
     } else if (aFound.length == 1) {
         aImages = aFound;
         displayInThumbs(0, 0, true);
         oPageNumber.innerText = `search results for '${oSearchBox.value}'`;
+        vIsDataFiltered = true;
     } else {
         aImages = aFound;
+        vIsDataFiltered = true;
         doAllItems();
-        oInnerButtons.innerHTML = `<div class="flex-button" onclick="doResetDisplay()">go back</div> <div class="flex-button" onclick="doAppendToCart()">add all</div><div class="flex-button" onclick='sortBy("fqdn")'>sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")'>free space</div><div class="flex-button" onclick='sortBy("engine type")'>type</div>`;
-        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`,true,3000);
+        doPopUp(`'${oSearchBox.value}' returned ${aFound.length} matches.`, true, 3000);
     }
 }
 
@@ -128,6 +148,7 @@ function doMockPing(){
             try {
                 document.getElementById(`button-pingt${g}`).innerHTML=`${doRandomPing()}ms`;
             } catch {
+                return false;
                 //nothing, let it fail silently
             }
         }
@@ -189,7 +210,7 @@ function doPing(){
 
 function doPopulateButtons(){
     // BUTTON TEXT AND TOOLTIP
-    oButtonAll.innerHTML = `refresh`;
+    oButtonAll.innerHTML = `reset`;
     oButtonAll.title = `refreshes this pages from all data sources`;
     oButtonCart.innerHTML = `export (0)`;
     oButtonCart.title = `opens the download cart window`;
@@ -302,7 +323,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page = -1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText = `${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML = `<div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all to export</div>`
+        oInnerButtons.innerHTML = `<div class="" style="display: inline-block;">sort by |</div><div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="" style="display: inline-block;"> | </div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all to export</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -627,7 +648,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 }
 
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br>----------------------------<br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>data range: </b>all<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-button" id="summary_title">summary</div><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
