@@ -60,6 +60,9 @@ let vCountAlert = 0;
 let vCountWarn = 0;
 let vCountOK = 0;
 
+// boot source count 
+let vSourceCount = 0;
+
 // search flag
 let vIsDataFiltered = false;
 
@@ -648,7 +651,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 }
 
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br><b>sources: </b>${vSourceCount}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
@@ -730,6 +733,7 @@ function doPreBoot(){
 
     fetch(url_storage).then((response) => {
         if (response.ok) {
+            vSourceCount++;
             return response.json();
         }
         throw new Error(`Can't read from ${url_storage}`);
@@ -744,6 +748,7 @@ function doPreBoot(){
 
     fetch(url).then((response) => {
         if (response.ok) {
+            vSourceCount++;
             return response.json();
         }
         throw new Error(`Can't read from ${url}`);
@@ -775,6 +780,7 @@ function doBootApp(){
     vCountAlert = 0;
     vCountWarn = 0;
     vCountOK = 0;
+    vSourceCount = 0;
     doPreBoot();
     //wait for it...
     setTimeout(() => {
