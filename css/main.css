@@ -584,7 +584,7 @@ border-color: rgb(64,64,64);
   margin: 0rem;
 }
 
-.flex-no-button-alert  {
+.flex-no-button-alert,.flex-no-button-alert-sq  {
   display: inline-block;
   height: 0.9rem;
   align-content: center;
@@ -608,7 +608,14 @@ border-color: rgb(64,64,64);
   min-width: 40px;
 }
 
-.flex-no-button-alert:hover {
+.flex-no-button-alert-sq {
+  min-width: 32px;
+  min-height: 32px;
+  padding-left: .30rem;
+  padding-right: .30rem;
+}
+
+.flex-no-button-alert:hover,.flex-no-button-alert-sq:hover {
   color:white;
   transition:all;
   transition-delay: 0.0s;
@@ -616,7 +623,7 @@ border-color: rgb(64,64,64);
   transform: scale(105%);
 }
 
-.flex-no-button-warning {
+.flex-no-button-warning, .flex-no-button-warning-sq {
   display: inline-block;
   height: 0.9rem;
   /*width:fit-content, -moz-fit-content;*/
@@ -642,7 +649,14 @@ border-color: rgb(64,64,64);
   min-width: 40px;
 }
 
-.flex-no-button-warning:hover{
+.flex-no-button-warning-sq {
+  min-width: 32px;
+  min-height: 32px;
+  padding-left: .30rem;
+  padding-right: .30rem;
+}
+
+.flex-no-button-warning:hover,.flex-no-button-warning-sq:hover{
   color:white;
   transition:all;
   transition-delay: 0.0s;
@@ -650,7 +664,7 @@ border-color: rgb(64,64,64);
   transform: scale(107%);
 }
 
-.flex-no-button-ok {
+.flex-no-button-ok, .flex-no-button-ok-sq {
   display: inline-block;
   height: 0.9rem;
   /*width:fit-content, -moz-fit-content;*/
@@ -679,7 +693,15 @@ border-color: rgb(64,64,64);
   border-style: 1px;
 }
 
-.flex-no-button-ok:hover{
+.flex-no-button-ok-sq {
+  min-width: 32px;
+  min-height: 32px;
+  padding-left: .30rem;
+  padding-right: .30rem;
+}
+
+
+.flex-no-button-ok:hover, .flex-no-button-ok-sq:hover{
   color:white;
   transition:all;
   transition-delay: 0.0s;
