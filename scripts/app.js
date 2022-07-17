@@ -72,6 +72,7 @@ const oCartBoxPopUp = document.getElementById("cartboxPopup");
 const oButtonCart = document.getElementById("button-cart");
 const oBackLockPlus = document.getElementById("backLockPlus");
 const oButtonSearch = document.getElementById("button-search");
+const oButtonGlance = document.getElementById("button-glance");
 
 // display witness box
 const oPageNumber = document.getElementById("page-number");
@@ -205,6 +206,27 @@ function doExport(vJSONIn){
     }
 }
 
+function doMiniGrid(aArrayIn = []) {
+    let i = 0;
+    let outputString = ``;
+    let vPercEval = 0;
+    const cWindowTitle = `grid dashboard`;
+    while (aArrayIn.length > i) {
+        //evaluate warinng level
+        vPercEval = 100-Math.round((aArrayIn[i].storage_used / aArrayIn[i].storage) * 100);
+        
+        if (vPercEval < cAlertValueUpper) {
+            vCSSClass = `flex-no-button-alert-sq`;
+        } else if (vPercEval < cWarnValueUpper) {
+            vCSSClass = `flex-no-button-warning-sq`;
+        } else {
+            vCSSClass = `flex-no-button-ok-sq`;
+        }
+        outputString = `${outputString}<div class="${vCSSClass}" title="${aArrayIn[i].fqdn}">${vPercEval}%</div>`;
+        i++;
+    }
+    return `${cWindowTitle}<div>${outputString}</div>`;
+}
 
 function doPing(){
     // mock function
@@ -216,14 +238,15 @@ function doPopulateButtons(){
     oButtonAll.innerHTML = `reset`;
     oButtonAll.title = `refreshes this pages from all data sources`;
     oButtonCart.innerHTML = `export (0)`;
-    oButtonCart.title = `opens the download cart window`;
+    oButtonCart.title = `display the download cart window`;
     oButtonSearch.innerHTML = `search`;
     oButtonSearch.title = `does a search`;
     oPageNumber.innerHTML = `loading...`;
     oTitleAppName.innerHTML = `${vAppTitle}`;
-    oButtonGoToTop.innerHTML = `to top ^`;
-    oButtonGoToTop.title = `scrolls back to the top of the page`;
-    
+    oButtonGoToTop.innerHTML = `to top`;
+    oButtonGoToTop.title = `back to the top of the page`;
+    oButtonGlance.innerHTML = `grid status`
+
     if (localStorage.getItem("sett_viewmode") == "false") {
         oButtonCompact.innerHTML = `compact view`;
         oButtonCompact.title = `toggles the compact view mode`;       
@@ -241,7 +264,12 @@ function doPopulateButtons(){
     oButtonCart.addEventListener("click", function(){
         doCartBox();
     });
-    oButtonSearch.addEventListener("click", function(){
+    
+    oButtonGlance.addEventListener("click", function(){
+        doSplashScreen(`${doMiniGrid(aImages)}`,`<b>JSA SUMMARY</b> - ${WhatTimeIsIt()}. ${aImages.length} servers surveyed.`,false);
+    });    
+    
+    oButtonSearch.addEventListener("click", function () {
         doSearch(oSearchBox.value);
     });
     oSearchBox.addEventListener("click", function(){
@@ -795,6 +823,7 @@ function doBootApp(){
             aSelected = [];
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         }
+        
         doClosePopUp();
         // start the ping simulator once page loaded or failed
         setInterval(doMockPing, 750);
