@@ -1,6 +1,22 @@
 // 2022 ernestac
-// a simple gallery page built based on the contents of a given passed json string using vanilla js
+// ernestac@github
+// a simple monitoring dsahboard page built based on the contents of a given set of passed json strings using vanilla JS and JSON Web APIs
 
+// two files are read from the webserver, being url, and url_storage. these files must be merged at array level producing no duplicates and only unique entries. if an item is identified in the array to be repeated, url_storage's values are given precedence over url's.
+
+// the presentation is done in a dashboard grid depicting each server in the grid as dictated by the above described process for merging the contents of both data soruces url and url_storage.
+
+// the application is logically organized as follows:
+//
+// APP LOAD ---------------------------> DISPLAY <-------------- ACTIONS
+//
+// PREBOOT -----------> BOOT -----------> DISPLAY <-------| REFRESH
+// LOAD STORAGE         TIMEOUT           LISTEN EVNT     | VIEW OPTION                  | EXPORT CART
+// LOAD URL_STOR        SORT ARRAY        REFRESH SCR     | EXPORT <---------------------| DELETE FROM CART
+// LOAD URL_SERV        DRAW ARRAY                        | SEARCH                       | EMPTY
+// RETRY                                                  | RESET SCROLL
+
+// #APP###############################################################################################################
 // global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
 // array of items pulled from a JSON input.
@@ -11,9 +27,6 @@ const windowTitle = document.getElementById(`app-Title`)
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 const url_storage = "https://ernestac.github.io/serv.inventory/assets/json/storage.json";
-// local testing usage only!
-// const url = "../assets/json/servers.json"
-//const url_storage = "../assets/json/storage.json";
 
 // selection color constant
 const vSelColor = "rgba(0,255,255,0.3)";
