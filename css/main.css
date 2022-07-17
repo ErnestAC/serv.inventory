@@ -609,8 +609,8 @@ border-color: rgb(64,64,64);
 }
 
 .flex-no-button-alert-sq {
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 24px;
+  min-height: 24px;
   padding-left: .30rem;
   padding-right: .30rem;
 }
@@ -650,8 +650,8 @@ border-color: rgb(64,64,64);
 }
 
 .flex-no-button-warning-sq {
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 24px;
+  min-height: 24px;
   padding-left: .30rem;
   padding-right: .30rem;
 }
@@ -694,8 +694,8 @@ border-color: rgb(64,64,64);
 }
 
 .flex-no-button-ok-sq {
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 24px;
+  min-height: 24px;
   padding-left: .30rem;
   padding-right: .30rem;
 }

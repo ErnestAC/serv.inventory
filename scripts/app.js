@@ -210,7 +210,8 @@ function doMiniGrid(aArrayIn = []) {
     let i = 0;
     let outputString = ``;
     let vPercEval = 0;
-    const cWindowTitle = `grid dashboard`;
+    const cWindowTitle = `server grid status`;
+    
     while (aArrayIn.length > i) {
         //evaluate warinng level
         vPercEval = 100-Math.round((aArrayIn[i].storage_used / aArrayIn[i].storage) * 100);
@@ -222,10 +223,10 @@ function doMiniGrid(aArrayIn = []) {
         } else {
             vCSSClass = `flex-no-button-ok-sq`;
         }
-        outputString = `${outputString}<div class="${vCSSClass}" title="${aArrayIn[i].fqdn}">${vPercEval}%</div>`;
+        outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}" onclick="dblClickStuff(${i})">${vPercEval}%</div>`;
         i++;
     }
-    return `${cWindowTitle}<div>${outputString}</div>`;
+    return `${cWindowTitle}<div style="width: 100%; justify-content: space-around; padding: 0rem;">${outputString}</div>`;
 }
 
 function doPing(){
@@ -354,7 +355,7 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page = -1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText = `${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML = `<div class="" style="display: inline-block;">sort by |</div><div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">sort by fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="" style="display: inline-block;"> | </div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all to export</div>`
+        oInnerButtons.innerHTML = `<div class="" style="display: inline-block;">sort by |</div><div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="" style="display: inline-block;">  export |</div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all</div>`
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
