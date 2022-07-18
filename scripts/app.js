@@ -210,8 +210,8 @@ function doMiniGrid(aArrayIn = []) {
     let i = 0;
     let outputString = ``;
     let vPercEval = 0;
-    const cWindowTitle = `server grid status`;
-    
+    const cWindowTitle = `${vAppTitle.toLowerCase()} - grid view`;
+
     while (aArrayIn.length > i) {
         //evaluate warinng level
         vPercEval = 100-Math.round((aArrayIn[i].storage_used / aArrayIn[i].storage) * 100);
@@ -223,7 +223,7 @@ function doMiniGrid(aArrayIn = []) {
         } else {
             vCSSClass = `flex-no-button-ok-sq`;
         }
-        outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}" onclick="dblClickStuff(${i})">${vPercEval}%</div>`;
+        outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}, click for details" onclick="dblClickStuff(${i})">${vPercEval}%<br>${aArrayIn[i].engine_type[0]}</div>`;
         i++;
     }
     return `${cWindowTitle}<div style="width: 100%; justify-content: space-around; padding: 0rem;">${outputString}</div>`;
@@ -267,7 +267,7 @@ function doPopulateButtons(){
     });
     
     oButtonGlance.addEventListener("click", function(){
-        doSplashScreen(`${doMiniGrid(aImages)}`,`<b>JSA SUMMARY</b> - ${WhatTimeIsIt()}. ${aImages.length} servers surveyed.`,false);
+        doSplashScreen(`${doMiniGrid(aImages)}`,`<b>JSA SUMMARY</b> - ${WhatTimeIsIt()}. ${aImages.length} servers surveyed. <br> ${document.getElementById('summary-card-text').innerHTML}`,false);
     });    
     
     oButtonSearch.addEventListener("click", function () {
@@ -680,7 +680,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 }
 
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p class="reg-text" style="width: 100%; height: 100%;"> <b>SUMMARY DATA</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br><b>sources: </b>${vSourceCount}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
+                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;"> <b>display summary data</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br><b>sources: </b>${vSourceCount}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
