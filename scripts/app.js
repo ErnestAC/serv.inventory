@@ -8,13 +8,15 @@
 
 // the application is logically organized as follows:
 //
-// APP LOAD ----------------------------> DISPLAY <-------------- ACTIONS
+// APP LOAD ----------------------------> DISPLAY <-------| ACTIONS -------------------- MODAL ACTIONS
 //
-// PREBOOT -----------> BOOT -----------> DISPLAY <-------| REFRESH
-// LOAD STORAGE         TIMEOUT           LISTEN EVNT     | VIEW OPTION                  | EXPORT CART
-// LOAD URL_STOR        SORT ARRAY        REFRESH SCR     | EXPORT <---------------------| DELETE FROM CART
-// LOAD URL_SERV        DRAW ARRAY                        | SEARCH                       | EMPTY
-// RETRY                                                  | RESET SCROLL
+// PREBOOT -----------> BOOT -----------> DISPLAY <-------| REFRESH                      CART WINDOW
+// LOAD STORAGE         TIMEOUT           LISTEN EVENTS   | VIEW OPTION                  | EXPORT CART
+// LOAD URL_STOR        SORT ARRAY        REFRESH SCR     | EXPORT <-------------------- | DELETE FROM CART
+// LOAD URL_SERV        DRAW ARRAY        GENERIC POPUP   | SEARCH                       | EMPTY
+// RETRY                SPLASH                            | RESET SCROLL
+//                                                        | GRID SUB-VIEW <------------- GRID VIEW WINDOW
+//
 
 // # APP #############################################################################################################
 // global variables and constants    --------------------------------------
@@ -216,6 +218,10 @@ function doMiniGrid(aArrayIn = []) {
         //evaluate warinng level
         vPercEval = 100-Math.round((aArrayIn[i].storage_used / aArrayIn[i].storage) * 100);
         
+        if (isNaN(vPercEval)) {
+            vPercEval = `--`;
+        }
+
         if (vPercEval < cAlertValueUpper) {
             vCSSClass = `flex-no-button-alert-sq`;
         } else if (vPercEval < cWarnValueUpper) {
@@ -236,7 +242,7 @@ function doPing(){
 
 function doPopulateButtons(){
     // BUTTON TEXT AND TOOLTIP
-    oButtonAll.innerHTML = `reset`;
+    oButtonAll.innerHTML = `refresh`;
     oButtonAll.title = `refreshes this pages from all data sources`;
     oButtonCart.innerHTML = `export (0)`;
     oButtonCart.title = `display the download cart window`;
@@ -267,7 +273,11 @@ function doPopulateButtons(){
     });
     
     oButtonGlance.addEventListener("click", function(){
-        doSplashScreen(`${doMiniGrid(aImages)}`,`<b>JSA SUMMARY</b> - ${WhatTimeIsIt()}. ${aImages.length} servers surveyed. <br> ${document.getElementById('summary-card-text').innerHTML}`,false);
+        try {
+            doPopUp(`${doMiniGrid(aImages)} <br><div class="reg-text">${document.getElementById('summary-card-text').innerHTML}</div>`,false);            
+        } catch {
+            doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
+        }
     });    
     
     oButtonSearch.addEventListener("click", function () {
@@ -278,7 +288,7 @@ function doPopulateButtons(){
     });
     oButtonGoToTop.addEventListener("click", function(){
         doResetScroll();
-        doCallAToast(`You are back to the top of the list.`, 2500, vOKColor)
+        doCallAToast(`You are back to the top of the list.`, 2500)
     });
     oButtonCompact.addEventListener("click", function(){
         try {
@@ -858,3 +868,4 @@ let aStorage = [];
 let aImagesMirror = [];
 oSearchBox.value = "";
 doBootApp(); //BOOT APP
+
