@@ -369,7 +369,26 @@ function doAllItems(showToast = false) {
         displayInThumbs();
         page = -1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText = `${aImages.length} item(s) displayed`;
-        oInnerButtons.innerHTML = `<div class="" style="display: inline-block;">sort by |</div><div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">fqdn</div><div class="flex-button" onclick='sortBy("space free")' title="sort by free space">free space</div><div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >type</div><div class="flex-button" onclick='sortBy("storage")' title="sort by size">size</div><div class="" style="display: inline-block;">  export |</div><div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">add all</div>`
+        oInnerButtons.innerHTML = `
+            <div class="" style="display: inline-block;"> 
+                sort by |</div>
+            <div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">
+                fqdn
+            </div>
+            <div class="flex-button" onclick='sortBy("space free")' title="sort by free space">
+                free space
+            </div>
+            <div class="flex-button" onclick='sortBy("engine type")' title="sort by engine type" >
+                type
+            </div>
+            <div class="flex-button" onclick='sortBy("storage")' title="sort by size">
+                size
+            </div>
+            <div class="" style="display: inline-block;">
+                export |</div>
+            <div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">
+                add all
+            </div>`;
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -681,6 +700,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
             let vEvalInjector = `<div class="flex-not-button" )" title="installed storage">${aImages[i].storage}TB</div>`; // add the type badge first
             let vAppsBadge = '';
+            
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
@@ -835,6 +855,7 @@ function doBootApp(){
     vCountOK = 0;
     vSourceCount = 0;
     doPreBoot();
+    oSearchBox.value = "";
     //wait for it...
     setTimeout(() => {
         //bootstraping routine
@@ -880,6 +901,6 @@ document.addEventListener('keyup', (event) => {
 let aImages = [];
 let aStorage = [];
 let aImagesMirror = [];
-oSearchBox.value = "";
+
 doBootApp(); //BOOT APP
 
