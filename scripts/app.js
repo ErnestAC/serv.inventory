@@ -375,14 +375,6 @@ function doAllItems(showToast = false) {
             <div class="flex-button" onclick='sortBy("fqdn")' title="sort by fqdn">
                 fqdn
             </div>
-            <select class="flex-button"  style="height: 1.9rem;" "id="dropdown-sortby" name="dd-sortby" size="1">
-                <option value="fqdn">fqdn</option>
-                <option value="space free">free space</option>
-                <option value="location">location</option>
-                <option value="type">server type</option>
-                <option value="storage">installed storage size</option>
-                <option value="size">server storage size</option>
-            </select>
             <div class="flex-button" onclick='sortBy("space free")' title="sort by free space">
                 free space
             </div>
