@@ -1,5 +1,5 @@
 [
-{
+  {
     "fqdn": "msx4182lv.virtcomp.net",
     "location": "DC1",
     "engine_type": "virtualserver",
@@ -12,8 +12,8 @@
     "placeholder2": "K",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "msx4183lv.virtcomp.net",
     "location": "DC2",
     "engine_type": "target",
@@ -26,12 +26,12 @@
     "placeholder2": "P",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "ata2727av.virtcomp.net",
     "location": "SKN",
     "engine_type": "dbhost",
-    "storage": 30,
+    "storage": 40,
     "storage_used": 25,
     "associated_seals": "47223, 22546, 11455",
     "version": "5.0.1.0.0",
@@ -40,8 +40,8 @@
     "placeholder2": "G",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "ata2728av.virtcomp.net",
     "location": "SKN",
     "engine_type": "target",
@@ -54,13 +54,13 @@
     "placeholder2": "G",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "seg1144sv.virtcomp.net",
     "location": "AM1",
     "engine_type": "masking",
     "storage": 1,
-    "storage_used": "",
+    "storage_used": 0.5,
     "associated_seals": 11023,
     "version": "5.1.0.1.0",
     "uuid": "jksxx-9992-qqpza-lm",
@@ -68,13 +68,13 @@
     "placeholder2": "W",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "seg1145sv.virtcomp.net",
     "location": "AM2",
     "engine_type": "masking",
     "storage": 1,
-    "storage_used": "",
+    "storage_used": 0.5,
     "associated_seals": 114500,
     "version": "5.0.0.1.0",
     "uuid": "mxskx-1961-ppalv-lb",
@@ -82,8 +82,8 @@
     "placeholder2": "F",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "aws.cloud1.virtualcomp.net",
     "location": "AWS",
     "engine_type": "virtualserver",
@@ -96,8 +96,8 @@
     "placeholder2": "E",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "aws.cloud2.virtualcomp.net",
     "location": "AWS",
     "engine_type": "target",
@@ -110,8 +110,8 @@
     "placeholder2": "Q",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "azr.cloud1.virtualcomp.net",
     "location": "AZR",
     "engine_type": "target",
@@ -124,13 +124,13 @@
     "placeholder2": "L",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "azr.cloud2.virtualcomp.net",
     "location": "AZR",
     "engine_type": "masking",
-    "storage": 1,
-    "storage_used": "",
+    "storage": 100,
+    "storage_used": 50,
     "associated_seals": 33200,
     "version": "5.0.0.1.0",
     "uuid": "agbcs-4256-qskal-mm",
@@ -138,13 +138,13 @@
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "gcs.cloud1.virtualcom.net",
     "location": "GCS",
     "engine_type": "masking",
-    "storage": 1,
-    "storage_used": "0.9",
+    "storage": 100,
+    "storage_used": 95,
     "associated_seals": 33200,
     "version": "5.0.0.0.2",
     "uuid": "jksxx-9992-qqpza-lm",
@@ -152,23 +152,9 @@
     "placeholder2": "R",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
-    "fqdn": "gcs.cloud4.virtualcom.net",
-    "location": "NAE1",
-    "engine_type": "masking",
-    "storage": 1,
-    "storage_used": 0.9,
-    "associated_seals": 33200,
-    "version": "5.0.0.0.2",
-    "uuid": "ewsax-3312-salza-lm",
-    "placeholder1": "R",
-    "placeholder2": "R",
-    "placeholder3": "",
-    "rsa_enabled": "FALSE"
-},
-{
-    "fqdn": "gcs.cloud2.virtualcom.net",
+  },
+  {
+    "fqdn": "tvr.cloud2.virtualcom.net",
     "location": "GCS",
     "engine_type": "virtualserver",
     "storage": 200,
@@ -180,8 +166,8 @@
     "placeholder2": "T",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "seg1111sv.virtcomp.net",
     "location": "AM1",
     "engine_type": "virtualserver",
@@ -194,22 +180,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
-    "fqdn": "seg5517sv.virtcomp.net",
-    "location": "AM3",
-    "engine_type": "appliance",
-    "storage": 200,
-    "storage_used": 155.5,
-    "associated_seals": 151122,
-    "version": "5.1.0.1.0",
-    "uuid": "agbcs-4256-qskal-mm",
-    "placeholder1": "W",
-    "placeholder2": "H",
-    "placeholder3": "",
-    "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "seg1110sv.virtcomp.net",
     "location": "AM2",
     "engine_type": "target",
@@ -222,8 +194,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "seg3544sv.virtcomp.net",
     "location": "AM1",
     "engine_type": "masking",
@@ -236,8 +208,8 @@
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "seg3545sv.virtcomp.net",
     "location": "AM2",
     "engine_type": "virtualserver",
@@ -250,8 +222,8 @@
     "placeholder2": "M",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "seg1201sv.virtcomp.net",
     "location": "AM1",
     "engine_type": "target",
@@ -264,8 +236,8 @@
     "placeholder2": "M",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "seg1202sv.virtcomp.net",
     "location": "AM2",
     "engine_type": "masking",
@@ -278,8 +250,8 @@
     "placeholder2": "R",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "azr.cloud3.virtualcomp.net",
     "location": "AZR",
     "engine_type": "dbhost",
@@ -292,8 +264,8 @@
     "placeholder2": "T",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "azr.cloud4.virtualcomp.net",
     "location": "AZR",
     "engine_type": "masking",
@@ -306,8 +278,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "msx2421lv.virtcomp.net",
     "location": "DC2",
     "engine_type": "virtualserver",
@@ -320,8 +292,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "msx2420lv.virtcomp.net",
     "location": "DC1",
     "engine_type": "masking",
@@ -334,8 +306,8 @@
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "nin2324ln.virtcomp.net",
     "location": "DC1",
     "engine_type": "virtualserver",
@@ -348,8 +320,8 @@
     "placeholder2": "M",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "nin2323ln.virtcomp.net",
     "location": "DC2",
     "engine_type": "masking",
@@ -362,8 +334,8 @@
     "placeholder2": "R",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "nin2326ln.virtcomp.net",
     "location": "SKN",
     "engine_type": "masking",
@@ -376,8 +348,8 @@
     "placeholder2": "T",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "nin2325ln.virtcomp.net",
     "location": "AU1",
     "engine_type": "virtualserver",
@@ -390,13 +362,13 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "gen9901ln.virtcomp.net",
     "location": "AU1",
     "engine_type": "masking",
     "storage": 1,
-    "storage_used": "0.5",
+    "storage_used": "",
     "associated_seals": "vacant",
     "version": "5.0.1.0.0",
     "uuid": "jksxx-9992-qqpza-lm",
@@ -404,13 +376,13 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
-    "fqdn": "gen9902ln.virtcomp.net",
+  },
+  {
+    "fqdn": "sam9902ln.virtcomp.net",
     "location": "AU2",
     "engine_type": "masking",
     "storage": 1,
-    "storage_used": "0.1",
+    "storage_used": "",
     "associated_seals": 55120,
     "version": "5.0.1.0.0",
     "uuid": "agbcs-4256-qskal-mm",
@@ -418,8 +390,8 @@
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "gen9903ln.virtcomp.net",
     "location": "AU2",
     "engine_type": "virtualserver",
@@ -432,8 +404,8 @@
     "placeholder2": "M",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "gen9904ln.virtcomp.net",
     "location": "AU1",
     "engine_type": "virtualserver",
@@ -446,9 +418,9 @@
     "placeholder2": "R",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
-    "fqdn": "seg1911sv.virtcomp.net",
+  },
+  {
+    "fqdn": "tvh1911sv.virtcomp.net",
     "location": "AM1",
     "engine_type": "virtualserver",
     "storage": 200,
@@ -460,13 +432,13 @@
     "placeholder2": "T",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "seg1910sv.virtcomp.net",
     "location": "AM2",
     "engine_type": "target",
     "storage": 50,
-    "storage_used": 40.9,
+    "storage_used": 23.9,
     "associated_seals": "12546, 89661",
     "version": "5.0.0.1.0",
     "uuid": "jksxx-9992-qqpza-lm",
@@ -474,9 +446,9 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
-    "fqdn": "clc2153st.virtcomp.net",
+  },
+  {
+    "fqdn": "alg9153st.virtcomp.net",
     "location": "EU1",
     "engine_type": "target",
     "storage": 100,
@@ -488,8 +460,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "clc2154st.virtcomp.net",
     "location": "EU2",
     "engine_type": "dbhost",
@@ -502,10 +474,10 @@
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
-    "fqdn": "clc2155st.virtcomp.net",
-    "location": "EU2",
+  },
+  {
+    "fqdn": "jap7115st.virtcomp.net",
+    "location": "JA1",
     "engine_type": "masking",
     "storage": 1,
     "storage_used": "",
@@ -516,8 +488,8 @@
     "placeholder2": "R",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "bat1002bs.virtcomp.net",
     "location": "BB1",
     "engine_type": "batch",
@@ -530,8 +502,8 @@
     "placeholder2": "T",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "bat1001bs.virtcomp.net",
     "location": "BB1",
     "engine_type": "batch",
@@ -544,8 +516,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "TRUE"
-},
-{
+  },
+  {
     "fqdn": "dir1001dr.virtcomp.net",
     "location": "EU1",
     "engine_type": "director",
@@ -558,8 +530,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "dir1002dr.virtcomp.net",
     "location": "AM1",
     "engine_type": "director",
@@ -572,12 +544,12 @@
     "placeholder2": "R",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "dir1009dr.virtcomp.net",
     "location": "EU1",
     "engine_type": "director",
-    "storage": 20,
+    "storage": 10,
     "storage_used": 6,
     "associated_seals": 10001,
     "version": "9.1.1",
@@ -586,8 +558,8 @@
     "placeholder2": "T",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "dir1012dr.virtcomp.net",
     "location": "AM1",
     "engine_type": "director",
@@ -600,8 +572,8 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
+  },
+  {
     "fqdn": "dir1011dr.virtcomp.net",
     "location": "EU1",
     "engine_type": "director",
@@ -614,9 +586,9 @@
     "placeholder2": "H",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-{
-    "fqdn": "dir1319dr.virtcomp.net",
+  },
+  {
+    "fqdn": "dir1010dr.virtcomp.net",
     "location": "AM1",
     "engine_type": "director",
     "storage": 10,
@@ -628,37 +600,19 @@
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-},
-
-{
-    "fqdn": "dir9998dr.virtcomp.net",
-    "location": "AM2",
-    "engine_type": "director",
-    "storage": 10,
-    "storage_used": 9,
-    "associated_seals": 10001,
-    "version": "9.1.1",
-    "uuid": "cctux-4003-qxdal-bt",
-    "placeholder1": "A",
-    "placeholder2": "A",
-    "placeholder3": "",
-    "rsa_enabled": "FALSE"
-},
-
-{
-    "fqdn": "dir9999dr.virtcomp.net",
-    "location": "AM1",
-    "engine_type": "director",
-    "storage": 10,
-    "storage_used": 9,
-    "associated_seals": 10001,
-    "version": "9.1.1",
-    "uuid": "cctux-4473-loqao-bt",
+  },
+  {
+    "fqdn": "sin1546.outhost.net",
+    "location": "OU1",
+    "engine_type": "datamart",
+    "storage": 600,
+    "storage_used": 441,
+    "associated_seals": 99851,
+    "version": "10.1.2.2",
+    "uuid": "agbcs-4256-qskal-mm",
     "placeholder1": "A",
     "placeholder2": "U",
     "placeholder3": "",
     "rsa_enabled": "FALSE"
-}
-
-
+  }
 ]
