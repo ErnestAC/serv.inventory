@@ -277,11 +277,15 @@ function doPopulateButtons(){
     });
     
     oButtonGlance.addEventListener("click", function(){
-        //try {
-            doGridBox(`${doMiniGrid(aImages)} <br><div class="reg-text">${document.getElementById('summary-card-text').innerHTML}</div>`);            
-        //} catch {
-        //    doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
-        //}
+        try {
+            doGridBox(`${doMiniGrid(aImages)}
+                <br>
+                <div class="reg-text">
+                    ${document.getElementById('summary-card-text').innerHTML}
+                </div>`);            
+        } catch {
+            doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
+        }
     });    
     
     oButtonSearch.addEventListener("click", function () {
@@ -350,7 +354,12 @@ function doResetScroll(){
     //refresh page box
     if (page>(-1)){
         if (page < 0){
-            vNavMessage = `<div class="flex-button" style="width:64px";>items ${(page)*vItemsPerPage} </div><div class="flex-button" style="width:64px";>page ${page+2} </div>`
+            vNavMessage = `<div class="flex-button" style="width:64px";>
+                    items ${(page) * vItemsPerPage} 
+                </div>
+                <div class="flex-button" style="width:64px";>
+                    page ${page + 2}
+                </div>`
         }
     }
 
