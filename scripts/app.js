@@ -212,7 +212,7 @@ function doMiniGrid(aArrayIn = []) {
     let i = 0;
     let outputString = ``;
     let vPercEval = 0;
-    const cWindowTitle = `${vAppTitle.toLowerCase()} - grid view`;
+    const cWindowTitle = `<h2 style="width: 100%;">${vAppTitle.toLowerCase()} - grid view</h2>`;
 
     while (aArrayIn.length > i) {
         //evaluate warinng level
@@ -232,7 +232,11 @@ function doMiniGrid(aArrayIn = []) {
         outputString = `${outputString}<div class="${vCSSClass}" id="server${i}" title="${aArrayIn[i].fqdn}, click for details" onclick="dblClickStuff(${i})">${vPercEval}%<br>${aArrayIn[i].engine_type[0]}</div>`;
         i++;
     }
-    return `${cWindowTitle}<div style="width: 100%; justify-content: space-around; padding: 0rem;">${outputString}</div>`;
+    let vUnit = Math.round(20 / 7); // 20 rem displays 7 boxes
+    let vSqUnit = Math.round(Math.sqrt(aArrayIn.length))
+    let rUnit = (vUnit*vSqUnit)
+    
+    return `${cWindowTitle}<div style="width: ${rUnit}rem; justify-content: space-around; padding: 1.2rem;">${outputString}</div>`;
 }
 
 function doPing(){
@@ -273,11 +277,11 @@ function doPopulateButtons(){
     });
     
     oButtonGlance.addEventListener("click", function(){
-        try {
-            doPopUp(`${doMiniGrid(aImages)} <br><div class="reg-text">${document.getElementById('summary-card-text').innerHTML}</div>`,false);            
-        } catch {
-            doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
-        }
+        //try {
+            doGridBox(`${doMiniGrid(aImages)} <br><div class="reg-text">${document.getElementById('summary-card-text').innerHTML}</div>`);            
+        //} catch {
+        //    doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
+        //}
     });    
     
     oButtonSearch.addEventListener("click", function () {
@@ -565,6 +569,16 @@ function doCartBox() {
     oCartBoxText.innerHTML = `<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
     // bottom banner
     oCartBoxText1.innerHTML = `<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+}
+
+function doGridBox(gridBoxHTML) {
+    oCartBoxPopUp.style.visibility = "visible";
+    document.getElementById("backLock").style.visibility = "visible";
+    oCartBoxPopUp.innerHTML = `${gridBoxHTML}<div class="flex-button" id="closeButtonGrid">close</div>`;
+    document.getElementById("closeButtonGrid").addEventListener("click", function(){
+        document.getElementById("backLock").style.visibility = "hidden";
+        oCartBoxPopUp.style.visibility = "hidden";
+    });
 }
 
 
