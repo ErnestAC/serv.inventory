@@ -635,12 +635,14 @@ function doCartBox() {
 
 function doGridBox(gridBoxHTML) {
     oCartBoxPopUp.style.visibility = "visible";
+    oCartBoxPopUp.style.width = "min-content";
     document.getElementById("backLock").style.visibility = "visible";
     oCartBoxPopUp.innerHTML = `${gridBoxHTML}
                                 <div class="flex-button" id="closeButtonGrid">
                                     close
                                 </div>`;
     document.getElementById("closeButtonGrid").addEventListener("click", function(){
+        oCartBoxPopUp.style.width = "90%";
         document.getElementById("backLock").style.visibility = "hidden";
         oCartBoxPopUp.style.visibility = "hidden";
     });
