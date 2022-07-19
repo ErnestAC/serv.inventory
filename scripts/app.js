@@ -385,7 +385,8 @@ function doAllItems(showToast = false) {
                 size
             </div>
             <div class="" style="display: inline-block;">
-                export |</div>
+                export |
+            </div>
             <div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">
                 add all
             </div>`;
@@ -558,8 +559,21 @@ function doCartBox() {
     if (aSelected.length != 0) {
         while (i < aSelected.length) {
             try {
-                vButtons = `<div><div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">remove</div><div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i+1})))" title="export this item">export</div></div></div><br>`
-                itemInjection = `${itemInjection}<div id="cartmyitem${i}";" class=\"${lvCSSClass}\"><img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'><p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>${vButtons}`;
+                vButtons = `<div>
+                                <div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">
+                                    remove
+                                </div>
+                                <div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i + 1})))" title="export this item">
+                                    export
+                                </div>
+                                </div>
+                            </div>
+                            <br>`
+                itemInjection = `${itemInjection}
+                                <div id="cartmyitem${i}";" class=\"${lvCSSClass}\">
+                                    <img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'>
+                                    <p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>
+                                    ${vButtons}`;
                 } // build the HTML string
             catch{
                 if(i >= aSelected.length){
@@ -577,7 +591,23 @@ function doCartBox() {
     }
     oCartBoxPopUp.style.visibility = "visible";
     document.getElementById("backLock").style.visibility = "visible";
-    oCartBoxPopUp.innerHTML = `<h2 style="width: 100%;">export.cart</h2><div class="flex-item-cartbox" id="msgOfTheCartBox"></div><div class="flex-item-articles-badges-buttonboard-horizontal"><br><div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))" title="download cart's data"> download </div> <div class="flex-button" style="width:64px;" onclick="doEmptyCart()" title="clear cart's contents">empty</div> <div id="closeButtonCart" style="width:64px;" class="flex-button" title="closes this window">close</div></div>${itemInjection}<div class="flex-item-cartbox" id="msgOfTheCartBox1"></div>`;
+    oCartBoxPopUp.innerHTML = `<h2 style="width: 100%;">export.cart</h2>
+                                <div class="flex-item-cartbox" id="msgOfTheCartBox"></div>
+                                    <div class="flex-item-articles-badges-buttonboard-horizontal">
+                                        <br>
+                                        <div id="checkoutCart" class="flex-button" style="width:64px;" onclick="doExport(JSON.stringify(aSelected))" title="download cart's data">
+                                            download
+                                        </div>
+                                        <div class="flex-button" style="width:64px;" onclick="doEmptyCart()" title="clear cart's contents">
+                                            empty
+                                        </div>
+                                        <div id="closeButtonCart" style="width:64px;" class="flex-button" title="closes this window">
+                                            close
+                                        </div>
+                                    </div>
+                                    ${itemInjection}
+                                    <div class="flex-item-cartbox" id="msgOfTheCartBox1">
+                                    </div>`;
     const oCartBoxText = document.getElementById("msgOfTheCartBox");
     const oCartBoxText1 = document.getElementById("msgOfTheCartBox1");
     document.getElementById("closeButtonCart").addEventListener("click", function(){
@@ -585,15 +615,22 @@ function doCartBox() {
     document.getElementById("backLock").style.visibility = "hidden";
     });
     // top banner
-    oCartBoxText.innerHTML = `<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    oCartBoxText.innerHTML = `<p class="reg-text">
+                                    You have ${aSelected.length} item(s) in the cart.
+                                </p>`;
     // bottom banner
-    oCartBoxText1.innerHTML = `<p class="reg-text">You have ${aSelected.length} item(s) in the cart.</p>`;
+    oCartBoxText1.innerHTML = `<p class="reg-text">
+                                    You have ${aSelected.length} item(s) in the cart.
+                                </p>`;
 }
 
 function doGridBox(gridBoxHTML) {
     oCartBoxPopUp.style.visibility = "visible";
     document.getElementById("backLock").style.visibility = "visible";
-    oCartBoxPopUp.innerHTML = `${gridBoxHTML}<div class="flex-button" id="closeButtonGrid">close</div>`;
+    oCartBoxPopUp.innerHTML = `${gridBoxHTML}
+                                <div class="flex-button" id="closeButtonGrid">
+                                    close
+                                </div>`;
     document.getElementById("closeButtonGrid").addEventListener("click", function(){
         document.getElementById("backLock").style.visibility = "hidden";
         oCartBoxPopUp.style.visibility = "hidden";
