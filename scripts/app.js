@@ -54,11 +54,16 @@ const vItemsPerPage = 20;
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
+// selection and localstorage arrays read from settings
 let aSelected = [];
 let aNotes = [];
-let vNavMessage = '';
-let vgResponse = false;
 let vCompact = false;
+
+// navigation message
+let vNavMessage = '';
+// global response witness
+let vgResponse = false;
+
 
 // settings for free space evaluation
 let cAlertValueUpper = 10; // how much space free is considered alert
@@ -100,46 +105,6 @@ const oButtonCompact = document.getElementById("button-compact-view");
 const oButtonNormal = document.getElementById("button-normal-view");
 
 // functions    ----------------------------------------------------------
-
-function doLoadLocalNotes() {
-    aNotes = localStorage.getItem("sett_notes");
-}
-
-function doPopulateNotes(aArrayToAddTo = aImages, aArrayToReadFrom = aNotes) {
-    // joins data from secondary source into the main array and updates the array to display
-    // returns the number of rejected items
-    let i = 0;
-    let r = 0;
-    let vFoundFlag = false;
-    let vReject = 0;
-    while (i < aArrayToReadFrom.length) {
-        r = 0;
-        if (!vFoundFlag) {
-            vReject++;
-        }
-        vFoundFlag = false;
-        while (r < aArrayToAddTo.length) {
-            if (aArrayToReadFrom[i].fqdn == aArrayToAddTo[r].fqdn) {
-                vFoundFlag = true;
-                aArrayToAddTo[r].placeholder3 = aArrayToReadFrom[i].storage
-                break;
-            }
-            r++;
-        }
-        i++;
-    }
-    return vReject;
-}
-
-function doSaveNotes() {
-    try {
-        aNotes = [{ "fqdn": aImages[1].fqdn, "notes": "dummy_notes" }]
-        localStorage.setItem("sett_notes", JSON.stringify(aNotes));
-        doPopUp("Saved.", true, 1000);
-    } catch {
-        doPopUp("Notes failed to be saved to local storage.")
-    }
-}
 
 function doAppendToCart(){
     aSelected = aSelected.concat(aImages);
@@ -783,6 +748,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doAllItems()">go back</div>`;
         let i=vStartIdx; // initialize my counter with start index
         let vSummaryInject = "";
+        let vNoteFlag = `<div class="flex-button" style="height: 32px; width: 32px;">N</div>`;
+
         if (vEndIdx == 0){vEndIdx=aImages.length;}
         if (vEndIdx == 0 ){
             returnString = vThumbBox.innerHTML; // get the current contents of the div to add stuff to
@@ -841,7 +808,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vExtraInject = "";
                 vSummaryInject = `
                     <div id="myitem${i}";" class="flex-item-articles-summary">
-                        <div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
+                        <div class="flex-item-articles-badges" id="badge${i}">
+                            <img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
                         </div>
                         <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;">
                             <b>display summary data</b><br>
@@ -871,10 +839,33 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             }
             // check if the server has apps   
             if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals != "" ){
-                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
+                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' title=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">add</div></div></div>`; // build the HTML string
+            if (aImages[i].placeholder3 == "") {
+                vNoteFlag = "";
+            }
+
+            returnString = `${returnString}
+                <div id="myitem${i}";" class=\"${vCSSClass}\">
+                    <div class="flex-item-articles-badges">
+                        <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
+                        ${vAppsBadge}
+                        ${vNoteFlag}
+                    </div>
+                    <p class="reg-text" style="width: 100%; height: 100%;">
+                        <b>${aImages[i].fqdn}</b><br>
+                        <b>type: </b>${aImages[i].engine_type}<br>
+                        <b>site: </b>${aImages[i].location}<br>
+                        <b>version: </b>${aImages[i].version}<br>
+                        <b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br>
+                    </p>
+                    <div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}
+                        <div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">
+                        add
+                    </div>
+                    </div>
+                </div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
@@ -974,7 +965,6 @@ function doPreBoot(){
             }
         aImages = doJoinSources(aImages,aStorage);  
         aImagesMirror = aImages;
-        doSaveNotes();
     })
     
     .catch((_error) => {
@@ -1010,7 +1000,7 @@ function doBootApp(){
         
         doClosePopUp();
         // start the ping simulator once page loaded or failed
-        setInterval(doMockPing, 750);
+        setInterval(doMockPing, 1000);
     }, vTimeOut);
     return true;
 }
