@@ -106,46 +106,6 @@ const oButtonNormal = document.getElementById("button-normal-view");
 
 // functions    ----------------------------------------------------------
 
-function doLoadLocalNotes() {
-    aNotes = localStorage.getItem("sett_notes");
-}
-
-function doPopulateNotes(aArrayToAddTo = aImages, aArrayToReadFrom = aNotes) {
-    // joins data from secondary source into the main array and updates the array to display
-    // returns the number of rejected items
-    let i = 0;
-    let r = 0;
-    let vFoundFlag = false;
-    let vReject = 0;
-    while (i < aArrayToReadFrom.length) {
-        r = 0;
-        if (!vFoundFlag) {
-            vReject++;
-        }
-        vFoundFlag = false;
-        while (r < aArrayToAddTo.length) {
-            if (aArrayToReadFrom[i].fqdn == aArrayToAddTo[r].fqdn) {
-                vFoundFlag = true;
-                aArrayToAddTo[r].placeholder3 = aArrayToReadFrom[i].storage
-                break;
-            }
-            r++;
-        }
-        i++;
-    }
-    return vReject;
-}
-
-function doSaveNotes() {
-    try {
-        aNotes = [{ "fqdn": aImages[1].fqdn, "notes": "dummy_notes" }]
-        localStorage.setItem("sett_notes", JSON.stringify(aNotes));
-        doPopUp("Saved.", true, 1000);
-    } catch {
-        doPopUp("Notes failed to be saved to local storage.")
-    }
-}
-
 function doAppendToCart(){
     aSelected = aSelected.concat(aImages);
     doUpdateCart();
@@ -788,7 +748,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doAllItems()">go back</div>`;
         let i=vStartIdx; // initialize my counter with start index
         let vSummaryInject = "";
-        let vNoteFlag = `<div class="flex-button" style="height: 32px; width: 32px;">M</div>`;
+        let vNoteFlag = `<div class="flex-button" style="height: 32px; width: 32px;">N</div>`;
 
         if (vEndIdx == 0){vEndIdx=aImages.length;}
         if (vEndIdx == 0 ){
@@ -814,10 +774,6 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 </div>`; // add the type badge first
             let vAppsBadge = '';
             
-            if (aImages[i].placeholder3 == "") {
-                vNoteFlag = "";
-            }
-
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
@@ -883,9 +839,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             }
             // check if the server has apps   
             if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals != "" ){
-                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
+                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' title=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
+            if (aImages[i].placeholder3 == "") {
+                vNoteFlag = "";
+            }
+
             returnString = `${returnString}
                 <div id="myitem${i}";" class=\"${vCSSClass}\">
                     <div class="flex-item-articles-badges">
@@ -1005,8 +965,6 @@ function doPreBoot(){
             }
         aImages = doJoinSources(aImages,aStorage);  
         aImagesMirror = aImages;
-    //        doSaveNotes();
-        doPopulateNotes(aImages, aNotes);
     })
     
     .catch((_error) => {
