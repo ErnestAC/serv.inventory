@@ -836,14 +836,14 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             }
             // check if the server has apps   
             if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals != "" ){
-                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' title="${aImages[i].associated_seals}"} style="width: 20px; height: 20px;">`;
+                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' title="associated SEALs: ${aImages[i].associated_seals}"} style="width: 20px; height: 20px;">`;
             }
             
             // check if the server has apps   
             if (aImages[i].rsa_enabled.toLowerCase() === "false") {
                 vNoteFlag = ``;
             } else {
-                vNoteFlag = `<img id="notebadge${i}" src='./assets/images/engine_trm.png' style="width: 20px; height: 20px;" title="${aImages[i].rsa_enabled}}">`;
+                vNoteFlag = `<img id="notebadge${i}" src='./assets/images/engine_trm.png' style="width: 20px; height: 20px;" title="RSA enabled: ${aImages[i].rsa_enabled.toLowerCase()}">`;
             }
 
             // accumulate the generated html in the variable
