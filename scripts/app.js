@@ -745,7 +745,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doAllItems()">go back</div>`;
         let i=vStartIdx; // initialize my counter with start index
         let vSummaryInject = "";
-        let vNoteFlag = `<div class="flex-button" style="height: 32px; width: 32px;">N</div>`;
+        let vNoteFlag = ``;
 
         if (vEndIdx == 0){vEndIdx=aImages.length;}
         if (vEndIdx == 0 ){
@@ -759,7 +759,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">
                     ping
                 </div>
-                <div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}')" title="open the server's gui">
+                <div class="flex-button" id="button-go${i}" onclick="doGoURL('https://${aImages[i].fqdn}')" title="open the server's gui">
                     open
                 </div>
                 <div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})" title="display the detail card for ${aImages[i].fqdn}">
@@ -836,13 +836,17 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             }
             // check if the server has apps   
             if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals != "" ){
-                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_dbs.png' style="width: 20px; height: 20px;" title=${aImages[i].associated_seals}}><img id="appbadge${i}" src='./assets/images/engine_vir.png' style="width: 20px; height: 20px;" title=${aImages[i].associated_seals}}>`;
+                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' title="${aImages[i].associated_seals}"} style="width: 20px; height: 20px;">`;
             }
-            // accumulate the generated html in the variable
-            if (aImages[i].placeholder3 == "") {
-                vNoteFlag = "";
+            
+            // check if the server has apps   
+            if (aImages[i].rsa_enabled.toLowerCase() === "false") {
+                vNoteFlag = ``;
+            } else {
+                vNoteFlag = `<img id="notebadge${i}" src='./assets/images/engine_trm.png' style="width: 20px; height: 20px;" title="${aImages[i].rsa_enabled}}">`;
             }
 
+            // accumulate the generated html in the variable
             returnString = `${returnString}
                 <div id="myitem${i}";" class=\"${vCSSClass}\">
                     <div class="flex-item-articles-badges">
