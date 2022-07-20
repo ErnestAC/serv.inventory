@@ -582,9 +582,6 @@ function doCartBox() {
                                 <div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">
                                     remove
                                 </div>
-                                <div class="flex-button" style="width: 64px;" onclick="doExport(JSON.stringify(aSelected.slice(${i},${i + 1})))" title="export this item">
-                                    export
-                                </div>
                                 </div>
                             </div>
                             <br>`
