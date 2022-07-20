@@ -18,6 +18,10 @@
 //                                                        | GRID SUB-VIEW <------------- GRID VIEW WINDOW
 //
 
+
+
+
+
 // # APP #############################################################################################################
 // global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
@@ -51,6 +55,7 @@ let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
 let aSelected = [];
+let aNotes = [];
 let vNavMessage = '';
 let vgResponse = false;
 let vCompact = false;
@@ -95,6 +100,46 @@ const oButtonCompact = document.getElementById("button-compact-view");
 const oButtonNormal = document.getElementById("button-normal-view");
 
 // functions    ----------------------------------------------------------
+
+function doLoadLocalNotes() {
+    aNotes = localStorage.getItem("sett_notes");
+}
+
+function doPopulateNotes(aArrayToAddTo = aImages, aArrayToReadFrom = aNotes) {
+    // joins data from secondary source into the main array and updates the array to display
+    // returns the number of rejected items
+    let i = 0;
+    let r = 0;
+    let vFoundFlag = false;
+    let vReject = 0;
+    while (i < aArrayToReadFrom.length) {
+        r = 0;
+        if (!vFoundFlag) {
+            vReject++;
+        }
+        vFoundFlag = false;
+        while (r < aArrayToAddTo.length) {
+            if (aArrayToReadFrom[i].fqdn == aArrayToAddTo[r].fqdn) {
+                vFoundFlag = true;
+                aArrayToAddTo[r].placeholder3 = aArrayToReadFrom[i].storage
+                break;
+            }
+            r++;
+        }
+        i++;
+    }
+    return vReject;
+}
+
+function doSaveNotes() {
+    try {
+        aNotes = [{ "fqdn": aImages[1].fqdn, "notes": "dummy_notes" }]
+        localStorage.setItem("sett_notes", JSON.stringify(aNotes));
+        doPopUp("Saved.", true, 1000);
+    } catch {
+        doPopUp("Notes failed to be saved to local storage.")
+    }
+}
 
 function doAppendToCart(){
     aSelected = aSelected.concat(aImages);
@@ -277,11 +322,15 @@ function doPopulateButtons(){
     });
     
     oButtonGlance.addEventListener("click", function(){
-        //try {
-            doGridBox(`${doMiniGrid(aImages)} <br><div class="reg-text">${document.getElementById('summary-card-text').innerHTML}</div>`);            
-        //} catch {
-        //    doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
-        //}
+        try {
+            doGridBox(`${doMiniGrid(aImages)}
+                <br>
+                <div class="reg-text">
+                    ${document.getElementById('summary-card-text').innerHTML}
+                </div>`);            
+        } catch {
+            doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
+        }
     });    
     
     oButtonSearch.addEventListener("click", function () {
@@ -350,7 +399,12 @@ function doResetScroll(){
     //refresh page box
     if (page>(-1)){
         if (page < 0){
-            vNavMessage = `<div class="flex-button" style="width:64px";>items ${(page)*vItemsPerPage} </div><div class="flex-button" style="width:64px";>page ${page+2} </div>`
+            vNavMessage = `<div class="flex-button" style="width:64px";>
+                    items ${(page) * vItemsPerPage} 
+                </div>
+                <div class="flex-button" style="width:64px";>
+                    page ${page + 2}
+                </div>`
         }
     }
 
@@ -573,7 +627,8 @@ function doCartBox() {
                                 <div id="cartmyitem${i}";" class=\"${lvCSSClass}\">
                                     <img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'>
                                     <p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>
-                                    ${vButtons}`;
+                                    ${vButtons}
+                                </div>`;
                 } // build the HTML string
             catch{
                 if(i >= aSelected.length){
@@ -626,12 +681,16 @@ function doCartBox() {
 
 function doGridBox(gridBoxHTML) {
     oCartBoxPopUp.style.visibility = "visible";
+    if (screen.width > 600) {
+        oCartBoxPopUp.style.width = "min-content";
+    }
     document.getElementById("backLock").style.visibility = "visible";
     oCartBoxPopUp.innerHTML = `${gridBoxHTML}
                                 <div class="flex-button" id="closeButtonGrid">
                                     close
                                 </div>`;
     document.getElementById("closeButtonGrid").addEventListener("click", function(){
+        oCartBoxPopUp.style.width = "90%";
         document.getElementById("backLock").style.visibility = "hidden";
         oCartBoxPopUp.style.visibility = "hidden";
     });
@@ -733,21 +792,40 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         // now sweep my array accessing it by index
         // read warning preset value and alert preset value
         while (i < vEndIdx) {
-            let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">ping</div><div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}')" title="open the server's gui">open</div><div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})" title="display the detail card for ${aImages[i].fqdn}">detail</div>`;
+            let vOTFbuttons = `<div class="flex-button" id="button-pingt${i}" onclick="doPing(${i})">
+                    ping
+                </div>
+                <div class="flex-button" id="button-go${i}" onclick="doGoURL('http://${aImages[i].fqdn}')" title="open the server's gui">
+                    open
+                </div>
+                <div class="flex-button" id="button-detail${i}" onclick="dblClickStuff(${i})" title="display the detail card for ${aImages[i].fqdn}">
+                    detail
+                </div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
-            let vEvalInjector = `<div class="flex-not-button" )" title="installed storage">${aImages[i].storage}TB</div>`; // add the type badge first
+            let vEvalInjector = `<div class="flex-not-button" )" title="installed storage">
+                    ${aImages[i].storage}TB
+                </div>`; // add the type badge first
             let vAppsBadge = '';
             
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">${vPercentFree}%</div>`;
+                vEvalInjector = `${vEvalInjector}
+                <div class="flex-no-button-alert" onclick="doPopUp('Free space has fallen blow the critical threshold. The server has only ${vPercentFree}% of storage to use. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">
+                    ${vPercentFree}%
+                </div>`;
                 vCountAlert++;
             } else if ( vPercentFree < cWarnValueUpper) {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">${vPercentFree}%</div>`;
+                vEvalInjector = `${vEvalInjector}
+                    <div class="flex-no-button-warning" onclick="doPopUp('Free space has fallen blow the warning threshold. The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used}TB out of ${aImages[i].storage}TB installed.')">
+                        ${vPercentFree}%
+                    </div>`;
                 vCountWarn++;
             } else {
-                vEvalInjector = `${vEvalInjector}<div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used} out of ${aImages[i].storage} installed.')">${vPercentFree}%</div>`;
+                vEvalInjector = `${vEvalInjector}
+                    <div class="flex-no-button-ok" onclick="doPopUp('The server has ${vPercentFree}% of storage free. <br> Consumed space is ${aImages[i].storage_used} out of ${aImages[i].storage} installed.')">
+                        ${vPercentFree}%
+                    </div>`;
                 vCountOK++;
             }
             if (! special) {
@@ -761,7 +839,29 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 }
 
                 vExtraInject = "";
-                vSummaryInject= `<div id="myitem${i}";" class="flex-item-articles-summary"><div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'></div><p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;"> <b>display summary data</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br><b>sources: </b>${vSourceCount}<br></p><div class="flex-item-articles-badges-buttonboard"><div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">${vCountAlert}</div><div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">${vCountWarn}</div><div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">${vCountOK}</div></div></div>`;
+                vSummaryInject = `
+                    <div id="myitem${i}";" class="flex-item-articles-summary">
+                        <div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
+                        </div>
+                        <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;">
+                            <b>display summary data</b><br>
+                            <b>server count: </b>${aImages.length}<br>
+                            <b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br>
+                            <b>is filtered: </b>${vIsDataFiltered}<br>
+                            <b>sources: </b>${vSourceCount}<br>
+                        </p>
+                        <div class="flex-item-articles-badges-buttonboard">
+                            <div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">
+                                ${vCountAlert}
+                            </div>
+                            <div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">
+                                ${vCountWarn}
+                            </div>
+                            <div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">
+                                ${vCountOK}
+                            </div>
+                        </div>
+                    </div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
@@ -874,6 +974,7 @@ function doPreBoot(){
             }
         aImages = doJoinSources(aImages,aStorage);  
         aImagesMirror = aImages;
+        doSaveNotes();
     })
     
     .catch((_error) => {
@@ -941,3 +1042,4 @@ let aImagesMirror = [];
 
 doBootApp(); //BOOT APP
 
+// only non-fetch data dependent actions on data can be executed from this point on.
