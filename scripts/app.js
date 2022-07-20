@@ -627,7 +627,8 @@ function doCartBox() {
                                 <div id="cartmyitem${i}";" class=\"${lvCSSClass}\">
                                     <img id="cartthumb${i}" src=\'${getIcon(aSelected[i].engine_type)}\'>
                                     <p class="reg-text" style="width: 100%;  word-wrap: break-word;"><b>${aSelected[i].fqdn}</b>
-                                    ${vButtons}`;
+                                    ${vButtons}
+                                </div>`;
                 } // build the HTML string
             catch{
                 if(i >= aSelected.length){
@@ -842,7 +843,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                     <div id="myitem${i}";" class="flex-item-articles-summary">
                         <div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
                         </div>
-                        <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;"> <b>display summary data</b><br><b>server count: </b>${aImages.length}<br><b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br><b>is filtered: </b>${vIsDataFiltered}<br><b>sources: </b>${vSourceCount}<br></p>
+                        <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;">
+                            <b>display summary data</b><br>
+                            <b>server count: </b>${aImages.length}<br>
+                            <b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br>
+                            <b>is filtered: </b>${vIsDataFiltered}<br>
+                            <b>sources: </b>${vSourceCount}<br>
+                        </p>
                         <div class="flex-item-articles-badges-buttonboard">
                             <div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">
                                 ${vCountAlert}
