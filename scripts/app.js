@@ -54,11 +54,16 @@ const vItemsPerPage = 20;
 let vCSSClass = "";
 let aSelectedTemp = localStorage.getItem("localSavedItems");
 let lFirstTime = "";
+// selection and localstorage arrays read from settings
 let aSelected = [];
 let aNotes = [];
-let vNavMessage = '';
-let vgResponse = false;
 let vCompact = false;
+
+// navigation message
+let vNavMessage = '';
+// global response witness
+let vgResponse = false;
+
 
 // settings for free space evaluation
 let cAlertValueUpper = 10; // how much space free is considered alert
@@ -783,6 +788,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
         let vReturnButton = `<div class="flex-button" id="button-return" onclick="doAllItems()">go back</div>`;
         let i=vStartIdx; // initialize my counter with start index
         let vSummaryInject = "";
+        let vNoteFlag = `<div class="flex-button" style="height: 32px; width: 32px;">M</div>`;
+
         if (vEndIdx == 0){vEndIdx=aImages.length;}
         if (vEndIdx == 0 ){
             returnString = vThumbBox.innerHTML; // get the current contents of the div to add stuff to
@@ -807,6 +814,10 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 </div>`; // add the type badge first
             let vAppsBadge = '';
             
+            if (aImages[i].placeholder3 == "") {
+                vNoteFlag = "";
+            }
+
             aImages[i].placeholder1 = `${vPercentFree}`;
             // decide alert category and accumulate html
             if (vPercentFree < cAlertValueUpper) {
@@ -841,7 +852,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vExtraInject = "";
                 vSummaryInject = `
                     <div id="myitem${i}";" class="flex-item-articles-summary">
-                        <div class="flex-item-articles-badges"><img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
+                        <div class="flex-item-articles-badges" id="badge${i}">
+                            <img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
                         </div>
                         <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;">
                             <b>display summary data</b><br>
@@ -874,7 +886,26 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' alt=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
-            returnString = `${returnString}<div id="myitem${i}";" class=\"${vCSSClass}\"><div class="flex-item-articles-badges"><img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>${vAppsBadge}</div><p class="reg-text" style="width: 100%; height: 100%;"> <b>${aImages[i].fqdn}</b><br><b>type: </b>${aImages[i].engine_type}<br><b>site: </b>${aImages[i].location}<br><b>version: </b>${aImages[i].version}<br><b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br></p><div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}<div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">add</div></div></div>`; // build the HTML string
+            returnString = `${returnString}
+                <div id="myitem${i}";" class=\"${vCSSClass}\">
+                    <div class="flex-item-articles-badges">
+                        <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
+                        ${vAppsBadge}
+                        ${vNoteFlag}
+                    </div>
+                    <p class="reg-text" style="width: 100%; height: 100%;">
+                        <b>${aImages[i].fqdn}</b><br>
+                        <b>type: </b>${aImages[i].engine_type}<br>
+                        <b>site: </b>${aImages[i].location}<br>
+                        <b>version: </b>${aImages[i].version}<br>
+                        <b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br>
+                    </p>
+                    <div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}
+                        <div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">
+                        add
+                    </div>
+                    </div>
+                </div>`; // build the HTML string
             i++; // increment for next idx
         }
         // dump the variable contents as the HTML face of the vThumbBox element.
@@ -974,7 +1005,8 @@ function doPreBoot(){
             }
         aImages = doJoinSources(aImages,aStorage);  
         aImagesMirror = aImages;
-        doSaveNotes();
+    //        doSaveNotes();
+        doPopulateNotes(aImages, aNotes);
     })
     
     .catch((_error) => {
@@ -1010,7 +1042,7 @@ function doBootApp(){
         
         doClosePopUp();
         // start the ping simulator once page loaded or failed
-        setInterval(doMockPing, 750);
+        setInterval(doMockPing, 1000);
     }, vTimeOut);
     return true;
 }
