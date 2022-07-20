@@ -635,7 +635,9 @@ function doCartBox() {
 
 function doGridBox(gridBoxHTML) {
     oCartBoxPopUp.style.visibility = "visible";
-    oCartBoxPopUp.style.width = "min-content";
+    if (screen.width > 600) {
+        oCartBoxPopUp.style.width = "min-content";
+    }
     document.getElementById("backLock").style.visibility = "visible";
     oCartBoxPopUp.innerHTML = `${gridBoxHTML}
                                 <div class="flex-button" id="closeButtonGrid">
