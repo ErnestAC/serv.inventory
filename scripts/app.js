@@ -610,6 +610,7 @@ function doCartBox() {
         itemInjection = `<div class="reg-text">Your cart is empty! <br> Add some items by clicking the 'add' buttons in the gallery view.</div>`;
     }
     oCartBoxPopUp.style.visibility = "visible";
+    oCartBoxPopUp.style.width = "85%";
     document.getElementById("backLock").style.visibility = "visible";
     oCartBoxPopUp.innerHTML = `<h2 style="width: 100%;">export.cart</h2>
                                 <div class="flex-item-cartbox" id="msgOfTheCartBox"></div>
