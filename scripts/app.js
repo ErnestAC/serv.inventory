@@ -582,7 +582,6 @@ function doCartBox() {
                                 <div class="flex-button" style="width: 64px;" onclick="doRemoveFromCart(${i})">
                                     remove
                                 </div>
-                                </div>
                             </div>
                             <br>`
                 itemInjection = `${itemInjection}
@@ -806,7 +805,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vExtraInject = "";
                 vSummaryInject = `
                     <div id="myitem${i}";" class="flex-item-articles-summary">
-                        <div class="flex-item-articles-badges" id="badge${i}">
+                        <div class="flex-item-articles-badges" id="badge-box">
                             <img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
                         </div>
                         <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;">
@@ -837,7 +836,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             }
             // check if the server has apps   
             if (aImages[i].associated_seals != 'vacant' && aImages[i].associated_seals != "" ){
-                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_app.png' title=${aImages[i].associated_seals}}>`;
+                vAppsBadge = `<img id="appbadge${i}" src='./assets/images/engine_dbs.png' style="width: 20px; height: 20px;" title=${aImages[i].associated_seals}}><img id="appbadge${i}" src='./assets/images/engine_vir.png' style="width: 20px; height: 20px;" title=${aImages[i].associated_seals}}>`;
             }
             // accumulate the generated html in the variable
             if (aImages[i].placeholder3 == "") {
