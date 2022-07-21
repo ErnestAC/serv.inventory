@@ -849,7 +849,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             // accumulate the generated html in the variable
             returnString = `${returnString}
                 <div id="myitem${i}";" class=\"${vCSSClass}\">
-                    <div class="flex-item-articles-badges">
+                    <div class="flex-item-articles-badges id="badges${i}">
                         <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
                         ${vAppsBadge}
                         ${vNoteFlag}
