@@ -35,7 +35,7 @@ const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json"
 const url_storage = "https://ernestac.github.io/serv.inventory/assets/json/storage.json";
 
 // selection color constant
-const vSelColor = "rgba(0,255,255,0.3)";
+const vSelColor = "rgba(0, 32, 32, 0.999)";
 const vUnSelColor = "rgba(219, 231, 236, 0.0)";
 const vCartItemColor = "rgba(219, 231, 236, 0.5)";
 const vAlertColor = "rgba(255, 91, 92, 0.999)";
@@ -106,6 +106,19 @@ const oButtonNormal = document.getElementById("button-normal-view");
 
 // functions    ----------------------------------------------------------
 
+function doShowGrid() {
+    try {
+        doGridBox(`${doMiniGrid(aImages)}
+            <br>
+            <div class="reg-text">
+                ${document.getElementById('summary-card-text').innerText}
+            </div>`);            
+    } catch {
+        doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
+    }        
+}
+
+
 function doAppendToCart(){
     aSelected = aSelected.concat(aImages);
     doUpdateCart();
@@ -119,6 +132,9 @@ function doResetDisplay(){
 
 function doSearch(searchTerm) {
     // reset display
+    if (oSearchBox.value == "") {
+        return "empty search box"
+    }
     aImages = aImagesMirror;
     doAllItems();
     let ix;
@@ -266,7 +282,6 @@ function doPopulateButtons(){
     oTitleAppName.innerHTML = `${vAppTitle}`;
     oButtonGoToTop.innerHTML = `to top`;
     oButtonGoToTop.title = `back to the top of the page`;
-    oButtonGlance.innerHTML = `grid status`
 
     if (localStorage.getItem("sett_viewmode") == "false") {
         oButtonCompact.innerHTML = `compact view`;
@@ -285,19 +300,8 @@ function doPopulateButtons(){
     oButtonCart.addEventListener("click", function(){
         doCartBox();
     });
-    
-    oButtonGlance.addEventListener("click", function(){
-        try {
-            doGridBox(`${doMiniGrid(aImages)}
-                <br>
-                <div class="reg-text">
-                    ${document.getElementById('summary-card-text').innerHTML}
-                </div>`);            
-        } catch {
-            doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
-        }
-    });    
-    
+        
+
     oButtonSearch.addEventListener("click", function () {
         doSearch(oSearchBox.value);
     });
@@ -805,25 +809,34 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 vExtraInject = "";
                 vSummaryInject = `
                     <div id="myitem${i}";" class="flex-item-articles-summary">
-                        <div class="flex-item-articles-badges" id="badge-box">
-                            <img id="cartthumb${i}" src='./assets/images/engine_trm_2.png'>
+                        <div class="flex-item-articles-badges" id="badge-box" style="background-color: ${vSelColor};";>
                         </div>
-                        <p id="summary-card-text" class="reg-text" style="width: 100%; height: 100%;">
+                        <div id="summary-card-text" class="reg-text" style="width: 95%; height: 100%;">
                             <b>display summary data</b><br>
-                            <b>server count: </b>${aImages.length}<br>
-                            <b>overview: </b>${aImages[i].location}<br><b>last refresh: </b>${WhatTimeIsIt()}<br>
-                            <b>is filtered: </b>${vIsDataFiltered}<br>
-                            <b>sources: </b>${vSourceCount}<br>
-                        </p>
-                        <div class="flex-item-articles-badges-buttonboard">
+                            <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">
+                            <b>server count: </b>${aImages.length} severs <br>
+                            <b>overview: </b>${aImages[i].location} last surveyed region<br>
+                            <b>last refresh: </b>${WhatTimeIsIt()} local client time<br>
+                            <b>is display data filtered: </b>${vIsDataFiltered}<br> 
+                            <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">
+                            <b>data sources: </b>${vSourceCount} sources retrieved<br>
+                            <b>src built-in: </b>(ok) ${aImages.length} rows retrieved<br>
+                            <b>src storage-be: </b>(ok) ${aStorage.length} rows retrieved<br>
+                            <b>src mid count: </b>${vCountWarn} servers with mid level messages.<br>
+                            <b>src low count: </b>${vCountAlert} servers with low space messages.<br>
+                        </div>
+                        <div class="flex-item-articles-badges-buttonboard" style="width: min-content;">
                             <div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">
-                                ${vCountAlert}
+                                low ${vCountAlert}
                             </div>
                             <div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">
-                                ${vCountWarn}
+                                mid ${vCountWarn}
                             </div>
                             <div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">
-                                ${vCountOK}
+                                bau ${vCountOK}
+                            </div>
+                            <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
+                                grid view
                             </div>
                         </div>
                     </div>`;
@@ -843,7 +856,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             if (aImages[i].rsa_enabled.toLowerCase() === "false") {
                 vNoteFlag = ``;
             } else {
-                vNoteFlag = `<img id="notebadge${i}" src='./assets/images/engine_trm.png' style="width: 20px; height: 20px;" title="RSA enabled: ${aImages[i].rsa_enabled.toLowerCase()}">`;
+                vNoteFlag = `<img id="rsabadge${i}" src='./assets/images/engine_trm_2.png' style="width: 20px; height: 20px;" title="RSA enabled: ${aImages[i].rsa_enabled.toLowerCase()}">`;
             }
 
             // accumulate the generated html in the variable
@@ -854,13 +867,14 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                         ${vAppsBadge}
                         ${vNoteFlag}
                     </div>
-                    <p class="reg-text" style="width: 100%; height: 100%;">
+                    <div class="reg-text" style="width: 100%; height: 100%;">
                         <b>${aImages[i].fqdn}</b><br>
+                        <hr style="border-color: ${vSelColor}; border-style: solid; border-width: 1px;">
                         <b>type: </b>${aImages[i].engine_type}<br>
                         <b>site: </b>${aImages[i].location}<br>
                         <b>version: </b>${aImages[i].version}<br>
                         <b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br>
-                    </p>
+                    </div>
                     <div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}
                         <div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">
                         add
