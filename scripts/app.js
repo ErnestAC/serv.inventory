@@ -234,12 +234,17 @@ function doExport(vJSONIn){
     }
 }
 
-function doMiniGrid(aArrayIn = []) {
+function doMiniGrid(aArrayIn = [], vSpecial = false) {
     let i = 0;
     let outputString = ``;
     let vPercEval = 0;
-    const cWindowTitle = `<h2 style="width: 100%;">${vAppTitle.toLowerCase()} - grid view</h2>`;
+    let cWindowTitle = `<h2 style="width: 100%;">${vAppTitle.toLowerCase()} - grid view</h2>`;
 
+
+    if (vSpecial == true) {
+        cWindowTitle = "";
+    }
+    
     while (aArrayIn.length > i) {
         //evaluate warinng level
         vPercEval = 100-Math.round((aArrayIn[i].storage_used / aArrayIn[i].storage) * 100);
@@ -812,6 +817,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                         <div class="flex-item-articles-badges" id="badge-box" style="background-color: ${vSelColor};";>
                         </div>
                         <div id="summary-card-text" class="reg-text" style="width: 95%; height: 100%;">
+                            <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">    
                             <b>display summary data</b><br>
                             <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">
                             <b>server count: </b>${aImages.length} severs <br>
@@ -827,13 +833,13 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                         </div>
                         <div class="flex-item-articles-badges-buttonboard" style="width: min-content;">
                             <div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">
-                                low ${vCountAlert}
+                                at ${vCountAlert}
                             </div>
                             <div class="flex-no-button-warning" id="summary_warning" title="servers with warnings">
-                                mid ${vCountWarn}
+                                wn ${vCountWarn}
                             </div>
                             <div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">
-                                bau ${vCountOK}
+                                ok ${vCountOK}
                             </div>
                             <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
                                 grid view
@@ -863,7 +869,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             returnString = `${returnString}
                 <div id="myitem${i}";" class=\"${vCSSClass}\">
                     <div class="flex-item-articles-badges id="badges${i}">
-                        <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
+                        <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' onclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
                         ${vAppsBadge}
                         ${vNoteFlag}
                     </div>
@@ -949,13 +955,13 @@ function doPreBoot(){
 
     fetch(url_storage).then((response) => {
         if (response.ok) {
-            vSourceCount++;
             return response.json();
         }
         throw new Error(`Can't read from ${url_storage}`);
     })
     .then((responseJson) => {
         aStorage = [...responseJson];
+        vSourceCount++;
     })    
     .catch((_error) => {
         doPopUp(`Error: Can't read ${url}.`);
@@ -964,7 +970,6 @@ function doPreBoot(){
 
     fetch(url).then((response) => {
         if (response.ok) {
-            vSourceCount++;
             return response.json();
         }
         throw new Error(`Can't read from ${url}`);
@@ -980,6 +985,7 @@ function doPreBoot(){
             }
         aImages = doJoinSources(aImages,aStorage);  
         aImagesMirror = aImages;
+        vSourceCount++;
     })
     
     .catch((_error) => {
