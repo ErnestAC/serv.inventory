@@ -863,7 +863,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
             returnString = `${returnString}
                 <div id="myitem${i}";" class=\"${vCSSClass}\">
                     <div class="flex-item-articles-badges id="badges${i}">
-                        <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' ondblclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
+                        <img id="thumb${i}" src=\'${getIcon(aImages[i].engine_type)}\' onclick="dblClickStuff(${i})" alt=${aImages[i].fqdn}>
                         ${vAppsBadge}
                         ${vNoteFlag}
                     </div>
@@ -949,13 +949,13 @@ function doPreBoot(){
 
     fetch(url_storage).then((response) => {
         if (response.ok) {
-            vSourceCount++;
             return response.json();
         }
         throw new Error(`Can't read from ${url_storage}`);
     })
     .then((responseJson) => {
         aStorage = [...responseJson];
+        vSourceCount++;
     })    
     .catch((_error) => {
         doPopUp(`Error: Can't read ${url}.`);
@@ -964,7 +964,6 @@ function doPreBoot(){
 
     fetch(url).then((response) => {
         if (response.ok) {
-            vSourceCount++;
             return response.json();
         }
         throw new Error(`Can't read from ${url}`);
@@ -980,6 +979,7 @@ function doPreBoot(){
             }
         aImages = doJoinSources(aImages,aStorage);  
         aImagesMirror = aImages;
+        vSourceCount++;
     })
     
     .catch((_error) => {
