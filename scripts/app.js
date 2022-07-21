@@ -111,7 +111,7 @@ function doShowGrid() {
         doGridBox(`${doMiniGrid(aImages)}
             <br>
             <div class="reg-text">
-                ${document.getElementById('summary-card-text').innerText}
+                ${document.getElementById('summary-card-text').innerHTML}
             </div>`);            
     } catch {
         doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
@@ -238,7 +238,7 @@ function doMiniGrid(aArrayIn = [], vSpecial = false) {
     let i = 0;
     let outputString = ``;
     let vPercEval = 0;
-    let cWindowTitle = `<h2 style="width: 100%;">${vAppTitle.toLowerCase()} - grid view</h2>`;
+    let cWindowTitle = `<h2 style="width: 100%;">grid view</h2>`;
 
 
     if (vSpecial == true) {
@@ -875,10 +875,11 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                     </div>
                     <div class="reg-text" style="width: 100%; height: 100%;">
                         <b>${aImages[i].fqdn}</b><br>
-                        <hr style="border-color: ${vSelColor}; border-style: solid; border-width: 1px;">
+                        <hr style="border-color: ${vSelColor}; border-style: solid; border-width: 1px; width: 80%;">
                         <b>type: </b>${aImages[i].engine_type}<br>
                         <b>site: </b>${aImages[i].location}<br>
                         <b>version: </b>${aImages[i].version}<br>
+                        <hr style="border-color: ${vSelColor}; border-style: solid; border-width: 1px; width: 80%;">
                         <b>app ids: </b>${aImages[i].associated_seals}${vExtraInject}<br>
                     </div>
                     <div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}
