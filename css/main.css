@@ -242,6 +242,8 @@ a​:hover {
 
 .flex-item-articles-summary {
   background-color: rgba(0, 10, 10, 1);
+  width: 85% !important;
+  margin-bottom: 1rem;;
 }
 
 /*  added for details */
