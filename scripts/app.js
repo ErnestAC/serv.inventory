@@ -841,10 +841,16 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                             <div class="flex-no-button-ok" id="summary_ok" title="servers with no reported issues">
                                 ok ${vCountOK}
                             </div>
+                        </div>
+                        <div class="flex-item-articles-badges-buttonboard" style="width: min-content;">
                             <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
                                 grid view
                             </div>
+                            <div class="flex-button" id="refresh" title="refreshes the page by reloading all sources" onclick="doBootApp()">
+                                refresh
+                            </div>
                         </div>
+
                     </div>`;
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
@@ -884,8 +890,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                     </div>
                     <div class="flex-item-articles-badges-buttonboard">${vEvalInjector}${vButtonInject}
                         <div class="flex-button" id="button-add-${i}" onclick="addItem(${i})" title="add this item to the export cart">
-                        add
-                    </div>
+                            add
+                        </div>
                     </div>
                 </div>`; // build the HTML string
             i++; // increment for next idx
