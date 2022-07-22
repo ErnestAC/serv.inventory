@@ -109,11 +109,7 @@ const oButtonNormal = document.getElementById("button-normal-view");
 
 function doShowGrid() {
     try {
-        doGridBox(`${doMiniGrid(aImages)}
-            <br>
-            <div class="reg-text">
-                ${document.getElementById('summary-card-text').innerHTML}
-            </div>`);            
+        doGridBox(doMiniGrid(aImages))
     } catch {
         doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
     }        
@@ -190,12 +186,12 @@ function doMockPing(){
     return true;            
 }    
 
-function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to right, #005454, #003030)") {
+function doCallAToast(vText="Empty",vDuration=1500,vColorHTML="linear-gradient(to right, #005454, #003030)") {
     try{
         Toastify({
             text: `${vText}`,
             duration: vDuration,
-            close: true,
+            close: false,
             gravity: "top", // `top` or `bottom`
             position: "left", // `left`, `center` or `right`
             stopOnFocus: false, // Prevents dismissing of toast on hover
@@ -205,7 +201,7 @@ function doCallAToast(vText="Empty",vDuration=1500,vGood="linear-gradient(to rig
                 fontSize: "0.7rem",
                 padding: "0.5rem",
                 color: "white",
-                background: vGood,
+                background: vColorHTML,
             },
         onClick: function(){console.log("Don't click my toasts!")} // Callback after click
         }).showToast();
@@ -242,7 +238,7 @@ function doMiniGrid(aArrayIn = [], vSpecial = false) {
     let cWindowTitle = `<h2 style="width: 100%;">grid view</h2>`;
 
 
-    if (vSpecial == true) {
+    if (vSpecial) {
         cWindowTitle = "";
     }
     
@@ -421,7 +417,11 @@ function doAllItems(showToast = false) {
             </div>
             <div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">
                 add all
+            </div>
+            <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
+                grid view
             </div>`;
+
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -847,9 +847,6 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                             </div>
                         </div>
                         <div class="flex-item-articles-badges-buttonboard" style="width: min-content;">
-                            <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
-                                grid view
-                            </div>
                             <div class="flex-button" id="button-refresh-inner" title="refreshes the page by reloading all sources" onclick="doBootApp()">
                                 refresh
                             </div>
