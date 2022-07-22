@@ -77,6 +77,7 @@ let vSourceCount = 0;
 
 // search flag
 let vIsDataFiltered = false;
+let vIsSummaryHidden = false;
 
 // ui object constants
 const oButtonAll = document.getElementById("button-all");
@@ -395,6 +396,9 @@ function doAllItems(showToast = false) {
         doResetScroll();
         doResetCounters();
         displayInThumbs();
+        if (vIsSummaryHidden) { 
+            doHideSummary();
+        }
         page = -1 // reset page number to restart the gallery at page 1
         oPageNumber.innerText = `${aImages.length} item(s) displayed`;
         oInnerButtons.innerHTML = `
@@ -813,7 +817,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
 
                 vExtraInject = "";
                 vSummaryInject = `
-                    <div id="myitem${i}";" class="flex-item-articles-summary">
+                    <div id="summary-box-first";" class="flex-item-articles-summary">
                         <div class="flex-item-articles-badges" id="badge-box" style="background-color: ${vSelColor};";>
                         </div>
                         <div id="summary-card-text" class="reg-text" style="width: 95%; height: 100%;">
@@ -846,9 +850,12 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                             <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
                                 grid view
                             </div>
-                            <div class="flex-button" id="refresh" title="refreshes the page by reloading all sources" onclick="doBootApp()">
+                            <div class="flex-button" id="button-refresh-inner" title="refreshes the page by reloading all sources" onclick="doBootApp()">
                                 refresh
                             </div>
+                            <div class="flex-button" id="button-hide-inner" title="hides this summary card" onclick="doHideSummary()">
+                                hide
+                            </div> 
                         </div>
 
                     </div>`;
@@ -912,6 +919,15 @@ function addAllItemsToCart(){
     doUpdateCart();
     localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
     doPopUp(`${aSelected.length} servers added to the export cart.`,true,2000);
+}
+
+function doHideSummary() {
+    try{
+        document.getElementById('summary-box-first').remove();
+        vIsSummaryHidden = true;
+    } catch {
+        // silently fail    
+    }
 }
 
 function dblClickStuff(vItemIndex){
@@ -1010,6 +1026,7 @@ function doBootApp(){
     vCountWarn = 0;
     vCountOK = 0;
     vSourceCount = 0;
+    vIsSummaryHidden = false;
     doPreBoot();
     oSearchBox.value = "";
     //wait for it...
