@@ -19,29 +19,6 @@
   font-size: 0.6rem;
 }
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
 
 /* general tags */
 h1 {
@@ -161,34 +138,6 @@ body {
   background-color: rgba(0, 0, 0, 1);
 }
 
-/* set general list format */
-li {
-  display: inline-block;
-  width: 145px;
-}
-
-/* how to handle links and anchors in general */
-a {
-  color: black;
-}
-a:link {
-  color: black;
-  text-decoration: none;
-}
-
-/*a​:active, a​:visited {
-  color: black;
-  text-decoration: none;
-}
-a​:hover {
-  color: black;
-  text-decoration: underline;
-}*/
-
-.nobackground {
-  background-color: rgba(255, 255, 255, 0.4);
-  background-image: none;
-}
 
 /* font data */
 @font-face {
@@ -318,9 +267,6 @@ border-color: rgb(64,64,64);
   overflow-wrap:normal;
   padding: 0rem;
   align-content: flex-start;
-  /*position: fixed;
-  top: 4rem;
-  right: 0rem;*/
 }
 
 .flex-item-articles-half-width img {
@@ -793,30 +739,6 @@ border-color: rgb(64,64,64);
   width: 50vw !important;
 }
 
-
-#image-top-left {
-  grid-area: 2/1/6/2;
-}
-
-#text-top-right, #text-bottom-right, #image-bottom-left, #image-top-left {
-  grid-area: 2/2/6/3;
-  margin-top: 0.5rem;
-  padding: 1.2rem !important;
-  color: white;
-  border-radius: 0.6rem;
-  border-width: 0rem;
-  background-color: rgba(0, 0, 0, 0.4) !important;
-}
-
-#image-bottom-left {
-  grid-area: 6/1/10/2;
-}
-
-#text-bottom-right {
-  grid-area: 6/2/10/3;
-  justify-self: stretch;
-}
-
 .backgroundLock{
   display: flex;
   background-color: rgba(0, 0, 0, 0.80);
@@ -1003,3 +925,12 @@ border-color: rgb(64,64,64);
   }
 }
 
+@media screen and (min-width: 1600px) {
+  .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
+    display: flex;
+    width: 15%;
+    word-wrap: normal;
+    padding: 0.3rem;
+    flex-direction: row;
+  }
+}
