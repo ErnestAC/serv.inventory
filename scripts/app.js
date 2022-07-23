@@ -58,6 +58,7 @@ let lFirstTime = "";
 let aSelected = [];
 let aNotes = [];
 let vCompact = false;
+let vIsSummaryHidden;
 
 // navigation message
 let vNavMessage = '';
@@ -77,7 +78,6 @@ let vSourceCount = 0;
 
 // search flag
 let vIsDataFiltered = false;
-let vIsSummaryHidden = false;
 
 // ui object constants
 const oButtonAll = document.getElementById("button-all");
@@ -107,6 +107,15 @@ const oButtonNormal = document.getElementById("button-normal-view");
 
 // functions    ----------------------------------------------------------
 
+function fSaveParameters(setting="show-summary-card", value = vIsSummaryHidden) {
+try{
+    localStorage.setItem(setting, JSON.stringify(value));
+    return true;
+} catch {
+    return false;
+    }
+}
+
 function doShowGrid() {
     try {
         doGridBox(doMiniGrid(aImages))
@@ -114,7 +123,6 @@ function doShowGrid() {
         doPopUp(`Grid view can only be used with more than one item on display.`,true,2000)
     }        
 }
-
 
 function doAppendToCart(){
     aSelected = aSelected.concat(aImages);
@@ -302,7 +310,6 @@ function doPopulateButtons(){
     oButtonCart.addEventListener("click", function(){
         doCartBox();
     });
-        
 
     oButtonSearch.addEventListener("click", function () {
         doSearch(oSearchBox.value);
@@ -423,8 +430,8 @@ function doAllItems(showToast = false) {
             </div>
             <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
                 grid view
-            </div>`;
-
+            </div>
+            `;
         if (showToast){
             doCallAToast(`displaying: ${aImages.length} item(s) retrieved.`, 1500);
         }
@@ -808,7 +815,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                     </div>`;
                 vCountOK++;
             }
-            if (! special) {
+            if (!special) {
                 // injecting buttons for thumb view
                 vCSSClass = "flex-item-articles"; // my class to be injected in the dynamically generated html    
                 
@@ -819,6 +826,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                 }
 
                 vExtraInject = "";
+                
                 vSummaryInject = `
                     <div id="summary-box-first";" class="flex-item-articles-summary">
                         <div class="flex-item-articles-badges" id="badge-box" style="background-color: ${vSelColor};";>
@@ -859,6 +867,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                         </div>
 
                     </div>`;
+                
             } else {
                 oInnerButtons.innerHTML=`${vReturnButton}`
                 vCSSClass = "flex-item-articles-half-width"; // my other class, used only for special objects
@@ -922,12 +931,12 @@ function addAllItemsToCart(){
 }
 
 function doHideSummary() {
-    try{
-        document.getElementById('summary-box-first').remove();
+    
         vIsSummaryHidden = true;
-    } catch {
-        // silently fail    
-    }
+        fSaveParameters()
+        document.getElementById('summary-box-first').remove();
+        return true;        
+    
 }
 
 function dblClickStuff(vItemIndex){
@@ -1026,7 +1035,6 @@ function doBootApp(){
     vCountWarn = 0;
     vCountOK = 0;
     vSourceCount = 0;
-    vIsSummaryHidden = false;
     doPreBoot();
     oSearchBox.value = "";
     //wait for it...
@@ -1042,7 +1050,6 @@ function doBootApp(){
             aSelected = [];
             localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
         }
-        
         doClosePopUp();
         // start the ping simulator once page loaded or failed
         setInterval(doMockPing, 1000);
