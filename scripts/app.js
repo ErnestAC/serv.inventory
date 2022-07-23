@@ -418,6 +418,9 @@ function doAllItems(showToast = false) {
             <div class="flex-button" onclick='addAllItemsToCart()' title="add displayed items to the export cart">
                 add all
             </div>
+            <div class="" style="display: inline-block;">
+                view |
+            </div>
             <div class="flex-button" id="button-grid-inner" title="open grid view" onclick="doShowGrid()">
                 grid view
             </div>`;
