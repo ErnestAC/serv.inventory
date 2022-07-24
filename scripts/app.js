@@ -30,6 +30,7 @@ const windowTitle = document.getElementById(`app-Title`)
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 const url_storage = "https://ernestac.github.io/serv.inventory/assets/json/storage.json";
 const url_ndc = "https://ernestac.github.io/serv.inventory/assets/json/servers_ndc.json";
+const url_dc1 = "https://ernestac.github.io/serv.inventory/assets/json/servers_dc1.json";
 
 // selection color constant
 const vSelColor = "rgba(0, 32, 32, 0.999)";
@@ -103,6 +104,13 @@ const oButtonCompact = document.getElementById("button-compact-view");
 const oButtonNormal = document.getElementById("button-normal-view");
 
 // functions    ----------------------------------------------------------
+
+function doEvaluateSpace(vInPercentage){
+    if (isNaN(vInPercentage) || vInPercentage < 0) {
+                vInPercentage = "--"
+    }
+    return vInPercentage;
+}
 
 function fSaveParameters(setting="show-summary-card", value = vIsSummaryHidden) {
 try{
@@ -786,6 +794,9 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                     detail
                 </div>`;
             let vPercentFree = 100-Math.round((aImages[i].storage_used/aImages[i].storage)*100); // free space is 100-(percentused)
+
+            vPercentFree = doEvaluateSpace(vPercentFree);
+
             let vEvalInjector = `<div class="flex-not-button" )" title="installed storage">
                     ${aImages[i].storage}TB
                 </div>`; // add the type badge first
@@ -997,6 +1008,21 @@ function doPreBoot(){
         doPopUp(`Error: Can't read ${url_storage}.`);
     });
 
+    fetch(url_dc1).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(`Can't read from ${url_dc1}`);
+    })
+    .then((responseJson) => {
+        aServersDC1 = [...responseJson];
+        vSourceCount++;
+    })    
+    .catch((_error) => {
+        doPopUp(`Error: Can't read ${url_dc1}.`);
+    });
+
+
     fetch(url_ndc).then((response) => {
         if (response.ok) {
             return response.json();
@@ -1017,17 +1043,18 @@ function doPreBoot(){
         }
         throw new Error(`Can't read from ${url}`);
     })
-    .then((responseJson) => {
-        aImages = [...responseJson];
-            if (lFirstTime == "yes"){
+        .then((responseJson) => {
+            aImages = [...responseJson];
+            if (lFirstTime == "yes") {
                 doSplashScreen(`Starting ${vAppTitle}`, `Saving initialization data.`, true)
                 localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
-            }else{
+            } else {
                 doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
                 
             }
-        aImages = doJoinSources(aImages, aStorage);  
-        aImages = doJoinSources(aImages, aServersNDC);  
+            aImages = doJoinSources(aImages, aStorage);
+            aImages = doJoinSources(aImages, aServersNDC);
+            aImages = doJoinSources(aImages, aServersDC1);
         aImagesMirror = aImages;
         vSourceCount++;
     })
@@ -1093,6 +1120,7 @@ document.addEventListener('keyup', (event) => {
 let aImages = [];
 let aStorage = [];
 let aServersNDC = [];
+let aServersDC1 = [];
 let aImagesMirror = [];
 
 doBootApp(); //BOOT APP
