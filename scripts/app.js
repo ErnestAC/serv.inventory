@@ -841,7 +841,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                         </div>
                         <div id="summary-card-text" class="reg-text" style="width: 95%; height: 100%;">
                             <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">    
-                            <b>display summary data</b><br>
+                            <b style="font-size: 1.2rem;">display summary data</b><br>
                             <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">
                             <b>server count: </b>${aImages.length} severs <br>
                             <b>overview: </b>${aImages[i].location} last surveyed region<br>
@@ -852,8 +852,8 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                             <b>src built-in: </b>(ok) ${aImages.length} rows retrieved<br>
                             <b>src storage-be: </b>(ok) ${aStorage.length} rows retrieved<br>
                             <b>src servers-dc2: </b>(ok) ${aServersNDC.length} rows retrieved<br>
-                            <b>src mid count: </b>${vCountWarn} servers with mid level messages.<br>
-                            <b>src low count: </b>${vCountAlert} servers with low space messages.<br>
+                            <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">
+                            <b>messages: </b>${vCountAlert} alert level messages.<br>
                         </div>
                         <div class="flex-item-articles-badges-buttonboard" style="width: min-content;">
                             <div class="flex-no-button-alert" id="summary_alert" title="servers with alerts">
@@ -1126,4 +1126,5 @@ let aImagesMirror = [];
 doBootApp(); //BOOT APP
 
 // only non-fetch data dependent actions on data can be executed from this point on.
-// merged from main station
+// ---------------------------------------------------------------------------------------------
+
