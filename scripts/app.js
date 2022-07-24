@@ -841,7 +841,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                         </div>
                         <div id="summary-card-text" class="reg-text" style="width: 95%; height: 100%;">
                             <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">    
-                            <b style="font-size: 1.2rem;">display summary data</b><br>
+                            <b style="font-size: 1.2rem;">view summary</b><br>
                             <hr style="border-style: solid; border-width:1px; border-color: ${vSelColor};">
                             <b>server count: </b>${aImages.length} severs <br>
                             <b>overview: </b>${aImages[i].location} last surveyed region<br>
