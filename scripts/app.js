@@ -33,6 +33,7 @@ const windowTitle = document.getElementById(`app-Title`)
 // for deployment only
 const url = "https://ernestac.github.io/serv.inventory/assets/json/servers.json";
 const url_storage = "https://ernestac.github.io/serv.inventory/assets/json/storage.json";
+const url_ndc = "https://ernestac.github.io/serv.inventory/assets/json/servers_ndc.json";
 
 // selection color constant
 const vSelColor = "rgba(0, 32, 32, 0.999)";
@@ -996,9 +997,22 @@ function doPreBoot(){
         vSourceCount++;
     })    
     .catch((_error) => {
-        doPopUp(`Error: Can't read ${url}.`);
+        doPopUp(`Error: Can't read ${url_storage}.`);
     });
 
+    fetch(url_ndc).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(`Can't read from ${url_ndc}`);
+    })
+    .then((responseJson) => {
+        aStorage = [...responseJson];
+        vSourceCount++;
+    })    
+    .catch((_error) => {
+        doPopUp(`Error: Can't read ${url_ndc}.`);
+    });
 
     fetch(url).then((response) => {
         if (response.ok) {
