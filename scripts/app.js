@@ -1050,13 +1050,14 @@ function doPreBoot(){
                 localStorage.setItem("localSavedItems", JSON.stringify(aSelected));
             } else {
                 doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
-                
             }
+            
+        setTimeout(() => {
             aImages = doJoinSources(aImages, aStorage);
             aImages = doJoinSources(aImages, aServersNDC);
-            aImages = doJoinSources(aImages, aServersDC1);
-        aImagesMirror = aImages;
-        vSourceCount++;
+            aImages = doJoinSources(aImages, aServersDC1);    
+            aImagesMirror = aImages;
+        }, 750);
     })
     
     .catch((_error) => {
