@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .reg-text {
   color: white;
   padding: 0.4rem !important;
@@ -27,7 +26,7 @@ h1 {
   margin: 0rem;
   text-align: left;
   color: black;
-  background-image: linear-gradient(cyan, rgba(0, 192, 192, 0.4));
+  background-image: linear-gradient(aqua, rgba(0, 192, 192, 0.4));
 }
 h2 {
   color: white;
@@ -49,7 +48,6 @@ h3 {
   background-image: linear-gradient(#006060, rgba(255, 255, 255, 0.3));
   font-family: "Roboto";
   line-height: 1rem;
-  /* padding: 8px; */
   font-size: 1rem;
   padding-left: 1vw;
   padding-top: 0.5vh;
@@ -68,13 +66,12 @@ h4 {
   border-radius: 15px;
   border-top-right-radius: 0px;
   border-top-left-radius: 0px;
-  /*background-image: linear-gradient(rgba(255, 255, 255,0.35), rgba(255, 255, 255, 0.00));*/
   word-break: normal;
   margin: 0rem;
   color: black;
   justify-self: center !important;
 }
-.h4special {
+h4special {
   font-family: "OpenSans";
   padding: 0.2rem;
   font-size: 0.657rem;
@@ -85,7 +82,6 @@ h4 {
   border-top-right-radius: 0px;
   border-top-left-radius: 0px;
   width: 100%;
-  /*background-image: linear-gradient(rgba(255, 255, 255,0.35), rgba(255, 255, 255, 0.00));*/
   word-break: normal;
   margin: 0rem;
   color: black;
@@ -142,7 +138,6 @@ body {
   height: auto;
   width: 100%;
   align-self: flex-start;
-  /*line-height: auto;*/
   font-size: 0.8rem;
   flex-direction: column;
   margin: left 0rem;
@@ -202,9 +197,6 @@ body {
   height: auto;
   width: 34px;
   border-radius: 5px;
-  /*border-style:solid;
-   border-width: 1px;
-   border-color: rgb(25,25,25);*/
   transition: all 0.5s;
 }
 .flex-item-articles img {
@@ -212,9 +204,6 @@ body {
   height: auto;
   width: 34px;
   border-radius: 5px;
-  /*border-style:solid;
-   border-width: 1px;
-   border-color: rgb(25,25,25);*/
   transition: all 0.5s;
 }
 .flex-item-articles img:hover, .flex-item-articles-half-width img:hover {
@@ -278,27 +267,6 @@ body {
   padding: 0.8rem;
   font-family: "Roboto";
   font-size: 0.8rem;
-}
-/* floating bl.gauge box - the floater */
-.flex-container-floater-top {
-  display: flex;
-  height: 2.7rem;
-  width: 100%;
-  align-self: flex-start;
-  align-content: center;
-  margin: 0px;
-  border-radius: 0px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #404040;
-  flex-direction: row-reverse;
-  overflow-wrap: normal;
-  justify-content: flex-end !important;
-  padding: 0.1rem;
-  position: fixed;
-  left: 0vw;
-  top: 0vh;
-  background-color: #002020;
 }
 .flex-item-floater-ttf-logo {
   display: block;
@@ -439,8 +407,8 @@ body {
 }
 .flex-container-cartbox {
   display: flex;
-  align-self: flex-start;
   /*grid-auto-flow: row;*/
+  align-self: flex-start;
   align-items: flex-start;
   border-radius: 4px;
   flex-flow: row;
@@ -610,8 +578,6 @@ body {
 .flex-button {
   display: inline-block;
   height: 0.9rem;
-  /*width:fit-content, -moz-fit-content;*/
-  /*align-self: flex-start;*/
   align-content: center;
   margin: 0.3rem;
   border-radius: 5px;
@@ -643,8 +609,6 @@ body {
 .flex-not-button {
   display: inline-block;
   height: 0.9rem;
-  /*width:fit-content, -moz-fit-content;*/
-  /*align-self: flex-start;*/
   align-content: center;
   margin: 0.3rem;
   border-radius: 5px;
@@ -767,9 +731,6 @@ body {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 40%;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
   }
   body {
     margin-top: 3rem;
@@ -779,8 +740,6 @@ body {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 30%;
-    padding: 0.3rem;
-    flex-direction: row;
   }
   body {
     margin-top: 3rem;
@@ -789,9 +748,6 @@ body {
 @media screen and (min-width: 1000px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
     width: 30%;
   }
   body {
@@ -801,9 +757,6 @@ body {
 @media screen and (min-width: 1100px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
     width: 30%;
   }
   body {
@@ -814,9 +767,6 @@ body {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 30%;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
   }
   body {
     margin-top: 3rem;
@@ -826,26 +776,17 @@ body {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 22%;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
   }
 }
 @media screen and (min-width: 1600px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 18%;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
   }
 }
 @media screen and (min-width: 1600px) {
   .flex-item-articles, .flex-item-articles-half-width, .flex-item-articles-summary {
     display: flex;
     width: 15%;
-    word-wrap: normal;
-    padding: 0.3rem;
-    flex-direction: row;
   }
 }
