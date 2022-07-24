@@ -18,10 +18,6 @@
 //                                                        | GRID SUB-VIEW <------------- GRID VIEW WINDOW
 //
 
-
-
-
-
 // # APP #############################################################################################################
 // global variables and constants    --------------------------------------
 // create my array with all my images which is a global constant
@@ -729,7 +725,7 @@ function doGoURL(myurl){
     
 }
 
-function doJoinSources(aArrayToAddTo = aImages, aArrayToReadFrom = aStorage) {
+function doJoinSources(aArrayToAddTo, aArrayToReadFrom) {
     // joins data from secondary source into the main array and updates the array to display
     let i = 0;
     let r = 0;
@@ -844,6 +840,7 @@ function displayInThumbs(vStartIdx = 0, vEndIdx = 0, special = false){
                             <b>data sources: </b>${vSourceCount} sources retrieved<br>
                             <b>src built-in: </b>(ok) ${aImages.length} rows retrieved<br>
                             <b>src storage-be: </b>(ok) ${aStorage.length} rows retrieved<br>
+                            <b>src servers-dc2: </b>(ok) ${aServersNDC.length} rows retrieved<br>
                             <b>src mid count: </b>${vCountWarn} servers with mid level messages.<br>
                             <b>src low count: </b>${vCountAlert} servers with low space messages.<br>
                         </div>
@@ -1007,7 +1004,7 @@ function doPreBoot(){
         throw new Error(`Can't read from ${url_ndc}`);
     })
     .then((responseJson) => {
-        aStorage = [...responseJson];
+        aServersNDC = [...responseJson];
         vSourceCount++;
     })    
     .catch((_error) => {
@@ -1029,7 +1026,8 @@ function doPreBoot(){
                 doSplashScreen(`${vAppTitle.toLowerCase()}, loading...`, "", true);
                 
             }
-        aImages = doJoinSources(aImages,aStorage);  
+        aImages = doJoinSources(aImages, aStorage);  
+        aImages = doJoinSources(aImages, aServersNDC);  
         aImagesMirror = aImages;
         vSourceCount++;
     })
@@ -1094,6 +1092,7 @@ document.addEventListener('keyup', (event) => {
 //COLD BOOT VARIABLE SET
 let aImages = [];
 let aStorage = [];
+let aServersNDC = [];
 let aImagesMirror = [];
 
 doBootApp(); //BOOT APP
